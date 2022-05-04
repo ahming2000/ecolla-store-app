@@ -1,4 +1,4 @@
-<nav class="fixed-top navbar navbar-expand-md navbar-light bg-white shadow" style="z-index: 10">
+<nav class="fixed-top navbar navbar-expand-md navbar-light bg-white shadow">
     <div class="container">
 
         <a class="navbar-brand" href="{{ url('/') }}">
@@ -68,6 +68,7 @@
                             <a class="dropdown-item" href="{{ url('/management/changing-log') }}">
                                 <i class="bi bi-journals"></i> 更新日志
                             </a>
+
                             <a class="dropdown-item"
                                href="{{ route('logout') }}"
                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
