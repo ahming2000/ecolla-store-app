@@ -10,11 +10,7 @@ class SettingController extends Controller
 {
     public function changeLanguage(string $lang): RedirectResponse
     {
-        $cart = new Cart();
-        $cart->insert(session('cart'));
-        $cart->lang = $lang;
-        session()->put('cart', $cart);
-
+        session('cart')->lang = $lang;
         return response()->redirectTo(request('redirectTo') ?? '/');
     }
 }
