@@ -14,10 +14,16 @@ return new class extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->string('id')->unique();
+            $table->id();
             $table->string('username')->unique();
             $table->string('password');
             $table->integer('access_level')->default(0);
+            /*
+             * 0: can view items and orders
+             * 1: can update items and orders, include update items listing setting
+             * 2: can create items and update website settings
+             * 3: admin
+             */
             $table->boolean('is_enabled')->default(false);
             $table->rememberToken();
             $table->timestamps();
