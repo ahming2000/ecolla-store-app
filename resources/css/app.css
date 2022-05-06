@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 @import "~bootstrap/dist/css/bootstrap.min.css";
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 
 body {
-    font-family: 'ZCOOL XiaoWei', serif;
+    font-family: 'Roboto', sans-serif;
     background-color: #EEEEEE;
 }
 
