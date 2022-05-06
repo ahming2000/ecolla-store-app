@@ -20,23 +20,9 @@ class UserFactory extends Factory
         return [
             'username' => $this->faker->unique()->userName(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'access_level' => $this->faker->randomElement([0, 1]),
+            'access_level' => $this->faker->randomElement([0, 1, 2]),
             'is_enabled' => true,
             'remember_token' => Str::random(10),
         ];
-    }
-
-    /**
-     * Indicate that the model's email address should be unverified.
-     *
-     * @return static
-     */
-    public function unverified()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'email_verified_at' => null,
-            ];
-        });
     }
 }

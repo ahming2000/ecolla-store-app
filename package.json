@@ -7,11 +7,13 @@
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production"
+        "production": "mix --production",
+        "db-refresh": "php artisan migrate:fresh && php artisan db:seed DatabaseSeeder"
     },
     "devDependencies": {
         "axios": "^0.25",
         "bootstrap": "^5.1.3",
+        "bootstrap-icons": "^1.8.1",
         "jquery": "^3.6.0",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",

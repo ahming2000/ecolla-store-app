@@ -8,6 +8,8 @@
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+__webpack_require__(/*! ./notification */ "./resources/js/notification.js");
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
@@ -39,9 +41,55 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     forceTLS: true
 // });
 
-window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+try {
+  window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+  window.bootstrap = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
+} catch (error) {
+  console.error(error);
+}
 
-__webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
+/***/ }),
+
+/***/ "./resources/js/notification.js":
+/*!**************************************!*\
+  !*** ./resources/js/notification.js ***!
+  \**************************************/
+/***/ (() => {
+
+var notificationTemplate = function notificationTemplate(title, message) {
+  return "\n    <div class=\"toast\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\" data-bs-delay=\"5000\">\n        <div class=\"toast-header\">\n            <strong class=\"me-auto\">".concat(title, "</strong>\n            <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button>\n        </div>\n        <div class=\"toast-body\">\n            ").concat(message, "\n        </div>\n    </div>\n    ");
+};
+
+var actionNotificationTemplate = function actionNotificationTemplate(title, message, actionButton) {
+  return "\n    <div class=\"toast\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\" data-bs-delay=\"5000\">\n        <div class=\"toast-header\">\n            <strong class=\"me-auto\">".concat(title, "</strong>\n            <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button>\n        </div>\n        <div class=\"toast-body\">\n            ").concat(message, "\n            <div class=\"d-flex justify-content-center mt-2 pt-2 border-top\">\n                ").concat(actionButton, "\n            </div>\n        </div>\n    </div>\n    ");
+};
+
+var actionButtonTemplate = function actionButtonTemplate(buttonText, redirectTo) {
+  return "<a class=\"btn btn-primary btn-sm mx-1\" href=\"".concat(redirectTo, "\">").concat(buttonText, "</a>");
+};
+
+window.addNotification = function (title, message) {
+  var action = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+  var toastContainer = $('.toast-container');
+
+  if (action.length === 0) {
+    toastContainer.append(notificationTemplate(title, message));
+    var toast = new bootstrap.Toast($('.toast').last());
+    toast.show();
+  } else {
+    var actionButtons = '';
+
+    for (var i = 0; i < action.length; i++) {
+      actionButtons = actionButtons + actionButtonTemplate(action['buttonText'], action['redirectTo']);
+    }
+
+    toastContainer.append(actionNotificationTemplate(title, message, actionButtons));
+
+    var _toast = new bootstrap.Toast($('.toast').last());
+
+    _toast.show();
+  }
+};
 
 /***/ }),
 
