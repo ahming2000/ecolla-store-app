@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('id')->primary();
             $table->integer('mode')->default(0);
             /*
-             * 0: pickup
+             * 0: self pickup
              * 1: delivery
              */
             $table->string('tracking_id')->nullable();
