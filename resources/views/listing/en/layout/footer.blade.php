@@ -63,5 +63,3 @@
         </div>
     </div>
 </footer>
-
-@include('listing.en.layout.speed-dial')

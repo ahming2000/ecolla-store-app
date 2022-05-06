@@ -12,14 +12,20 @@
 
 <body>
 @yield('menubar')
-@yield('header')
-@yield('content')
+
+<main>
+    @yield('header')
+    @yield('content')
+</main>
+
 @yield('footer')
 
 <script src="{{ asset('js/manifest.js') }}"></script>
 <script src="{{ asset('js/vendor.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
 @yield('script')
+
+@yield('utility')
 </body>
 
 </html>

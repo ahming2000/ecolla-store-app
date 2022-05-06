@@ -63,5 +63,3 @@
         </div>
     </div>
 </footer>
-
-@include('listing.ch.layout.speed-dial')

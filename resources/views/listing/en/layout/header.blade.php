@@ -1,4 +1,4 @@
-<div class="header mb-3">
+<div class="header">
     Welcome to
     <div class="header-highlighted-text">Ecolla</div>
     Snack Shop
