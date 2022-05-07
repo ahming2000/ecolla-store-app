@@ -11,21 +11,23 @@
 </head>
 
 <body>
+<script src="{{ asset('js/manifest.js') }}"></script>
+<script src="{{ asset('js/vendor.js') }}"></script>
+<script src="{{ asset('js/app.js') }}"></script>
+
 @yield('menubar')
 
 <main>
     @yield('header')
+
     @yield('content')
 </main>
 
 @yield('footer')
 
-<script src="{{ asset('js/manifest.js') }}"></script>
-<script src="{{ asset('js/vendor.js') }}"></script>
-<script src="{{ asset('js/app.js') }}"></script>
-@yield('script')
-
 @yield('utility')
+
+@yield('script')
 </body>
 
 </html>
