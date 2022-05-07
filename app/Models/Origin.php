@@ -15,6 +15,20 @@ class Origin extends Model
         'name_en',
     ];
 
+    public function count(bool $showUnlisted = false): int
+    {
+        if ($showUnlisted) {
+            return Item::query()
+                ->where('origin_id', '=', $this->id)
+                ->count('id');
+        } else {
+            return Item::query()
+                ->where('origin_id', '=', $this->id)
+                ->where('is_listed', '=', true)
+                ->count('id');
+        }
+    }
+
     public function items(): BelongsToMany
     {
         return $this->belongsToMany(Item::class);
