@@ -2,10 +2,12 @@
 
 @import "~bootstrap/dist/css/bootstrap.min.css";
 @import "~bootstrap-icons/font/bootstrap-icons.css";
+@import "~tiny-slider/dist/tiny-slider.css";
 
 @import "./header.css";
 @import "./footer.css";
 @import "./whatsapp-button.css";
+@import "./item-carousel.css";
 
 body {
     font-family: 'Roboto', sans-serif;

@@ -45,7 +45,7 @@ window.addNotification = (title, message, action = []) => {
         let actionButtons = ''
 
         for (let i = 0; i < action.length; i++) {
-            actionButtons = actionButtons + actionButtonTemplate(action['buttonText'], action['redirectTo'])
+            actionButtons = actionButtons + actionButtonTemplate(action[i].buttonText, action[i].redirectTo)
         }
 
         toastContainer.append(actionNotificationTemplate(title, message, actionButtons))

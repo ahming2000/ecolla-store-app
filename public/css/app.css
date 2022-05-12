@@ -1710,21 +1710,8 @@ url(/fonts/vendor/bootstrap-icons/bootstrap-icons.woff?c1d7432ee75fa194e49925c1b
 .bi-filetype-pptx::before { content: "\f792"; }
 .bi-filetype-xlsx::before { content: "\f793"; }
 
-body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #EEEEEE;
-}
+.tns-outer{padding:0 !important}.tns-outer [hidden]{display:none !important}.tns-outer [aria-controls],.tns-outer [data-action]{cursor:pointer}.tns-slider{transition:all 0s}.tns-slider>.tns-item{box-sizing:border-box}.tns-horizontal.tns-subpixel{white-space:nowrap}.tns-horizontal.tns-subpixel>.tns-item{display:inline-block;vertical-align:top;white-space:normal}.tns-horizontal.tns-no-subpixel:after{content:'';display:table;clear:both}.tns-horizontal.tns-no-subpixel>.tns-item{float:left}.tns-horizontal.tns-carousel.tns-no-subpixel>.tns-item{margin-right:-100%}.tns-no-calc{position:relative;left:0}.tns-gallery{position:relative;left:0;min-height:1px}.tns-gallery>.tns-item{position:absolute;left:-100%;transition:opacity 0s, -webkit-transform 0s;transition:transform 0s, opacity 0s;transition:transform 0s, opacity 0s, -webkit-transform 0s}.tns-gallery>.tns-slide-active{position:relative;left:auto !important}.tns-gallery>.tns-moving{transition:all 0.25s}.tns-autowidth{display:inline-block}.tns-lazy-img{transition:opacity 0.6s;opacity:0.6}.tns-lazy-img.tns-complete{opacity:1}.tns-ah{transition:height 0s}.tns-ovh{overflow:hidden}.tns-visually-hidden{position:absolute;left:-10000em}.tns-transparent{opacity:0;visibility:hidden}.tns-fadeIn{opacity:1;filter:alpha(opacity=100);z-index:0}.tns-normal,.tns-fadeOut{opacity:0;filter:alpha(opacity=0);z-index:-1}.tns-vpfix{white-space:nowrap}.tns-vpfix>div,.tns-vpfix>li{display:inline-block}.tns-t-subp2{margin:0 auto;width:310px;position:relative;height:10px;overflow:hidden}.tns-t-ct{width:2333.3333333%;width:calc(100% * 70 / 3);position:absolute;right:0}.tns-t-ct:after{content:'';display:table;clear:both}.tns-t-ct>div{width:1.4285714%;width:calc(100% / 70);height:10px;float:left}
 
-main {
-    margin-top: 56px;
-}
-
-a, a:hover, a:focus, a:active {
-    text-decoration: none;
-    color: inherit;
-}
-
-/* Header */
 #nav-container * {
     font-weight: bolder;
     color: #F02B73;
@@ -1747,7 +1734,6 @@ a, a:hover, a:focus, a:active {
     display: inline;
 }
 
-/* Footer */
 .footer-font-color {
     color: white;
 }
@@ -1767,7 +1753,6 @@ a, a:hover, a:focus, a:active {
     background-color: #303136;
 }
 
-/* WhatsApp Button */
 .whatsapp-button {
     width: 60px;
     height: 60px;
@@ -1792,5 +1777,53 @@ a, a:hover, a:focus, a:active {
 
 .whatsapp-button:active {
     background: grey;
+}
+
+.slider-main-container{
+    align-items: center;
+    display: flex;
+    position: relative;
+}
+
+.slider-nav li {
+    display: inline;
+}
+
+.slider-control-prev, .slider-control-next{
+    background: grey;
+    border: 0;
+    border-radius: 50%;
+    color: black;
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-weight: bold;
+    height: 3rem;
+    opacity: 0.50;
+    position: absolute;
+    transition: opacity 0.25s;
+    width: 3rem;
+    z-index: 1;
+}
+
+.slider-control-prev{
+    left: 15px;
+}
+
+.slider-control-next{
+    right: 15px;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #EEEEEE;
+}
+
+main {
+    margin-top: 56px;
+}
+
+a, a:hover, a:focus, a:active {
+    text-decoration: none;
+    color: inherit;
 }
 
