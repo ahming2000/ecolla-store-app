@@ -116,31 +116,33 @@
                 }
             }
 
-            axios.post('/api/cart/add', {
-                addList: addList,
-            }).then((res) => {
-                if (res.data.isAdded) {
-                    @if(session('lang') == 'en')
-                    addNotification('Cart', 'Add to cart successfully!', [
-                            {
-                                buttonText: 'Go To Cart', redirectTo: '/cart'
-                            }
-                        ]
-                    )
-                    @else
-                    addNotification('购物车', '成功加入购物车！', [
-                            {
-                                buttonText: '前往购物车', redirectTo: '/cart'
-                            }
-                        ]
-                    )
-                    @endif
+            if (addList.length !== 0) {
+                axios.post('/api/cart/add', {
+                    addList: addList,
+                }).then((res) => {
+                    if (res.data.isAdded) {
+                        @if(session('lang') == 'en')
+                        addNotification('Cart', 'Add to cart successfully!', [
+                                {
+                                    buttonText: 'Go To Cart', redirectTo: '/cart'
+                                }
+                            ]
+                        )
+                        @else
+                        addNotification('购物车', '成功加入购物车！', [
+                                {
+                                    buttonText: '前往购物车', redirectTo: '/cart'
+                                }
+                            ]
+                        )
+                        @endif
 
-                    updateCartCount()
-                }
-            }).catch((error) => {
-                console.error(error)
-            })
+                        updateCartCount()
+                    }
+                }).catch((error) => {
+                    console.error(error)
+                })
+            }
         }
     </script>
 @endsection
