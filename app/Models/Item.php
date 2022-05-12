@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -70,9 +71,27 @@ class Item extends Model
         return $total;
     }
 
+    public function getTotalImageCount(): int
+    {
+        $total = sizeof($this->images) ?? 0;
+
+        foreach ($this->variations as $variation){
+            if($variation->image != null){
+                $total++;
+            }
+        }
+
+        return $total;
+    }
+
     public function variations(): HasMany
     {
         return $this->hasMany(Variation::class);
+    }
+
+    public function origin(): BelongsTo
+    {
+        return $this->belongsTo(Origin::class);
     }
 
     public function images(): HasMany

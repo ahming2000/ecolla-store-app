@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Enum\Arrangement;
 use App\Enum\AttributeName;
-use App\Enum\Language;
 use App\Models\Category;
 use App\Models\Item;
 use App\Models\Origin;
@@ -31,6 +30,7 @@ class ItemController extends Controller
 
         $items = Item::query()
             ->whereIn('id', $ids)
+            ->where('is_listed', '=', true)
             ->orderByRaw(AttributeName::getName($orderBy) . ' ' . Arrangement::getArrangement($arrangement))
             ->paginate(5);
 
@@ -46,7 +46,12 @@ class ItemController extends Controller
             'arrangement' => $arrangement,
         ]);
 
-        return view('listing.' . Language::getLabel(session('cart')->lang) . '.item.index', compact('items', 'categories', 'origins'));
+        return view('listing.item.index', compact('items', 'categories', 'origins'));
+    }
+
+    public function singleListingPage(Item $item): Factory|View|Application
+    {
+        return view('listing.item.show', compact('item'));
     }
 
     private function search(string $keyword = ""): array
