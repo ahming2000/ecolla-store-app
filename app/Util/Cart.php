@@ -27,6 +27,20 @@ class Cart
 
     public function add(CartItem $cartItem): void
     {
+        for ($i = 0; $i < sizeof($this->cartItems); $i++) {
+            if ($this->cartItems[$i]->variation->barcode == $cartItem->variation->barcode) {
+                $finalQuantity = $this->cartItems[$i]->quantity + $cartItem->quantity;
+
+                // If exceed the stock, set as maximum
+                if ($finalQuantity > $this->cartItems[$i]->variation->stock) {
+                    $finalQuantity = $this->cartItems[$i]->variation->stock;
+                }
+
+                $this->cartItems[$i]->quantity = $finalQuantity;
+                return;
+            }
+        }
+
         $this->cartItems[] = $cartItem;
     }
 
