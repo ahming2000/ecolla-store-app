@@ -21,6 +21,9 @@ return new class extends Migration
             $table->double('weight')->default(0);
             $table->string('image')->nullable();
             $table->integer('stock')->default(0);
+            $table->date('discount_start')->nullable();
+            $table->date('discount_end')->nullable();
+            $table->double('discount_rate')->default(1.0);
             $table->foreignId('item_id')->constrained('items');
             $table->timestamps();
             $table->softDeletes();
