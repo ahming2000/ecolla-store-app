@@ -2,20 +2,17 @@
 
 namespace App\Util;
 
-use App\Enum\Language;
 use App\Enum\OrderMode;
 use App\Models\Customer;
 
 class Cart
 {
-    public int $lang;
     public int $orderMode;
     public array $cartItems;
     public Customer $customer;
 
     public function __construct()
     {
-        $this->lang = Language::$CH;
         $this->orderMode = OrderMode::$SELF_PICKUP;
         $this->cartItems = [];
         $this->customer = new Customer();
@@ -23,7 +20,6 @@ class Cart
 
     public function insert($cart): void
     {
-        $this->lang = $cart->lang;
         $this->orderMode = $cart->orderMode;
         $this->cartItems = $cart->cartItems;
         $this->customer = $cart->customer;
