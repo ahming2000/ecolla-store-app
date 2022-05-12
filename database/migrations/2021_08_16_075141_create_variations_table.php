@@ -24,9 +24,8 @@ return new class extends Migration
             $table->date('discount_start')->nullable();
             $table->date('discount_end')->nullable();
             $table->double('discount_rate')->default(1.0);
-            $table->foreignId('item_id')->constrained('items');
+            $table->foreignId('item_id')->constrained('items')->cascadeOnDelete();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

@@ -23,7 +23,6 @@ return new class extends Migration
             $table->bigInteger('sold')->default(0);
             $table->foreignId('origin_id')->constrained('origins');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

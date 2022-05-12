@@ -23,8 +23,7 @@ return new class extends Migration
             $table->double('discount_rate')->default(1.0);
             $table->integer('quantity');
             $table->timestamps();
-            $table->softDeletes();
-            $table->foreign('order_id')->references('id')->on('orders');
+            $table->foreign('order_id')->references('id')->on('orders')->cascadeOnDelete();
         });
     }
 
