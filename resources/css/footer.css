@@ -1,0 +1,18 @@
+.footer-font-color {
+    color: white;
+}
+
+.footer-hr {
+    border: 0;
+    border-top: 2px solid #F02B73;
+    width: 90px;
+    margin: 0 0 20px;
+}
+
+.footer-content-bg {
+    background-color: #3c3e44;
+}
+
+.footer-logo-bg {
+    background-color: #303136;
+}
