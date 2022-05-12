@@ -14,10 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('category_item', function (Blueprint $table) {
-            $table->foreignId('item_id')->constrained('items');
-            $table->foreignId('category_id')->constrained('categories');
+            $table->foreignId('item_id')->constrained('items')->cascadeOnDelete();
+            $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
             $table->timestamps();
-            $table->softDeletes();
             $table->primary(['item_id', 'category_id']);
         });
     }

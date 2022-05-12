@@ -1,26 +1,45 @@
-@extends('listing.en.layout.app')
+@extends('listing.layout.app')
 
 @inject('helper', \App\Util\Helper::class)
 
 @section('title')
-    Ecolla Official Snack Shop
+    @if(session('lang') == 'en')
+        Ecolla Official Snack Shop
+    @else
+        Ecolla e口乐零食店官网
+    @endif
+@endsection
+
+@section('header')
+    @include('listing.layout.header')
 @endsection
 
 @section('content')
-    <div class="container my-3">
-        @include('listing.en.item.shipping-discount-notification')
+    <div class="container py-3">
+        @include('listing.shared.shipping-discount-notification')
 
         <form class="row my-2" action="{{ url('/item') }}" id="filterForm">
             <div class="col-12 col-md-6 mb-2">
                 <div class="row">
                     <div class="d-flex justify-content-between">
                         <div class="flex-grow-1 me-2">
-                            <input type="text" class="form-control shadow" maxlength="20" name="search"
-                                   placeholder="Search name, barcode, variation, description" value="{{ $helper->param('search') }}">
+                            @if(session('lang') == 'en')
+                                <input type="text" class="form-control shadow" maxlength="20" name="search"
+                                       placeholder="Search name, barcode, variation, description"
+                                       value="{{ $helper->param('search') }}">
+                            @else
+                                <input type="text" class="form-control shadow" maxlength="20" name="search"
+                                       placeholder="搜索名称、货号、规格、商品描述" value="{{ $helper->param('search') }}">
+                            @endif
                         </div>
 
                         <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-search"></i> Search
+                            <i class="bi bi-search"></i>
+                            @if(session('lang') == 'en')
+                                Search
+                            @else
+                                搜索
+                            @endif
                         </button>
                     </div>
                 </div>
@@ -29,13 +48,22 @@
             <div class="col-12 col-md-6 mb-2">
                 <select class="form-select shadow" name="category" onchange="filter()">
                     <option value="-1">
-                        All Item ({{ sizeof($items) }})
+                        @if(session('lang') == 'en')
+                            All Item ({{ sizeof($items) }})
+                        @else
+                            全部商品 ({{ sizeof($items) }})
+                        @endif
+
                     </option>
 
                     @foreach($categories as $category)
                         @if($category->count() != 0)
                             <option value="{{ $category->id }}" {{ $helper->paramSelected('category', $category->id) }}>
-                                {{ $category->name_en }} ({{ $category->count() }})
+                                @if(session('lang') == 'en')
+                                    {{ $category->name_en }} ({{ $category->count() }})
+                                @else
+                                    {{ $category->name }} ({{ $category->count() }})
+                                @endif
                             </option>
                         @endif
                     @endforeach
@@ -45,13 +73,21 @@
             <div class="col-12 col-md-6 mb-2">
                 <select class="form-select shadow" name="origin" onchange="filter()">
                     <option value="-1">
-                        From All Country ({{ sizeof($origins) }})
+                        @if(session('lang') == 'en')
+                            From All Country ({{ sizeof($origins) }})
+                        @else
+                            全部出产地 ({{ sizeof($origins) }})
+                        @endif
                     </option>
 
                     @foreach($origins as $origin)
                         @if($origin->count() != 0)
                             <option value="{{ $origin->id }}" {{ $helper->paramSelected('origin', $origin->id) }}>
-                                {{ $origin->name_en }} ({{ $origin->count() }})
+                                @if(session('lang') == 'en')
+                                    {{ $origin->name_en }} ({{ $origin->count() }})
+                                @else
+                                    {{ $origin->name }} ({{ $origin->count() }})
+                                @endif
                             </option>
                         @endif
                     @endforeach
@@ -65,7 +101,7 @@
                             @foreach(\App\Enum\AttributeName::all() as $attribute)
                                 <option
                                     value="{{ $attribute }}" {{ $helper->paramSelected('orderBy', strval($attribute)) }}>
-                                    {{ \App\Enum\AttributeName::getLabel($attribute, true) }}
+                                    {{ \App\Enum\AttributeName::getLabel($attribute, session('lang') == 'en') }}
                                 </option>
                             @endforeach
                         </select>
@@ -91,12 +127,15 @@
         <div class="row">
             @if(sizeof($items) == 0)
                 <div class="d-flex justify-content-center align-items-center" style="margin: 150px 0">
-                    <img class="img-fluid" src="{{ asset('/images/no-result.png') }}" alt="No Result Image" width="300px" height="300px">
+                    <img class="img-fluid" src="{{ asset('/images/no-result.png') }}" alt="No Result Image"
+                         width="300px" height="300px">
                 </div>
             @endif
 
             @foreach($items as $item)
-                @include('listing.en.item.item-card')
+                <div class="col-6 col-md-4 col-lg-3 col-xxl-2 mb-3">
+                    @include('listing.item.item-card')
+                </div>
             @endforeach
 
             <div class="d-flex justify-content-center">

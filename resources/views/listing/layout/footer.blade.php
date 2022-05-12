@@ -13,7 +13,11 @@
 
                 <div class="col-lg-3 col-mb-3 col-sm-3">
                     <h4 class="footer-font-color font-weight-bold">
-                        Our Location
+                        @if(session('lang') == 'en')
+                            Our Location
+                        @else
+                            我们的位置
+                        @endif
                     </h4>
 
                     <hr class="footer-hr">
@@ -26,7 +30,13 @@
                 </div>
 
                 <div class="col-lg-3 col-mb-3 col-sm-3">
-                    <h4 class='footer-font-color font-weight-bold'>Contact Us</h4>
+                    <h4 class='footer-font-color font-weight-bold'>
+                        @if(session('lang') == 'en')
+                            Contact Us
+                        @else
+                            联系我们
+                        @endif
+                    </h4>
 
                     <hr class="footer-hr">
 
@@ -34,7 +44,11 @@
                         <i class="bi bi-facebook"></i>
 
                         <a href="https://www.facebook.com/Ecolla-e%E5%8F%A3%E4%B9%90-2347940035424278" target="_blank">
-                            Ecolla Official Facebook
+                            @if(session('lang') == 'en')
+                                Ecolla Official Facebook
+                            @else
+                                e口乐官方脸书
+                            @endif
                         </a>
                     </span>
 
@@ -43,8 +57,12 @@
                     <span class="footer-font-color">
                         <i class="bi bi-whatsapp"></i>
 
-                        <a href="https://wa.link/2e1z4h" target="_blank">
-                            WhatsApp Customer Services
+                        <a href="https://wa.link/fcfum1" target="_blank">
+                            @if(session('lang') == 'en')
+                                WhatsApp Customer Services
+                            @else
+                                WhatsApp 客服
+                            @endif
                         </a>
                     </span>
                 </div>

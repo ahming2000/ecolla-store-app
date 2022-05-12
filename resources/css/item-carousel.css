@@ -1,0 +1,33 @@
+.slider-main-container{
+    align-items: center;
+    display: flex;
+    position: relative;
+}
+
+.slider-nav li {
+    display: inline;
+}
+
+.slider-control-prev, .slider-control-next{
+    background: grey;
+    border: 0;
+    border-radius: 50%;
+    color: black;
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-weight: bold;
+    height: 3rem;
+    opacity: 0.50;
+    position: absolute;
+    transition: opacity 0.25s;
+    width: 3rem;
+    z-index: 1;
+}
+
+.slider-control-prev{
+    left: 15px;
+}
+
+.slider-control-next{
+    right: 15px;
+}

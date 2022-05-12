@@ -32,7 +32,6 @@ return new class extends Migration
             $table->string('receipt_image');
             $table->string('note')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

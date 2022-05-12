@@ -9,7 +9,7 @@ class CartItem
     public Variation $variation;
     public int $quantity;
 
-    public function __construct(Variation $variation, int $quantity)
+    public function __construct($variation, int $quantity)
     {
         $this->variation = $variation;
         $this->quantity = $quantity;

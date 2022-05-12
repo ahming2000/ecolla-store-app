@@ -34,7 +34,6 @@ class DatabaseSeeder extends Seeder
         $this->item();
         $this->itemImage();
         $this->variation();
-        $this->variationDiscount();
         $this->order();
         $this->customer();
         $this->orderItem();
@@ -93,11 +92,6 @@ class DatabaseSeeder extends Seeder
     private function order()
     {
         Order::factory(10)->create();
-    }
-
-    private function variationDiscount()
-    {
-        VariationDiscount::factory(10)->create();
     }
 
     private function variation()

@@ -1,0 +1,21 @@
+#nav-container * {
+    font-weight: bolder;
+    color: #F02B73;
+}
+
+.header {
+    background-image: url("/images/ecolla-shop.jpeg");
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding-top: 115px;
+    color: white;
+    font-size: 35px;
+    height: 40vh;
+    text-align: center;
+}
+
+.header-highlighted-text {
+    color: #F02B73;
+    display: inline;
+}
