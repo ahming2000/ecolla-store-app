@@ -133,7 +133,9 @@
             @endif
 
             @foreach($items as $item)
-                @include('listing.item.item-card')
+                <div class="col-6 col-md-4 col-lg-3 col-xxl-2 mb-3">
+                    @include('listing.item.item-card')
+                </div>
             @endforeach
 
             <div class="d-flex justify-content-center">

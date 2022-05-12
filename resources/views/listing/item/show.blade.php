@@ -91,12 +91,106 @@
             </div>
         </div>
 
+        @if(sizeof($randomItems) != 0)
+            <div class="h2">
+                @if(session('lang') == 'en')
+                    You may like
+                @else
+                    你可能喜欢
+                @endif
+            </div>
+
+            <div class="row mb-3">
+                <div class="random-item-container">
+                    @foreach($randomItems as $item)
+                        <div class="me-2">
+                            @include('listing.item.item-card')
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+
+        @if(sizeof($mayLikeItems) != 0)
+            <div class="h2">
+                @if(session('lang') == 'en')
+                    Similar
+                @else
+                    类似商品
+                @endif
+            </div>
+
+            <div class="row mb-3">
+                <div class="may-like-item-container">
+                    @foreach($mayLikeItems as $item)
+                        <div class="me-2">
+                            @include('listing.item.item-card')
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+
     </div>
 @endsection
 
 @section('script')
     <script>
         useQuantityControl()
+
+        let randomItemsCarousel = tinySlider({
+            container: '.random-item-container',
+            items: 2,
+            responsive: {
+                576: {
+                    items: 3,
+                },
+                768: {
+                    items: 4,
+                },
+                992: {
+                    items: 5,
+                },
+                1200: {
+                    items: 6,
+                },
+                1400: {
+                    items: 7,
+                },
+            },
+
+            mouseDrag: true,
+            controls: false,
+            nav: false,
+            loop: false,
+        });
+
+        let mayLikeItemsCarousel = tinySlider({
+            container: '.may-like-item-container',
+            items: 2,
+            responsive: {
+                576: {
+                    items: 3,
+                },
+                768: {
+                    items: 3,
+                },
+                992: {
+                    items: 5,
+                },
+                1200: {
+                    items: 6,
+                },
+                1400: {
+                    items: 7,
+                },
+            },
+
+            mouseDrag: true,
+            controls: false,
+            nav: false,
+            loop: false,
+        });
 
         const addToCart = () => {
             let quantityControls = $('.quantity-control')

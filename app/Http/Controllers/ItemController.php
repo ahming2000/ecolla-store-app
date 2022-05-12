@@ -51,7 +51,39 @@ class ItemController extends Controller
 
     public function singleListingPage(Item $item): Factory|View|Application
     {
-        return view('listing.item.show', compact('item'));
+        $item->setAttribute('view_count', $item->view_count + 1);
+        $item->save();
+
+        $RECOMMEND_COUNT = 15;
+
+        $randomItemsCount = Item::all()
+            ->where('id', '!=', $item->id)
+            ->where('is_listed', '=', true)
+            ->count();
+
+        $randomItems = Item::all()
+            ->where('id', '!=', $item->id)
+            ->random(min($randomItemsCount, $RECOMMEND_COUNT));
+
+        $mayLikeItemIds = array_column(DB::table('category_item')
+            ->select('item_id')
+            ->whereIn('category_id', array_column($item->categories->toArray(), 'id'))
+            ->distinct()
+            ->get()
+            ->toArray()
+            , 'item_id');
+
+        $mayLikeItemsCount = Item::query()
+            ->whereIn('id', $mayLikeItemIds)
+            ->where('is_listed', '=', true)
+            ->count();
+
+        $mayLikeItems = Item::all()
+            ->whereIn('id', $mayLikeItemIds)
+            ->where('is_listed', '=', true)
+            ->random(min($mayLikeItemsCount, $RECOMMEND_COUNT));
+
+        return view('listing.item.show', compact('item', 'randomItems', 'mayLikeItems'));
     }
 
     private function search(string $keyword = ""): array
@@ -62,6 +94,7 @@ class ItemController extends Controller
             Item::query()
                 ->select('items.id')
                 ->join('variations', 'variations.item_id', '=', 'items.id')
+                ->where('items.is_listed', '=', true)
                 ->where('items.name', 'LIKE', DB::raw("'%$keyword%'"))
                 ->orWhere('items.name_en', 'LIKE', DB::raw("'%$keyword%'"))
                 ->orWhere('items.desc', 'LIKE', DB::raw("'%$keyword%'"))
