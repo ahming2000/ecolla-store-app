@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Variation;
 use App\Util\CartItem;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
