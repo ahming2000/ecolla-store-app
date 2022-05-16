@@ -73,7 +73,7 @@
             </div>
         </div>
 
-        <div class="h2" style="font-weight: bold">
+        <div class="h2 fw-bold">
             @if(session('lang') == 'en')
                 Item Description
             @else

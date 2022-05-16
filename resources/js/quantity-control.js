@@ -45,7 +45,6 @@ const toggleButtonDisabled = (quantityControl) => {
     }
 }
 
-
 const increaseQuantity = (event) => {
     let quantityControl = $(event.target).closest('.quantity-control')
     let current = getQuantityNode(quantityControl)
@@ -90,7 +89,20 @@ const updateQuantity = (event) => {
     toggleButtonDisabled(quantityControl)
 }
 
-window.useQuantityControl = (updateValue = false) => {
+const saveQuantity = (event) => {
+    let quantityControl = $(event.target).closest('.quantity-control')
+    let barcode = quantityControl.attr('id')
+    let currentValue = getQuantity(quantityControl)
+
+    axios.post('/api/cart/update-quantity', {
+        barcode: barcode,
+        quantity: currentValue,
+    }).catch((error) => {
+        console.error(error)
+    })
+}
+
+window.useQuantityControl = (isCart = false) => {
     let quantityControls = getAllQuantityControl()
     for (let i = 0; i < quantityControls.length; i++) {
         let quantityControl = quantityControls.eq(i)
@@ -103,9 +115,15 @@ window.useQuantityControl = (updateValue = false) => {
         quantityNode.change(updateQuantity)
 
         toggleButtonDisabled(quantityControl)
-    }
 
-    if (updateValue) {
-        // TODO update value in cart page
+        if (isCart) {
+            increaseButton.click(saveQuantity)
+            decreaseButton.click(saveQuantity)
+            quantityNode.change(saveQuantity)
+
+            increaseButton.click(updateCartDisplayValue)
+            decreaseButton.click(updateCartDisplayValue)
+            quantityNode.change(updateCartDisplayValue)
+        }
     }
 }

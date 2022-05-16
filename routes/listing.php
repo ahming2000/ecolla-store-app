@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/lang/{lang}', [SettingController::class, 'changeLanguage']);
 
-Route::get('/', function() {return view('welcome');});
+Route::get('/', [ItemController::class, 'listingPage']);
 Route::get('/payment-method', [InfoController::class, 'paymentMethodPage']);
 
 Route::prefix('/item')->group(function () {
