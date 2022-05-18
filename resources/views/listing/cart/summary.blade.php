@@ -1,6 +1,34 @@
 <div class="card shadow mb-3">
     <div class="card-body">
-        <div class="h5 card-title">
+        <div class="form-floating mb-3">
+            <select class="form-select" name="orderMode" id="order-mode-input" onchange="updateShippingFee(event)">
+                <option value="{{ \App\Enum\OrderMode::$SELF_PICKUP }}" @selected(session('cart')->orderMode == \App\Enum\OrderMode::$SELF_PICKUP)>
+                    @if(session('lang') == 'en')
+                        Pick-up
+                    @else
+                        预购取货
+                    @endif
+                </option>
+
+                <option value="{{ \App\Enum\OrderMode::$DELIVERY }}" @selected(session('cart')->orderMode == \App\Enum\OrderMode::$DELIVERY)>
+                    @if(session('lang') == 'en')
+                        Delivery (Within 5km from store)
+                    @else
+                        外送（距离本店5公里内）
+                    @endif
+                </option>
+            </select>
+
+            <label for="order-mode-input">
+                @if(session('lang') == 'en')
+                    Order Mode
+                @else
+                    订单模式
+                @endif
+            </label>
+        </div>
+
+        <div class="h5 card-title fw-bold">
             @if(session('lang') == 'en')
                 Order Summary
             @else
@@ -59,16 +87,13 @@
             </li>
         </ul>
 
-        <form action="{{ url('/cart/check-out') }}" method="post">
-            @csrf
-
-            <button type="submit" class="btn btn-primary w-100" @disabled(session('cart')->count() == 0)>
-                @if(session('lang') == 'en')
-                    Check Out
-                @else
-                    前往付款
-                @endif
-            </button>
-        </form>
+        <a class="btn btn-primary w-100 @disabled(session('cart')->count() == 0)"
+           href="{{ url('/cart/check-out') }}">
+            @if(session('lang') == 'en')
+                Check Out
+            @else
+                前往付款
+            @endif
+        </a>
     </div>
 </div>

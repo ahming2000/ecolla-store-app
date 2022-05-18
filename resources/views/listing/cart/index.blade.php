@@ -22,8 +22,6 @@
             <div class="col-lg-4">
                 @include('listing.cart.customer-service-notification')
 
-                @include('listing.cart.order-mode-selection')
-
                 @include('listing.cart.summary')
             </div>
         </div>

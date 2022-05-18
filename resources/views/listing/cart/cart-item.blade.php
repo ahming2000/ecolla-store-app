@@ -52,7 +52,7 @@
                 RM{{ number_format($cartItem->subPrice(), 2, '.', '') }}
             </div>
 
-            @include('common.quantity-control', ['barcode' => $cartItem->variation->barcode, 'min' => 1, 'max' => $cartItem->variation->stock, 'quantity' => $cartItem->quantity])
+            @include('common.quantity-control', ['barcode' => $cartItem->variation->barcode, 'min' => 1, 'max' => $cartItem->variation->stock, 'quantity' => $cartItem->quantity, 'disabled' => true])
         </div>
 
     </div>
