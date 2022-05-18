@@ -16,6 +16,10 @@ __webpack_require__(/*! ./quantity-control */ "./resources/js/quantity-control.j
 
 __webpack_require__(/*! ./item-description */ "./resources/js/item-description.js");
 
+__webpack_require__(/*! ./payment-method */ "./resources/js/payment-method.js");
+
+__webpack_require__(/*! ./verify-image */ "./resources/js/verify-image.js");
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
@@ -384,6 +388,33 @@ window.addNotification = function (title, message) {
 
 /***/ }),
 
+/***/ "./resources/js/payment-method.js":
+/*!****************************************!*\
+  !*** ./resources/js/payment-method.js ***!
+  \****************************************/
+/***/ (() => {
+
+window.selectPayment = function (event) {
+  var payments = $('.payment-method-selection-container').find('img');
+
+  for (var i = 0; i < payments.length; i++) {
+    payments.removeClass('payment-selected');
+  }
+
+  $(event.target).addClass('payment-selected');
+  $('#payment-method-input').val($(event.target).data('id'));
+};
+
+window.openPaymentQRCode = function (event) {
+  event.preventDefault();
+  var qrCode = $('.payment-method-selection-container').find('.payment-selected').data('qrcode');
+  $('#qr-code-image').attr('src', qrCode);
+  var QRCodeModal = new bootstrap.Modal($('#qr-code-modal'));
+  QRCodeModal.show();
+};
+
+/***/ }),
+
 /***/ "./resources/js/quantity-control.js":
 /*!******************************************!*\
   !*** ./resources/js/quantity-control.js ***!
@@ -403,11 +434,11 @@ var getQuantity = function getQuantity(quantityControl) {
 };
 
 var getMaxQuantity = function getMaxQuantity(quantityControl) {
-  return parseInt(quantityControl.find('.quantity-max').val());
+  return parseInt(quantityControl.find('.quantity').attr('max'));
 };
 
 var getMinQuantity = function getMinQuantity(quantityControl) {
-  return parseInt(quantityControl.find('.quantity-min').val());
+  return parseInt(quantityControl.find('.quantity').attr('min'));
 };
 
 var getIncreaseButton = function getIncreaseButton(quantityControl) {
@@ -509,13 +540,61 @@ window.useQuantityControl = function () {
     if (isCart) {
       increaseButton.click(saveQuantity);
       decreaseButton.click(saveQuantity);
-      quantityNode.change(saveQuantity);
       increaseButton.click(updateCartDisplayValue);
       decreaseButton.click(updateCartDisplayValue);
-      quantityNode.change(updateCartDisplayValue);
     }
   }
 };
+
+/***/ }),
+
+/***/ "./resources/js/verify-image.js":
+/*!**************************************!*\
+  !*** ./resources/js/verify-image.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+window.verifyImage = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(event) {
+    var isVerified, data;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            data = new FormData();
+            data.append('image', $(event.target).prop('files')[0]);
+            _context.next = 4;
+            return axios.post('/api/image/verify', data).then(function (res) {
+              isVerified = res.data.isVerified;
+            })["catch"](function (error) {
+              console.error(error);
+            });
+
+          case 4:
+            return _context.abrupt("return", isVerified);
+
+          case 5:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+
+  return function (_x) {
+    return _ref.apply(this, arguments);
+  };
+}();
 
 /***/ }),
 

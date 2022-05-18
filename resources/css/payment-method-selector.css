@@ -1,0 +1,9 @@
+.payment-method-selection-container {
+    white-space: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.payment-selected {
+    border: 2px solid #00BFFF;
+}
