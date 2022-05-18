@@ -11,11 +11,11 @@ const getQuantity = (quantityControl) => {
 }
 
 const getMaxQuantity = (quantityControl) => {
-    return parseInt(quantityControl.find('.quantity-max').val())
+    return parseInt(quantityControl.find('.quantity').attr('max'))
 }
 
 const getMinQuantity = (quantityControl) => {
-    return parseInt(quantityControl.find('.quantity-min').val())
+    return parseInt(quantityControl.find('.quantity').attr('min'))
 }
 
 const getIncreaseButton = (quantityControl) => {
@@ -119,11 +119,9 @@ window.useQuantityControl = (isCart = false) => {
         if (isCart) {
             increaseButton.click(saveQuantity)
             decreaseButton.click(saveQuantity)
-            quantityNode.change(saveQuantity)
 
             increaseButton.click(updateCartDisplayValue)
             decreaseButton.click(updateCartDisplayValue)
-            quantityNode.change(updateCartDisplayValue)
         }
     }
 }
