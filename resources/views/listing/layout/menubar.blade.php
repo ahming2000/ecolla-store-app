@@ -7,7 +7,7 @@
             @if(session('lang') == 'en')
                 Ecolla
             @else
-                E口乐
+                e口乐
             @endif
         </a>
 

@@ -4,9 +4,8 @@
             <i class="bi bi-dash"></i>
         </button>
 
-        <input type="hidden" class="quantity-max" value="{{ $max }}" />
-        <input type="hidden" class="quantity-min" value="{{ $min }}" />
-        <input type="text" class="form-control form-control-sm quantity" value="{{ $quantity ?? 0 }}" />
+        <input type="number" class="form-control form-control-sm quantity" value="{{ $quantity ?? 0 }}"
+               min="{{ $min }}" max="{{ $max }}" @disabled($disabled ?? false)/>
 
         <button class="btn btn-primary quantity-increase" type="button">
             <i class="bi bi-plus"></i>

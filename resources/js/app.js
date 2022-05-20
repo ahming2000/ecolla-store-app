@@ -1,5 +1,7 @@
 require('./bootstrap');
 require('./notification');
+require('./cart-control');
 require('./quantity-control');
 require('./item-description');
-require('./cart');
+require('./payment-method');
+require('./verify-image');

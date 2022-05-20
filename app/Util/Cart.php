@@ -3,45 +3,83 @@
 namespace App\Util;
 
 use App\Enum\OrderMode;
-use App\Models\Customer;
+use App\Models\SystemConfig;
+use App\Models\Variation;
 
 class Cart
 {
     public int $orderMode;
     public array $cartItems;
-    public Customer $customer;
 
     public function __construct()
     {
         $this->orderMode = OrderMode::$SELF_PICKUP;
         $this->cartItems = [];
-        $this->customer = new Customer();
     }
 
-    public function insert($cart): void
+    public static function useSession(): Cart
     {
-        $this->orderMode = $cart->orderMode;
-        $this->cartItems = $cart->cartItems;
-        $this->customer = $cart->customer;
+        $cart = new self();
+        $cart->orderMode = session('cart')->orderMode;
+        $cart->cartItems = session('cart')->cartItems;
+
+        self::safetyCheck($cart);
+
+        return $cart;
+    }
+
+    private static function safetyCheck(Cart $cart): void
+    {
+        for ($i = 0; $i < sizeof($cart->cartItems); $i++) {
+            // Fetch latest data
+            $variation = Variation::query()
+                ->find($cart->cartItems[$i]->variation->barcode);
+
+            // #1: Check if the variation is still existed
+            if ($variation == null) {
+                $cart->remove($cart->cartItems[$i]->variation->barcode);
+                continue;
+            }
+
+            // Replace latest data
+            $cart->cartItems[$i]->variation = $variation;
+
+            // #2: Check if the quantity is exceeded the stock
+            if ($variation->stock < $cart->cartItems[$i]->quantity) {
+                $cart->adjust($cart->cartItems[$i]->variation->barcode, $variation->stock);
+            }
+        }
+    }
+
+    public function saveSession(): void
+    {
+        session()->put('cart', $this);
+    }
+
+    public function indexOf(string $barcode): int
+    {
+        for ($i = 0; $i < sizeof($this->cartItems); $i++) {
+            if ($this->cartItems[$i]->variation->barcode == $barcode) {
+                return $i;
+            }
+        }
+
+        return -1;
     }
 
     public function add(CartItem $cartItem): void
     {
-        for ($i = 0; $i < sizeof($this->cartItems); $i++) {
-            if ($this->cartItems[$i]->variation->barcode == $cartItem->variation->barcode) {
-                $finalQuantity = $this->cartItems[$i]->quantity + $cartItem->quantity;
+        $cartItemIndex = $this->indexOf($cartItem->variation->barcode);
 
-                // If exceed the stock, set as maximum
-                if ($finalQuantity > $this->cartItems[$i]->variation->stock) {
-                    $finalQuantity = $this->cartItems[$i]->variation->stock;
-                }
+        if ($cartItemIndex == -1) {
+            $this->cartItems[] = $cartItem;
+        } else {
+            $stock = $this->cartItems[$cartItemIndex]->variation->stock;
+            $finalQuantity = $this->cartItems[$cartItemIndex]->quantity + $cartItem->quantity;
 
-                $this->cartItems[$i]->quantity = $finalQuantity;
-                return;
-            }
+            // If quantity to set exceed the stock, set quantity as the stock count
+            $this->cartItems[$cartItemIndex]->quantity = min($finalQuantity, $stock);
         }
-
-        $this->cartItems[] = $cartItem;
     }
 
     public function remove(string $barcode): void
@@ -51,12 +89,14 @@ class Cart
         });
     }
 
-    public function adjust(string $barcode, int $quantity): void
+    public function adjust(string $barcode, int $quantity): bool
     {
-        foreach ($this->cartItems as $cartItem){
-            if($cartItem->variation->barcode === $barcode && $cartItem->quantity + $quantity >= 1){
-                $cartItem->quantity += $quantity;
-            }
+        $cartItemIndex = $this->indexOf($barcode);
+        if ($cartItemIndex == -1) {
+            return false;
+        } else {
+            $this->cartItems[$cartItemIndex]->quantity = $quantity;
+            return true;
         }
     }
 
@@ -68,14 +108,31 @@ class Cart
     public function subtotal(): float
     {
         $total = 0.0;
+
         foreach($this->cartItems as $cartItem){
             $total += $cartItem->subPrice();
         }
+
         return $total;
     }
 
     public function reset(): void
     {
         $this->cartItems = [];
+    }
+
+    public function shippingFee(): float
+    {
+        if ($this->orderMode == OrderMode::$SELF_PICKUP) return 0.0;
+
+        if (SystemConfig::shippingDiscountIsActivated()) {
+            if ($this->subtotal() >= SystemConfig::getShippingDiscountThreshold()) {
+                return 0.0;
+            } else {
+                return SystemConfig::getShippingFee();
+            }
+        }
+
+        return SystemConfig::getShippingFee();
     }
 }

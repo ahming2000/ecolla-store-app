@@ -20,6 +20,10 @@ class InitialCart
         if (session('cart') == null) {
             session()->put('cart', new Cart());
         }
+        else {
+            $cart = Cart::useSession();
+            $cart->saveSession();
+        }
 
         return $next($request);
     }

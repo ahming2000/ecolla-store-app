@@ -73,7 +73,7 @@
             </div>
         </div>
 
-        <div class="h2" style="font-weight: bold">
+        <div class="h2 fw-bold">
             @if(session('lang') == 'en')
                 Item Description
             @else
@@ -198,7 +198,7 @@
 
             for (let i = 0; i < quantityControls.length; i++) {
                 let barcode = quantityControls.eq(i).attr('id')
-                let quantity = parseInt(quantityControls.eq(i).find('.quantity').val())
+                let quantity = parseInt(quantityControls.eq(i).find('.quantity').val()) || 0
 
                 if (quantity !== 0) {
                     addList.push(
