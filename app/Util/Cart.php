@@ -4,6 +4,7 @@ namespace App\Util;
 
 use App\Enum\OrderMode;
 use App\Models\SystemConfig;
+use App\Models\Variation;
 
 class Cart
 {
@@ -21,7 +22,33 @@ class Cart
         $cart = new self();
         $cart->orderMode = session('cart')->orderMode;
         $cart->cartItems = session('cart')->cartItems;
+
+        self::safetyCheck($cart);
+
         return $cart;
+    }
+
+    private static function safetyCheck(Cart $cart): void
+    {
+        for ($i = 0; $i < sizeof($cart->cartItems); $i++) {
+            // Fetch latest data
+            $variation = Variation::query()
+                ->find($cart->cartItems[$i]->variation->barcode);
+
+            // #1: Check if the variation is still existed
+            if ($variation == null) {
+                $cart->remove($cart->cartItems[$i]->variation->barcode);
+                continue;
+            }
+
+            // Replace latest data
+            $cart->cartItems[$i]->variation = $variation;
+
+            // #2: Check if the quantity is exceeded the stock
+            if ($variation->stock < $cart->cartItems[$i]->quantity) {
+                $cart->adjust($cart->cartItems[$i]->variation->barcode, $variation->stock);
+            }
+        }
     }
 
     public function saveSession(): void
