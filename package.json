@@ -8,7 +8,8 @@
         "hot": "mix watch --hot",
         "prod": "npm run production",
         "production": "mix --production",
-        "db-refresh": "php artisan migrate:fresh && php artisan db:seed DatabaseSeeder"
+        "db:fresh": "php artisan migrate:fresh && php artisan db:seed DatabaseSeeder",
+        "deploy:staging": "git checkout staging && git merge origin/dev && git push && git checkout dev"
     },
     "devDependencies": {
         "axios": "^0.25",
