@@ -4,7 +4,7 @@
         <a class="navbar-brand" href="{{ url('/') }}">
             <img src="{{ asset('/images/ecolla.png') }}" width="30" height="30"
                  class="d-inline-block align-top" alt="Logo" loading="lazy">
-            管理员后台
+            e口乐网页管理
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"

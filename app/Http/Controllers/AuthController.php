@@ -6,5 +6,8 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    //
+    public function loginPage()
+    {
+        return view('management.auth.login');
+    }
 }
