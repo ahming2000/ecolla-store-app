@@ -49,7 +49,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person-circle"></i> {{ Auth::user()->name }}
+                            <i class="bi bi-person-circle"></i> {{ Auth::user()->username }}
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
@@ -57,13 +57,17 @@
                                 <i class="bi bi-person"></i> 个人资料
                             </a>
 
-                            <a class="dropdown-item" href="{{ url('/management/user') }}">
-                                <i class="bi bi-people"></i> 员工账户管理
-                            </a>
+                            @can('admin')
+                                <a class="dropdown-item" href="{{ url('/management/user') }}">
+                                    <i class="bi bi-people"></i> 员工账户管理
+                                </a>
+                            @endcan
 
-                            <a class="dropdown-item" href="{{ url('/management/setting/website') }}">
-                                <i class="bi bi-gear"></i> 设置
-                            </a>
+                            @can('manager')
+                                <a class="dropdown-item" href="{{ url('/management/setting') }}">
+                                    <i class="bi bi-gear"></i> 网页设置
+                                </a>
+                            @endcan
 
                             <a class="dropdown-item" href="{{ url('/management/changing-log') }}">
                                 <i class="bi bi-journals"></i> 更新日志
@@ -75,7 +79,7 @@
                                 <i class="bi bi-box-arrow-right"></i> 登出
                             </a>
 
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            <form id="logout-form" action="{{ route('logout') }}" method="post" class="d-none">
                                 @csrf
                             </form>
                         </div>

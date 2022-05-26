@@ -29,7 +29,7 @@
                         </div>
 
                         <div class="form-floating mb-1">
-                            <input type="text" class="form-control @error('password') is-invalid @enderror"
+                            <input type="password" class="form-control @error('password') is-invalid @enderror"
                                    name="password" id="password-input" placeholder="密码">
 
                             <label for="password-input">密码</label>

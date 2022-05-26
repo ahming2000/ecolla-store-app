@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('password');
             $table->integer('access_level')->default(0);
             /*
-             * 0: can view items and orders
-             * 1: can update items and orders, include update items listing setting
-             * 2: can create items and update website settings
+             * 0: can view items and orders (view)
+             * 1: can update items and orders, include update items listing setting (employee)
+             * 2: can create, delete items and update website settings (manager)
              * 3: admin
              */
             $table->boolean('is_enabled')->default(false);
