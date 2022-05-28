@@ -6,7 +6,6 @@
 
 @section('content')
     <div class="container py-3">
-
         <div class="row">
             <div class="col-sm-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
                 <div class="h1">个人资料</div>
@@ -86,7 +85,5 @@
                 </form>
             </div>
         </div>
-
-
     </div>
 @endsection
