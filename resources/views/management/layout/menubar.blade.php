@@ -1,7 +1,7 @@
 <nav class="fixed-top navbar navbar-expand-md navbar-light bg-white shadow">
     <div class="container">
 
-        <a class="navbar-brand" href="{{ url('/') }}">
+        <a class="navbar-brand" href="{{ url('/management') }}">
             <img src="{{ asset('/images/ecolla.png') }}" width="30" height="30"
                  class="d-inline-block align-top" alt="Logo" loading="lazy">
             e口乐网页管理
