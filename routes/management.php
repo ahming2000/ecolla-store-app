@@ -19,6 +19,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [InfoController::class, 'dashboardPage']);
     Route::get('/profile', [UserController::class, 'profilePage']);
 
+    Route::patch('/profile', [UserController::class, 'updatePassword']);
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::prefix('/item')->group(function () {
