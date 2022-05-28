@@ -16,4 +16,16 @@ class InfoController extends Controller
 
         return view('listing.info.payment-method', compact('payments'));
     }
+
+    public function dashboardPage(): Factory|View|Application
+    {
+        return view('management.dashboard.index');
+    }
+
+    public function changingLogPage(): Factory|View|Application
+    {
+        $notes = json_decode(file_get_contents(__DIR__.'/../../../docs/changing-logs.json'));
+
+        return view('management.changing-log.index', compact('notes'));
+    }
 }
