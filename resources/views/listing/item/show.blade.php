@@ -219,6 +219,9 @@
                         addNotification('Cart', 'Add to cart successfully!', [
                                 {
                                     buttonText: 'Go To Cart', redirectTo: '/cart'
+                                },
+                                {
+                                    buttonText: 'Back To Item List', redirectTo: '/item'
                                 }
                             ]
                         )
@@ -226,6 +229,9 @@
                         addNotification('购物车', '成功加入购物车！', [
                                 {
                                     buttonText: '前往购物车', redirectTo: '/cart'
+                                },
+                                {
+                                    buttonText: '返回商品列表', redirectTo: '/item'
                                 }
                             ]
                         )
