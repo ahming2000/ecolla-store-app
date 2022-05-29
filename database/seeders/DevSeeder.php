@@ -10,9 +10,9 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Origin;
 use App\Models\PaymentMethod;
+use App\Models\SystemConfig;
 use App\Models\User;
 use App\Models\Variation;
-use App\Models\VariationDiscount;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -42,8 +42,7 @@ class DevSeeder extends Seeder
 
     private function systemConfig()
     {
-        DB::table('system_configs')
-            ->insert(
+        $list[] = new SystemConfig(
                 [
                     'name' => 'shipping_fee',
                     'value' => '3',
@@ -51,8 +50,7 @@ class DevSeeder extends Seeder
                 ]
             );
 
-        DB::table('system_configs')
-            ->insert(
+        $list[] = new SystemConfig(
                 [
                     'name' => 'shipping_discount_is_activated',
                     'value' => '1',
@@ -60,8 +58,7 @@ class DevSeeder extends Seeder
                 ]
             );
 
-        DB::table('system_configs')
-            ->insert(
+        $list[] = new SystemConfig(
                 [
                     'name' => 'shipping_discount_threshold',
                     'value' => '50',
@@ -69,14 +66,17 @@ class DevSeeder extends Seeder
                 ]
             );
 
-        DB::table('system_configs')
-            ->insert(
+        $list[] = new SystemConfig(
                 [
                     'name' => 'shipping_discount_desc',
                     'value' => '满RM50包邮',
                     'desc' => '订单免运费详情',
                 ]
             );
+
+        foreach($list as $config) {
+            $config->save();
+        }
     }
 
     private function orderItem()

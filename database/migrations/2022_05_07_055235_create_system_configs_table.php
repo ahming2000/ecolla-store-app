@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name')->primary();
             $table->string('value');
             $table->string('desc');
+            $table->timestamps();
         });
     }
 
