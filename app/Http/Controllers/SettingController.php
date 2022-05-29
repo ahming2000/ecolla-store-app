@@ -23,10 +23,7 @@ class SettingController extends Controller
 
     public function settingPage(): Factory|View|Application
     {
-        $origins = Origin::query()
-            ->where('deleted_at', '=', null)
-            ->get();
-
+        $origins = Origin::all();
         $categories = Category::all();
 
         return view('management.setting.index', compact('origins', 'categories'));
