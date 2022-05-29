@@ -30,7 +30,7 @@
                     @csrf
 
                     <div class="d-flex justify-content-between mb-2">
-                        <div class="h3">更换密码</div>
+                        <div class="h3 my-auto">更换密码</div>
 
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-save"></i>
