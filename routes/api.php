@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SystemConfigController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,4 +23,23 @@ Route::prefix('/image')->group(function () {
 
 Route::prefix('/system-config')->group(function () {
     Route::get('/shipping-fee-config', [SystemConfigController::class, 'shippingFeeConfig']);
+});
+
+Route::prefix('/setting')->middleware(['auth', 'can:manager'])->group(function () {
+    Route::prefix('/origin')->group(function () {
+        Route::post('/', [SettingController::class, 'addOrigin']);
+        Route::patch('/{origin}', [SettingController::class, 'updateOrigin']);
+        Route::delete('/{origin}', [SettingController::class, 'deleteOrigin']);
+    });
+
+    Route::prefix('/category')->group(function () {
+        Route::post('/', [SettingController::class, 'addCategory']);
+        Route::patch('/{category}', [SettingController::class, 'updateCategory']);
+        Route::delete('/{category}', [SettingController::class, 'deleteCategory']);
+    });
+
+    Route::prefix('shipping')->group(function () {
+        Route::patch('/fee', [SettingController::class, 'updateShippingFee']);
+        Route::patch('/discount', [SettingController::class, 'updateShippingDiscount']);
+    });
 });

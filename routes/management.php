@@ -59,7 +59,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{user}', [UserController::class, 'delete']);
     });
 
-    Route::middleware('can:admin')->group(function () {
-        Route::get('/setting', [SettingController::class, 'settingPage']);
+    Route::prefix('/setting')->middleware('can:admin')->group(function () {
+        Route::get('/', [SettingController::class, 'settingPage']);
     });
 });

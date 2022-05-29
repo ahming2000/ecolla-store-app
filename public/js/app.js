@@ -20,6 +20,10 @@ __webpack_require__(/*! ./payment-method */ "./resources/js/payment-method.js");
 
 __webpack_require__(/*! ./verify-image */ "./resources/js/verify-image.js");
 
+__webpack_require__(/*! ./loading-button */ "./resources/js/loading-button.js");
+
+__webpack_require__(/*! ./element-modal-control */ "./resources/js/element-modal-control.js");
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
@@ -329,6 +333,185 @@ window.removeCartItem = function (event) {
 
 /***/ }),
 
+/***/ "./resources/js/element-modal-control.js":
+/*!***********************************************!*\
+  !*** ./resources/js/element-modal-control.js ***!
+  \***********************************************/
+/***/ (() => {
+
+var getPillTemplate = function getPillTemplate(data) {
+  return "\n            <span class=\"badge rounded-pill mb-1 me-1\" onclick=\"openEditElementModal(event)\"\n                  data-element='".concat(JSON.stringify(data), "' id=\"").concat(data.id, "\">\n                <i class=\"bi bi-pencil-square\"></i> ").concat(data.name, "</span>\n            </span>\n            ");
+};
+
+window.openCreateElementModal = function (event) {
+  var type = $(event.target).closest('.element-parent').data('element-type');
+  var modalNode = $('#create-element-modal'); // Set create modal title
+
+  if (type === 'origin') {
+    modalNode.find('.modal-title').html('创建新出产地');
+  } else if (type === 'category') {
+    modalNode.find('.modal-title').html('创建新类别');
+  } else {
+    console.error('Fail to open create element modal!');
+    return;
+  } // Set type for modal to recognize the type of the creation
+
+
+  modalNode.attr('data-element-type', type);
+  var modal = new bootstrap.Modal(modalNode);
+  modal.show();
+};
+
+window.createItemSettingElement = function (event) {
+  var button = $(event.target);
+  var modalNode = button.closest('#create-element-modal');
+  var modal = bootstrap.Modal.getInstance(modalNode);
+  var type = modalNode.attr('data-element-type');
+  var nameNode = $('#name-input-create');
+  var nameEnNode = $('#name-en-input-create'); // "required" verification
+
+  if (nameNode.val() === '' || nameEnNode.val() === '') {
+    if (nameNode.val() === '') {
+      nameNode.addClass('is-invalid');
+    } else {
+      nameNode.removeClass('is-invalid');
+    }
+
+    if (nameEnNode.val() === '') {
+      nameEnNode.addClass('is-invalid');
+    } else {
+      nameEnNode.removeClass('is-invalid');
+    }
+  } // Proceed to create the element
+  else {
+    startLoading(button);
+    axios.post('/api/setting/' + type, {
+      name: nameNode.val(),
+      name_en: nameEnNode.val()
+    }).then(function (res) {
+      if (res.data.isCreated) {
+        addNotification('通知', '创建成功！'); // Add pill display
+
+        $('.element-parent').find('.pill-container-type-' + type).append(getPillTemplate(res.data.model)); // Reset form
+
+        nameNode.val('');
+        nameEnNode.val('');
+        modal.hide();
+      } else {
+        console.log('Create ' + type + ' failed!');
+      }
+
+      stopLoading(button);
+    })["catch"](function (error) {
+      console.error(error);
+      stopLoading(button);
+    });
+  }
+};
+
+window.openEditElementModal = function (event) {
+  var type = $(event.target).closest('.element-parent').data('element-type');
+  var modalNode = $('#edit-element-modal'); // Since the onclick event required data from "span" tag,
+  // make sure both clicked frame can retrieve the data
+
+  var data = $(event.target).data('element') || $(event.target).closest('span.badge').data('element'); // Set edit modal title
+
+  if (type === 'origin') {
+    modalNode.find('.modal-title').html('编辑出产地 "' + data.name + '"');
+  } else if (type === 'category') {
+    modalNode.find('.modal-title').html('编辑类别 "' + data.name + '"');
+  } else {
+    console.error('Fail to open edit element modal!');
+    return;
+  } // Set selected element properties
+
+
+  $('#name-input-edit').val(data.name);
+  $('#name-en-input-edit').val(data.name_en); // Set data for delete modal and update form submission to use
+
+  modalNode.attr('data-element-type', type);
+  modalNode.attr('data-element', JSON.stringify(data));
+  var modal = new bootstrap.Modal(modalNode);
+  modal.show();
+};
+
+window.updateItemSettingElement = function (event) {
+  var button = $(event.target);
+  var modalNode = button.closest('#edit-element-modal');
+  var modal = bootstrap.Modal.getInstance(modalNode);
+  var type = modalNode.data('element-type');
+  var data = modalNode.data('element');
+  var nameNode = $('#name-input-edit');
+  var nameEnNode = $('#name-en-input-edit'); // "required" verification
+
+  if (nameNode.val() === '' || nameEnNode.val() === '') {
+    if (nameNode.val() === '') {
+      nameNode.addClass('is-invalid');
+    } else {
+      nameNode.removeClass('is-invalid');
+    }
+
+    if (nameEnNode.val() === '') {
+      nameEnNode.addClass('is-invalid');
+    } else {
+      nameEnNode.removeClass('is-invalid');
+    }
+  } // Proceed to update the element
+  else {
+    startLoading(button);
+    axios.patch('/api/setting/' + type + '/' + data.id, {
+      name: nameNode.val(),
+      name_en: nameEnNode.val()
+    }).then(function (res) {
+      if (res.data.isUpdated) {
+        addNotification('通知', '更新成功！'); // Update current pill display and current data saved on "span" tag
+
+        var elementNode = $('#' + type + '-' + data.id);
+        elementNode.find('.element-name').html(nameNode.val());
+        elementNode.attr('data-element', JSON.stringify(res.data.model));
+        modal.hide();
+      } else {
+        console.log('Update ' + type + ' failed!');
+      }
+
+      stopLoading(button);
+    })["catch"](function (error) {
+      console.error(error);
+      stopLoading(button);
+    });
+  }
+};
+
+window.openDeleteElementModal = function (event) {
+  var modalNode = $('#delete-element-modal');
+  var data = JSON.parse($(event.target).closest('#edit-element-modal').attr('data-element'));
+  modalNode.find('.element-name').html(data.name);
+  var modal = new bootstrap.Modal(modalNode);
+  modal.show();
+};
+
+window.deleteItemSettingElement = function (event) {
+  var editModalNode = $('#edit-element-modal');
+  var deleteModalNode = $('#delete-element-modal');
+  var data = JSON.parse(editModalNode.attr('data-element'));
+  var type = editModalNode.attr('data-element-type');
+  axios["delete"]('/api/setting/' + type + '/' + data.id).then(function (res) {
+    if (res.data.isDeleted) {
+      addNotification('通知', '删除 "' + data.name + '" 成功！');
+      var elementNode = $('#' + type + '-' + data.id);
+      elementNode.remove();
+      var modal = bootstrap.Modal.getInstance(deleteModalNode);
+      modal.hide();
+      modal = bootstrap.Modal.getInstance(editModalNode);
+      modal.hide();
+    }
+  })["catch"](function (error) {
+    console.error(error);
+  });
+};
+
+/***/ }),
+
 /***/ "./resources/js/item-description.js":
 /*!******************************************!*\
   !*** ./resources/js/item-description.js ***!
@@ -343,6 +526,30 @@ $(document).ready(function () {
     displayNode.html(itemDescriptionNode.val().split('\n').join('<br />'));
   }
 });
+
+/***/ }),
+
+/***/ "./resources/js/loading-button.js":
+/*!****************************************!*\
+  !*** ./resources/js/loading-button.js ***!
+  \****************************************/
+/***/ (() => {
+
+var getLoadingAnimationTemplate = function getLoadingAnimationTemplate() {
+  return "<span class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\"></span>";
+};
+
+window.startLoading = function (button) {
+  button.attr('disabled', true);
+  button.find('i').attr('hidden', true);
+  button.find('i').before(getLoadingAnimationTemplate());
+};
+
+window.stopLoading = function (button) {
+  button.find('span.spinner-border').remove();
+  button.attr('disabled', false);
+  button.find('i').attr('hidden', false);
+};
 
 /***/ }),
 

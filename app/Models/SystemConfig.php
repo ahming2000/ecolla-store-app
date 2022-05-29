@@ -9,6 +9,8 @@ class SystemConfig extends Model
 {
     use HasFactory, ReturnRegionDateTime;
 
+    protected $primaryKey = 'name';
+
     public static function getShippingFee(): float
     {
         return floatval(self::query()->where('name', '=', 'shipping_fee')->first()->value);

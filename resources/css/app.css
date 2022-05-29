@@ -9,6 +9,7 @@
 @import "./whatsapp-button.css";
 @import "./item-carousel.css";
 @import "./payment-method-selector.css";
+@import "./element-container.css";
 
 body {
     font-family: 'Roboto', sans-serif;

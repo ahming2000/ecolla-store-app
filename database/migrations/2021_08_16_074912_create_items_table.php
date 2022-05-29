@@ -21,7 +21,7 @@ return new class extends Migration
             $table->boolean('is_listed')->default(false);
             $table->bigInteger('view_count')->default(0);
             $table->bigInteger('sold')->default(0);
-            $table->foreignId('origin_id')->constrained('origins');
+            $table->foreignId('origin_id')->constrained('origins')->restrictOnDelete();
             $table->timestamps();
         });
     }
