@@ -1824,6 +1824,21 @@ url(/fonts/vendor/bootstrap-icons/bootstrap-icons.woff?7ff3ca6fa798de3f8ac2251c7
     border: 2px solid #00BFFF;
 }
 
+.pill-container {
+    border: thin solid lightgrey;
+    border-radius: 10px;
+    background-color: white;
+    width: auto;
+    min-height: 100px;
+    height: auto;
+}
+
+.pill-container span {
+    cursor: pointer;
+    font-size: medium;
+    background-color: purple;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #EEEEEE;

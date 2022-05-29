@@ -1,0 +1,14 @@
+.pill-container {
+    border: thin solid lightgrey;
+    border-radius: 10px;
+    background-color: white;
+    width: auto;
+    min-height: 100px;
+    height: auto;
+}
+
+.pill-container span {
+    cursor: pointer;
+    font-size: medium;
+    background-color: purple;
+}
