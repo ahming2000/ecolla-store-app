@@ -49,8 +49,7 @@
 
                             <input type="number"
                                    class="form-control"
-                                   id="shipping-fee-input"
-                                   name="shipping_fee"
+                                   id="shipping_fee"
                                    value="{{ \App\Models\SystemConfig::getShippingFee() }}"
                                    placeholder="价格">
 
@@ -67,8 +66,10 @@
                             <span class="h3 my-auto me-2">邮费折扣</span>
 
                             <div class="form-check form-switch my-auto">
-                                <input class="form-check-input" type="checkbox" onchange="toggleShippingDiscount(event)"
-                                       name="shipping_discount_is_activated" @checked(\App\Models\SystemConfig::shippingDiscountIsActivated())>
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       onchange="toggleShippingDiscount(event)"
+                                    @checked(\App\Models\SystemConfig::freeShippingIsActivated())>
                             </div>
                         </div>
 
@@ -82,9 +83,8 @@
 
                         <input type="number"
                                class="form-control"
-                               name="shipping_discount_threshold"
-                               id="shipping-discount-threshold-input"
-                               value="{{ \App\Models\SystemConfig::getShippingDiscountThreshold() }}"
+                               id="freeShipping_threshold"
+                               value="{{ \App\Models\SystemConfig::getFreeShippingThreshold() }}"
                                placeholder="价格">
 
                         <span class="input-group-text">后即可包邮</span>
@@ -95,9 +95,8 @@
 
                         <input type="text"
                                class="form-control"
-                               name="shipping_discount_desc"
-                               id="shipping-discount-desc-input"
-                               value="{{ \App\Models\SystemConfig::getShippingDiscountDesc() }}"
+                               id="freeShipping_desc"
+                               value="{{ \App\Models\SystemConfig::getFreeShippingDesc() }}"
                                placeholder="免运备注">
                     </div>
                 </div>
@@ -110,7 +109,7 @@
     <script>
         const updateShippingFee = (event) => {
             let button = $(event.target)
-            let fee = $('#shipping-fee-input').val()
+            let fee = $('#shipping_fee').val()
 
             startLoading(button)
 
@@ -135,7 +134,7 @@
             $(event.target).attr('checked', isActivated)
 
             axios.patch('/api/setting/shipping/discount', {
-                shipping_discount_is_activated: isActivated
+                freeShipping_isActivated: isActivated
             }).then((res) => {
                 if (res.data.isUpdated) {
                     if (isActivated) {
@@ -150,15 +149,15 @@
         }
 
         const updateShippingDiscount = (event) => {
-            let threshold = $('#shipping-discount-threshold-input').val()
-            let desc = $('#shipping-discount-desc-input').val()
+            let threshold = $('#freeShipping_threshold').val()
+            let desc = $('#freeShipping_desc').val()
             let button = $(event.target)
 
             startLoading(button)
 
             axios.patch('/api/setting/shipping/discount', {
-                shipping_discount_threshold: threshold,
-                shipping_discount_desc: desc,
+                freeShipping_threshold: threshold,
+                freeShipping_desc: desc,
             }).then((res) => {
                 if (res.data.isUpdated) {
                     addNotification('通知', '成功保存免邮设定！')

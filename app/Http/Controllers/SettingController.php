@@ -23,10 +23,7 @@ class SettingController extends Controller
 
     public function settingPage(): Factory|View|Application
     {
-        $origins = Origin::query()
-            ->where('deleted_at', '=', null)
-            ->get();
-
+        $origins = Origin::all();
         $categories = Category::all();
 
         return view('management.setting.index', compact('origins', 'categories'));
@@ -111,53 +108,6 @@ class SettingController extends Controller
             return response()->json(['isDeleted' => true]);
         } else {
             return response()->json(['isDeleted' => false]);
-        }
-    }
-
-    public function updateShippingFee(): JsonResponse
-    {
-        $fee = request('shipping_fee');
-
-        if (SystemConfig::query()
-            ->where('name', '=', 'shipping_fee')
-            ->update(['value' => $fee])
-        ) {
-            return response()->json(['isUpdated' => true]);
-        } else {
-            return response()->json(['isUpdated' => false]);
-        }
-    }
-
-    public function updateShippingDiscount()
-    {
-        if (request()->has('shipping_discount_is_activated')) {
-            $isActivated = request('shipping_discount_is_activated');
-
-            if (SystemConfig::query()
-                ->where('name', '=', 'shipping_discount_is_activated')
-                ->update(['value' => $isActivated])
-            ) {
-                return response()->json(['isUpdated' => true]);
-            } else {
-                return response()->json(['isUpdated' => false]);
-            }
-        } else {
-            $threshold = request('shipping_discount_threshold');
-            $desc = request('shipping_discount_desc');
-
-            $thresholdIsUpdated = SystemConfig::query()
-                ->where('name', '=', 'shipping_discount_threshold')
-                ->update(['value' => $threshold]);
-
-            $descIsUpdated = SystemConfig::query()
-                ->where('name', '=', 'shipping_discount_desc')
-                ->update(['value' => $desc]);
-
-            if ($thresholdIsUpdated && $descIsUpdated) {
-                return response()->json(['isUpdated' => true]);
-            } else {
-                return response()->json(['isUpdated' => false]);
-            }
         }
     }
 }

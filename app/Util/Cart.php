@@ -125,8 +125,8 @@ class Cart
     {
         if ($this->orderMode == OrderMode::$SELF_PICKUP) return 0.0;
 
-        if (SystemConfig::shippingDiscountIsActivated()) {
-            if ($this->subtotal() >= SystemConfig::getShippingDiscountThreshold()) {
+        if (SystemConfig::freeShippingIsActivated()) {
+            if ($this->subtotal() >= SystemConfig::getFreeShippingThreshold()) {
                 return 0.0;
             } else {
                 return SystemConfig::getShippingFee();

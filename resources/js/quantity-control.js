@@ -122,6 +122,9 @@ window.useQuantityControl = async (isCart = false) => {
 
             increaseButton.click(updateCartDisplayValue)
             decreaseButton.click(updateCartDisplayValue)
+
+            increaseButton.click($.debounce(500, false, await updateSummary))
+            decreaseButton.click($.debounce(500, false, await updateSummary))
         }
     }
 }

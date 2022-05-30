@@ -4,7 +4,7 @@
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\SettingController;
-use App\Http\Controllers\SystemConfigController;
+use App\Http\Controllers\SystemController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/cart')->group(function () {
@@ -22,7 +22,7 @@ Route::prefix('/image')->group(function () {
 });
 
 Route::prefix('/system-config')->group(function () {
-    Route::get('/shipping-fee-config', [SystemConfigController::class, 'shippingFeeConfig']);
+    Route::get('/shipping-fee-config', [SystemController::class, 'shippingFeeConfig']);
 });
 
 Route::prefix('/setting')->middleware(['auth', 'can:manager'])->group(function () {
@@ -39,7 +39,7 @@ Route::prefix('/setting')->middleware(['auth', 'can:manager'])->group(function (
     });
 
     Route::prefix('shipping')->group(function () {
-        Route::patch('/fee', [SettingController::class, 'updateShippingFee']);
-        Route::patch('/discount', [SettingController::class, 'updateShippingDiscount']);
+        Route::patch('/fee', [SystemController::class, 'updateShippingFee']);
+        Route::patch('/discount', [SystemController::class, 'updateShippingDiscount']);
     });
 });

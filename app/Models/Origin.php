@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Date;
 
 class Origin extends Model
 {
-    use HasFactory, ReturnRegionDateTime;
+    use HasFactory, ReturnRegionDateTime, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -33,11 +34,5 @@ class Origin extends Model
     public function items(): HasMany
     {
         return $this->hasMany(Item::class);
-    }
-
-    public function delete(): ?bool
-    {
-        $this->setAttribute('deleted_at', Date::now());
-        return $this->save();
     }
 }

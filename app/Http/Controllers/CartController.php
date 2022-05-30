@@ -64,9 +64,9 @@ class CartController extends Controller
         $imagePath = ImageController::save($receipt_image);
 
         if ($cart->orderMode == OrderMode::$DELIVERY) {
-            if (SystemConfig::shippingDiscountIsActivated()) {
-                if ($cart->subtotal() >= SystemConfig::getShippingDiscountThreshold()) {
-                    $note = SystemConfig::getShippingDiscountDesc();
+            if (SystemConfig::freeShippingIsActivated()) {
+                if ($cart->subtotal() >= SystemConfig::getFreeShippingThreshold()) {
+                    $note = SystemConfig::getFreeShippingDesc();
                 }
             }
         }
