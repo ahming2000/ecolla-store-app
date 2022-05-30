@@ -16,18 +16,18 @@ class SystemConfig extends Model
         return floatval(self::query()->where('name', '=', 'shipping_fee')->first()->value);
     }
 
-    public static function shippingDiscountIsActivated(): bool
+    public static function freeShippingIsActivated(): bool
     {
-        return boolval(self::query()->where('name', '=', 'shipping_discount_is_activated')->first()->value);
+        return boolval(self::query()->where('name', '=', 'freeShipping_isActivated')->first()->value);
     }
 
-    public static function getShippingDiscountThreshold(): float
+    public static function getFreeShippingThreshold(): float
     {
-        return floatval(self::query()->where('name', '=', 'shipping_discount_threshold')->first()->value);
+        return floatval(self::query()->where('name', '=', 'freeShipping_threshold')->first()->value);
     }
 
-    public static function getShippingDiscountDesc(): string
+    public static function getFreeShippingDesc(): string
     {
-        return self::query()->where('name', '=', 'shipping_discount_desc')->first()->value;
+        return self::query()->where('name', '=', 'freeShipping_desc')->first()->value;
     }
 }

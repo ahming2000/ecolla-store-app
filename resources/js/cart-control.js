@@ -50,17 +50,17 @@ const getShippingFee = async (subtotal) => {
             console.error(error)
         })
 
-    let {fee, hasDiscount, discountThreshold} = data
+    let {shippingFee, freeShippingIsActivated, freeShippingThreshold} = data
 
     if (orderMode === DELIVERY) {
-        if (hasDiscount) {
-            if (subtotal >= discountThreshold) {
+        if (freeShippingIsActivated) {
+            if (subtotal >= freeShippingThreshold) {
                 return 0.0
             } else {
-                return fee
+                return shippingFee
             }
         } else {
-            return fee
+            return shippingFee
         }
     }
 

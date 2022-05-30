@@ -60,7 +60,7 @@ class DefaultValueHandler {
 
         $list[] = new SystemConfig(
             [
-                'name' => 'shipping_discount_is_activated',
+                'name' => 'freeShipping_isActivated',
                 'value' => '1',
                 'desc' => '订单免运费开关',
             ]
@@ -68,7 +68,7 @@ class DefaultValueHandler {
 
         $list[] = new SystemConfig(
             [
-                'name' => 'shipping_discount_threshold',
+                'name' => 'freeShipping_threshold',
                 'value' => '50',
                 'desc' => '订单免运费触发价格',
             ]
@@ -76,7 +76,7 @@ class DefaultValueHandler {
 
         $list[] = new SystemConfig(
             [
-                'name' => 'shipping_discount_desc',
+                'name' => 'freeShipping_desc',
                 'value' => '满RM50包邮',
                 'desc' => '订单免运费详情',
             ]
