@@ -106,7 +106,7 @@ var getSubtotal = function getSubtotal() {
 
 var getShippingFee = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(subtotal) {
-    var orderMode, data, _data, fee, hasDiscount, discountThreshold;
+    var orderMode, data, _data, shippingFee, freeShippingIsActivated, freeShippingThreshold;
 
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) {
@@ -121,19 +121,19 @@ var getShippingFee = /*#__PURE__*/function () {
             });
 
           case 3:
-            _data = data, fee = _data.fee, hasDiscount = _data.hasDiscount, discountThreshold = _data.discountThreshold;
+            _data = data, shippingFee = _data.shippingFee, freeShippingIsActivated = _data.freeShippingIsActivated, freeShippingThreshold = _data.freeShippingThreshold;
 
             if (!(orderMode === DELIVERY)) {
               _context.next = 14;
               break;
             }
 
-            if (!hasDiscount) {
+            if (!freeShippingIsActivated) {
               _context.next = 13;
               break;
             }
 
-            if (!(subtotal >= discountThreshold)) {
+            if (!(subtotal >= freeShippingThreshold)) {
               _context.next = 10;
               break;
             }
@@ -141,14 +141,14 @@ var getShippingFee = /*#__PURE__*/function () {
             return _context.abrupt("return", 0.0);
 
           case 10:
-            return _context.abrupt("return", fee);
+            return _context.abrupt("return", shippingFee);
 
           case 11:
             _context.next = 14;
             break;
 
           case 13:
-            return _context.abrupt("return", fee);
+            return _context.abrupt("return", shippingFee);
 
           case 14:
             return _context.abrupt("return", 0.0);
@@ -209,10 +209,8 @@ window.updateCartDisplayValue = /*#__PURE__*/function () {
             subPriceNode = cartItemContainer.find('.cart-item-sub-price');
             weightNode.html(weight.toFixed(3) + 'kg');
             subPriceNode.html('RM' + price.toFixed(2));
-            _context3.next = 10;
-            return updateSummary();
 
-          case 10:
+          case 8:
           case "end":
             return _context3.stop();
         }
@@ -777,7 +775,7 @@ window.useQuantityControl = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regene
 
         case 3:
           if (!(i < quantityControls.length)) {
-            _context2.next = 32;
+            _context2.next = 46;
             break;
           }
 
@@ -791,7 +789,7 @@ window.useQuantityControl = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regene
           toggleButtonDisabled(quantityControl);
 
           if (!isCart) {
-            _context2.next = 29;
+            _context2.next = 43;
             break;
           }
 
@@ -819,13 +817,34 @@ window.useQuantityControl = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regene
 
           increaseButton.click(updateCartDisplayValue);
           decreaseButton.click(updateCartDisplayValue);
+          _context2.t8 = increaseButton;
+          _context2.t9 = $;
+          _context2.next = 33;
+          return updateSummary;
 
-        case 29:
+        case 33:
+          _context2.t10 = _context2.sent;
+          _context2.t11 = _context2.t9.debounce.call(_context2.t9, 500, false, _context2.t10);
+
+          _context2.t8.click.call(_context2.t8, _context2.t11);
+
+          _context2.t12 = decreaseButton;
+          _context2.t13 = $;
+          _context2.next = 40;
+          return updateSummary;
+
+        case 40:
+          _context2.t14 = _context2.sent;
+          _context2.t15 = _context2.t13.debounce.call(_context2.t13, 500, false, _context2.t14);
+
+          _context2.t12.click.call(_context2.t12, _context2.t15);
+
+        case 43:
           i++;
           _context2.next = 3;
           break;
 
-        case 32:
+        case 46:
         case "end":
           return _context2.stop();
       }

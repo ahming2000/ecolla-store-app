@@ -93,8 +93,6 @@ window.updateCartDisplayValue = async (event) => {
 
     weightNode.html(weight.toFixed(3) + 'kg')
     subPriceNode.html('RM' + price.toFixed(2))
-
-    await updateSummary()
 }
 
 window.updateShippingFee = (event) => {
