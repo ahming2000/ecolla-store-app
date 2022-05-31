@@ -15,11 +15,11 @@
         @include('listing.item.breadcrumb')
 
         <div class="row">
-            <div class="col-12 col-lg-5">
+            <div class="col-12 col-md-6 col-lg-5">
                 @include('listing.item.item-carousel')
             </div>
 
-            <div class="col-12 col-lg-7 p-3">
+            <div class="col-12 col-md-6 col-lg-7 p-3">
                 <div class="row">
                     <div class="col-12 mb-3">
                         @foreach($item->categories as $category)
@@ -213,32 +213,30 @@
             if (addList.length !== 0) {
                 axios.post('/api/cart/add', {
                     addList: addList,
-                }).then((res) => {
-                    if (res.data.isAdded) {
-                        @if(session('lang') == 'en')
-                        addNotification('Cart', 'Add to cart successfully!', [
-                                {
-                                    buttonText: 'Go To Cart', redirectTo: '/cart'
-                                },
-                                {
-                                    buttonText: 'Back To Item List', redirectTo: '/item'
-                                }
-                            ]
-                        )
-                        @else
-                        addNotification('购物车', '成功加入购物车！', [
-                                {
-                                    buttonText: '前往购物车', redirectTo: '/cart'
-                                },
-                                {
-                                    buttonText: '返回商品列表', redirectTo: '/item'
-                                }
-                            ]
-                        )
-                        @endif
+                }).then(async (res) => {
+                    @if(session('lang') == 'en')
+                    addNotification('Cart', 'Add to cart successfully!', [
+                            {
+                                buttonText: 'Go To Cart', redirectTo: '/cart'
+                            },
+                            {
+                                buttonText: 'Back To Item List', redirectTo: '/item'
+                            }
+                        ]
+                    )
+                    @else
+                    addNotification('购物车', '成功加入购物车！', [
+                            {
+                                buttonText: '前往购物车', redirectTo: '/cart'
+                            },
+                            {
+                                buttonText: '返回商品列表', redirectTo: '/item'
+                            }
+                        ]
+                    )
+                    @endif
 
-                        updateCartCount()
-                    }
+                    await updateCartCount()
                 }).catch((error) => {
                     console.error(error)
                 })
