@@ -116,9 +116,7 @@
             axios.patch('/api/setting/shipping/fee', {
                 shipping_fee: fee,
             }).then((res) => {
-                if (res.data.isUpdated) {
-                    addNotification('通知', '邮费已成功更新！')
-                }
+                addNotification('通知', '邮费已成功更新！')
 
                 stopLoading(button)
             }).catch((error) => {
@@ -136,12 +134,10 @@
             axios.patch('/api/setting/shipping/discount', {
                 freeShipping_isActivated: isActivated
             }).then((res) => {
-                if (res.data.isUpdated) {
-                    if (isActivated) {
-                        addNotification('通知', '成功开启免邮功能！')
-                    } else {
-                        addNotification('通知', '成功关闭免邮功能！')
-                    }
+                if (isActivated) {
+                    addNotification('通知', '成功开启免邮功能！')
+                } else {
+                    addNotification('通知', '成功关闭免邮功能！')
                 }
             }).catch((error) => {
                 console.error(error)
@@ -159,9 +155,7 @@
                 freeShipping_threshold: threshold,
                 freeShipping_desc: desc,
             }).then((res) => {
-                if (res.data.isUpdated) {
-                    addNotification('通知', '成功保存免邮设定！')
-                }
+                addNotification('通知', '成功保存免邮设定！')
 
                 stopLoading(button)
             }).catch((error) => {

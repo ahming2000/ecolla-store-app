@@ -1,10 +1,14 @@
-const notificationTemplate = (title, message) => {
+const getNotificationTemplate = (title, message) => {
     return `
     <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
         <div class="toast-header">
-            <strong class="me-auto">${title}</strong>
+            <strong class="me-auto">
+                ${title}
+            </strong>
+
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
+
         <div class="toast-body">
             ${message}
         </div>
@@ -16,11 +20,15 @@ const actionNotificationTemplate = (title, message, actionButton) => {
     return `
     <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
         <div class="toast-header">
-            <strong class="me-auto">${title}</strong>
+            <strong class="me-auto">
+                ${title}
+            </strong>
+
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
         <div class="toast-body">
             ${message}
+
             <div class="d-flex justify-content-center mt-2 pt-2 border-top">
                 ${actionButton}
             </div>
@@ -37,7 +45,7 @@ window.addNotification = (title, message, action = []) => {
     let toastContainer = $('.toast-container');
 
     if (action.length === 0) {
-        toastContainer.append(notificationTemplate(title, message))
+        toastContainer.append(getNotificationTemplate(title, message))
 
         let toast = new bootstrap.Toast($('.toast').last())
         toast.show()

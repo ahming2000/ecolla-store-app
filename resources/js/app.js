@@ -1,10 +1,10 @@
 require('./bootstrap');
 
-require('./notification');
-require('./cart-control');
-require('./quantity-control');
-require('./item-description');
-require('./payment-method');
-require('./verify-image');
-require('./loading-button');
-require('./element-modal-control');
+require('./modules/notification');
+require('./modules/cart-control');
+require('./modules/quantity-control');
+require('./modules/item-description');
+require('./modules/payment-method');
+require('./modules/verify-image');
+require('./modules/loading-button-control');
+require('./modules/element-modal-control');

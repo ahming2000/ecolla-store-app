@@ -29,9 +29,9 @@ class SystemController extends Controller
             ->where('name', '=', 'shipping_fee')
             ->update(['value' => $fee])
         ) {
-            return response()->json(['isUpdated' => true]);
+            return response()->json([], 204);
         } else {
-            return response()->json(['isUpdated' => false]);
+            return response()->json([], 400);
         }
     }
 
@@ -44,9 +44,9 @@ class SystemController extends Controller
                 ->where('name', '=', 'freeShipping_isActivated')
                 ->update(['value' => $isActivated])
             ) {
-                return response()->json(['isUpdated' => true]);
+                return response()->json([], 204);
             } else {
-                return response()->json(['isUpdated' => false]);
+                return response()->json([], 400);
             }
         } else {
             $threshold = request('freeShipping_threshold');
@@ -61,9 +61,9 @@ class SystemController extends Controller
                 ->update(['value' => $desc]);
 
             if ($thresholdIsUpdated && $descIsUpdated) {
-                return response()->json(['isUpdated' => true]);
+                return response()->json([], 204);
             } else {
-                return response()->json(['isUpdated' => false]);
+                return response()->json([], 400);
             }
         }
     }
