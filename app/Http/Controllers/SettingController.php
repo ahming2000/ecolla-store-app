@@ -40,9 +40,9 @@ class SettingController extends Controller
         ]);
 
         if ($origin->save()) {
-            return response()->json(['isCreated' => true, 'model' => $origin]);
+            return response()->json(['origin' => $origin], 201);
         } else {
-            return response()->json(['isCreated' => false]);
+            return response()->json([], 400);
         }
     }
 
@@ -57,9 +57,9 @@ class SettingController extends Controller
         ]);
 
         if ($category->save()) {
-            return response()->json(['isCreated' => true, 'model' => $category]);
+            return response()->json(['category' => $category], 201);
         } else {
-            return response()->json(['isCreated' => false]);
+            return response()->json([], 400);
         }
     }
 
@@ -72,9 +72,9 @@ class SettingController extends Controller
             'name' => $name,
             'name_en' => $name_en,
         ])) {
-            return response()->json(['isUpdated' => true, 'model' => $origin]);
+            return response()->json(['origin' => $origin]);
         } else {
-            return response()->json(['isUpdated' => false]);
+            return response()->json([], 400);
         }
     }
 
@@ -87,27 +87,27 @@ class SettingController extends Controller
             'name' => $name,
             'name_en' => $name_en,
         ])) {
-            return response()->json(['isUpdated' => true, 'model' => $category]);
+            return response()->json(['category' => $category]);
         } else {
-            return response()->json(['isUpdated' => false]);
+            return response()->json([], 400);
         }
     }
 
     public function deleteOrigin(Origin $origin): JsonResponse
     {
         if ($origin->delete()) {
-            return response()->json(['isDeleted' => true]);
+            return response()->json([], 204);
         } else {
-            return response()->json(['isDeleted' => false]);
+            return response()->json([], 400);
         }
     }
 
     public function deleteCategory(Category $category): JsonResponse
     {
         if ($category->delete()) {
-            return response()->json(['isDeleted' => true]);
+            return response()->json([], 204);
         } else {
-            return response()->json(['isDeleted' => false]);
+            return response()->json([], 400);
         }
     }
 }

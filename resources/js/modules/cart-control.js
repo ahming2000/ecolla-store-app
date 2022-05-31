@@ -1,14 +1,9 @@
-const SELF_PICKUP = 0
-const DELIVERY = 1
+import {DELIVERY} from "../enums/order-mode.enum";
+import {reset, count, setOrderMode, remove} from "../api/cart";
+import {getShippingFeeConfig} from "../api/system-config";
 
-window.updateCartCount = () => {
-    let cartCountNode = $('#cart-count')
-
-    axios.get('/api/cart/count').then((res) => {
-        cartCountNode.html(res.data.count)
-    }).catch((error) => {
-        console.error(error)
-    })
+window.updateCartCount = async () => {
+    $('#cart-count').html(await count())
 }
 
 const getSubPrice = (cartItemContainer) => {
@@ -40,17 +35,7 @@ const getSubtotal = () => {
 const getShippingFee = async (subtotal) => {
     let orderMode = parseInt($('#order-mode-input').val())
 
-    let data
-
-    await axios.get('/api/system-config/shipping-fee-config')
-        .then((res) => {
-            data = res.data
-        })
-        .catch((error) => {
-            console.error(error)
-        })
-
-    let {shippingFee, freeShippingIsActivated, freeShippingThreshold} = data
+    let {shippingFee, freeShippingIsActivated, freeShippingThreshold} = await getShippingFeeConfig()
 
     if (orderMode === DELIVERY) {
         if (freeShippingIsActivated) {
@@ -95,58 +80,39 @@ window.updateCartDisplayValue = async (event) => {
     subPriceNode.html('RM' + price.toFixed(2))
 }
 
-window.updateShippingFee = (event) => {
-    axios.post('/api/cart/update-order-mode', {
-        orderMode: event.target.value
-    }).then((res) => {
-        if (res.data.isUpdated) {
-            updateSummary()
-        }
-    }).catch((error) => {
-        console.error(error)
-    })
+window.updateShippingFee = async (event) => {
+    await setOrderMode(event.target.value)
+    await updateSummary()
 }
 
 window.resetCart = async () => {
-    axios.post('/api/cart/reset')
-        .then(async (res) => {
-            if (res.data.isReset) {
-                let cartItemContainers = $('.cart-item-container')
+    await reset()
 
-                for (let i = 0; i < cartItemContainers.length; i++) {
-                    cartItemContainers.eq(i).remove()
-                }
+    let cartItemContainers = $('.cart-item-container')
 
-                $('#cart-empty-icon').attr('hidden', false)
-                $('#cart-reset-button').attr('hidden', true)
+    for (let i = 0; i < cartItemContainers.length; i++) {
+        cartItemContainers.eq(i).remove()
+    }
 
-                updateCartCount()
-                await updateSummary()
-            }
-        })
-        .catch((error) => {
-            console.error(error)
-        })
+    $('#cart-empty-icon').attr('hidden', false)
+    $('#cart-reset-button').attr('hidden', true)
+
+    await updateCartCount()
+    await updateSummary()
 }
 
-window.removeCartItem = (event) => {
+window.removeCartItem = async (event) => {
     let cartItemContainer = $(event.target).closest('.cart-item-container')
 
-    axios.post('/api/cart/remove', {
-        barcode: cartItemContainer.attr('id')
-    }).then(async (res) => {
-        if (res.data.isRemoved) {
-            cartItemContainer.remove()
+    await remove(cartItemContainer.attr('id'))
 
-            if ($('.cart-item-container').length === 0) {
-                $('#cart-empty-icon').attr('hidden', false)
-                $('#cart-reset-button').attr('hidden', true)
-            }
+    cartItemContainer.remove()
 
-            updateCartCount()
-            await updateSummary()
-        }
-    }).catch((error) => {
-        console.error(error)
-    })
+    if ($('.cart-item-container').length === 0) {
+        $('#cart-empty-icon').attr('hidden', false)
+        $('#cart-reset-button').attr('hidden', true)
+    }
+
+    await updateCartCount()
+    await updateSummary()
 }

@@ -1,3 +1,5 @@
+import {setQuantity} from "../api/cart";
+
 const getAllQuantityControl = () => {
     return $('.quantity-control')
 }
@@ -94,12 +96,7 @@ const saveQuantity = async (event) => {
     let barcode = quantityControl.attr('id')
     let currentValue = getQuantity(quantityControl)
 
-    await axios.post('/api/cart/update-quantity', {
-        barcode: barcode,
-        quantity: currentValue,
-    }).catch((error) => {
-        console.error(error)
-    })
+    await setQuantity(barcode, currentValue)
 }
 
 window.useQuantityControl = async (isCart = false) => {

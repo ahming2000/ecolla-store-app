@@ -119,7 +119,7 @@ class CartController extends Controller
             $cart->saveSession();
         }
 
-        return response()->json(['isAdded' => true]);
+        return response()->json([], 204);
     }
 
     public function remove(): JsonResponse
@@ -130,7 +130,7 @@ class CartController extends Controller
         $cart->remove($barcode);
         $cart->saveSession();
 
-        return response()->json(['isRemoved' => true]);
+        return response()->json([], 204);
     }
 
     public function reset(): JsonResponse
@@ -139,7 +139,7 @@ class CartController extends Controller
         $cart->reset();
         $cart->saveSession();
 
-        return response()->json(['isReset' => true]);
+        return response()->json([], 204);
     }
 
     public function updateQuantity(): JsonResponse
@@ -151,9 +151,9 @@ class CartController extends Controller
 
         if ($cart->adjust($barcode, $quantity)) {
             $cart->saveSession();
-            return response()->json(['isUpdated' => true]);
+            return response()->json([], 204);
         } else {
-            return response()->json(['isUpdated' => false], 400);
+            return response()->json([], 400);
         }
     }
 
@@ -166,6 +166,6 @@ class CartController extends Controller
         $cart->orderMode = $orderMode;
         $cart->saveSession();
 
-        return response()->json(['isUpdated' => true]);
+        return response()->json([], 204);
     }
 }

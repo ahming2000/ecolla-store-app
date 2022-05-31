@@ -1,3 +1,5 @@
+import {createCategory, createOrigin, deleteCategory, deleteOrigin, updateCategory, updateOrigin} from "../api/setting";
+
 const getPillTemplate = (data) => {
     return `
             <span class="badge rounded-pill mb-1 me-1" onclick="openEditElementModal(event)"
@@ -28,7 +30,7 @@ window.openCreateElementModal = (event) => {
     modal.show()
 }
 
-window.createItemSettingElement = (event) => {
+window.createItemSettingElement = async (event) => {
     let button = $(event.target)
     let modalNode = button.closest('#create-element-modal')
     let modal = bootstrap.Modal.getInstance(modalNode)
@@ -55,30 +57,37 @@ window.createItemSettingElement = (event) => {
     else {
         startLoading(button)
 
-        axios.post('/api/setting/' + type, {
-            name: nameNode.val(),
-            name_en: nameEnNode.val(),
-        }).then((res) => {
-            if (res.data.isCreated) {
-                addNotification('通知', '创建成功！')
+        if (type === 'origin') {
+            let data = await createOrigin(nameNode.val(), nameEnNode.val())
+            addNotification('通知', '创建成功！')
 
-                // Add pill display
-                $('.element-parent').find('.pill-container-type-' + type).append(getPillTemplate(res.data.model))
+            // Add pill display
+            $('.element-parent').find('.pill-container-type-' + type).append(getPillTemplate(data))
 
-                // Reset form
-                nameNode.val('')
-                nameEnNode.val('')
+            // Reset form
+            nameNode.val('')
+            nameEnNode.val('')
 
-                modal.hide()
-            } else {
-                console.log('Create ' + type + ' failed!')
-            }
+            modal.hide()
 
             stopLoading(button)
-        }).catch((error) => {
-            console.error(error)
+        } else if (type === 'category') {
+            let data = await createCategory(nameNode.val(), nameEnNode.val())
+            addNotification('通知', '创建成功！')
+
+            // Add pill display
+            $('.element-parent').find('.pill-container-type-' + type).append(getPillTemplate(data))
+
+            // Reset form
+            nameNode.val('')
+            nameEnNode.val('')
+
+            modal.hide()
+
             stopLoading(button)
-        })
+        } else {
+            throw new Error('Invalid type')
+        }
     }
 }
 
@@ -112,12 +121,12 @@ window.openEditElementModal = (event) => {
     modal.show()
 }
 
-window.updateItemSettingElement = (event) => {
+window.updateItemSettingElement = async (event) => {
     let button = $(event.target)
     let modalNode = button.closest('#edit-element-modal')
     let modal = bootstrap.Modal.getInstance(modalNode)
-    let type = modalNode.data('element-type')
-    let data = modalNode.data('element')
+    let type = modalNode.attr('data-element-type')
+    let model = modalNode.attr('data-element')
     let nameNode = $('#name-input-edit')
     let nameEnNode = $('#name-en-input-edit')
 
@@ -140,28 +149,31 @@ window.updateItemSettingElement = (event) => {
     else {
         startLoading(button)
 
-        axios.patch('/api/setting/' + type + '/' + data.id, {
-            name: nameNode.val(),
-            name_en: nameEnNode.val(),
-        }).then((res) => {
-            if (res.data.isUpdated) {
-                addNotification('通知', '更新成功！')
+        if (type === 'origin') {
+            let data = await updateOrigin(model.id, nameNode.val(), nameEnNode.val())
+            addNotification('通知', '更新成功！')
 
-                // Update current pill display and current data saved on "span" tag
-                let elementNode = $('#' + type + '-' + data.id)
-                elementNode.find('.element-name').html(nameNode.val())
-                elementNode.attr('data-element', JSON.stringify(res.data.model))
+            // Update current pill display and current data saved on "span" tag
+            let elementNode = $('#' + type + '-' + data.id)
+            elementNode.find('.element-name').html(nameNode.val())
+            elementNode.attr('data-element', JSON.stringify(data))
 
-                modal.hide()
-            } else {
-                console.log('Update ' + type + ' failed!')
-            }
-
+            modal.hide()
             stopLoading(button)
-        }).catch((error) => {
-            console.error(error)
+        } else if (type === 'category') {
+            let data = await updateCategory(model.id, nameNode.val(), nameEnNode.val())
+            addNotification('通知', '更新成功！')
+
+            // Update current pill display and current data saved on "span" tag
+            let elementNode = $('#' + type + '-' + data.id)
+            elementNode.find('.element-name').html(nameNode.val())
+            elementNode.attr('data-element', JSON.stringify(data))
+
+            modal.hide()
             stopLoading(button)
-        })
+        } else {
+            throw new Error('Invalid type')
+        }
     }
 }
 
@@ -175,26 +187,37 @@ window.openDeleteElementModal = (event) => {
     modal.show()
 }
 
-window.deleteItemSettingElement = (event) => {
+window.deleteItemSettingElement = async (event) => {
     let editModalNode = $('#edit-element-modal')
     let deleteModalNode = $('#delete-element-modal')
     let data = JSON.parse(editModalNode.attr('data-element'))
     let type = editModalNode.attr('data-element-type')
 
-    axios.delete('/api/setting/' + type + '/' + data.id).then((res) => {
-        if (res.data.isDeleted) {
-            addNotification('通知', '删除 "' + data.name + '" 成功！')
+    if (type === 'origin') {
+        await deleteOrigin(data.id)
 
-            let elementNode = $('#' + type + '-' + data.id)
-            elementNode.remove()
+        addNotification('通知', '删除 "' + data.name + '" 成功！')
 
-            let modal = bootstrap.Modal.getInstance(deleteModalNode)
-            modal.hide()
-            modal = bootstrap.Modal.getInstance(editModalNode)
-            modal.hide()
-        }
-    }).catch((error) => {
-        console.error(error)
-    })
+        let elementNode = $('#' + type + '-' + data.id)
+        elementNode.remove()
 
+        let modal = bootstrap.Modal.getInstance(deleteModalNode)
+        modal.hide()
+        modal = bootstrap.Modal.getInstance(editModalNode)
+        modal.hide()
+    } else if (type === 'category') {
+        await deleteCategory(data.id)
+
+        addNotification('通知', '删除 "' + data.name + '" 成功！')
+
+        let elementNode = $('#' + type + '-' + data.id)
+        elementNode.remove()
+
+        let modal = bootstrap.Modal.getInstance(deleteModalNode)
+        modal.hide()
+        modal = bootstrap.Modal.getInstance(editModalNode)
+        modal.hide()
+    } else {
+        throw new Error('Invalid type')
+    }
 }
