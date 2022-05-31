@@ -79,7 +79,8 @@ class CartController extends Controller
             'note' => $note ?? '',
         ]);
 
-        $order->setAttribute('id', (string) Ulid::generate());
+        $orderId = (string) Ulid::generate();
+        $order->setAttribute('id', $orderId);
 
         $order->save();
         $order->customer()->save($customer);
@@ -89,7 +90,7 @@ class CartController extends Controller
         $cart->reset();
         $cart->saveSession();
 
-        return view('listing.check-out.order-successful', compact('cartItems'));
+        return view('listing.check-out.order-successful', compact('cartItems', 'orderId'));
     }
 
     public function count(): JsonResponse
