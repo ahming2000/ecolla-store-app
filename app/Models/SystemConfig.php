@@ -11,6 +11,8 @@ class SystemConfig extends Model
 
     protected $primaryKey = 'name';
 
+    public $incrementing = false;
+
     public static function getShippingFee(): float
     {
         return floatval(self::query()->where('name', '=', 'shipping_fee')->first()->value);
