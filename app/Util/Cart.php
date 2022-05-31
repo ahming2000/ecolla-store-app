@@ -84,9 +84,15 @@ class Cart
 
     public function remove(string $barcode): void
     {
-        $this->cartItems = array_filter($this->cartItems, function ($cartItem) use ($barcode) {
+        $cartItems = array_filter($this->cartItems, function ($cartItem) use ($barcode) {
             return $cartItem->variation->barcode != $barcode;
         });
+
+        foreach ($cartItems as $cartItem) {
+            $list[] = $cartItem;
+        }
+
+        $this->cartItems = $list ?? $cartItems;
     }
 
     public function adjust(string $barcode, int $quantity): bool
