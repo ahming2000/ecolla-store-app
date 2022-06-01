@@ -38,7 +38,7 @@ This project has total 4 repositories due to the way on demonstrating the projec
 - [EcollaLegacy](https://github.com/ahming2000/EcollaLegacy) (517 commits)
 - [EcollaClient](https://github.com/ahming2000/EcollaClient) (246 commits)
 - [EcollaManagement](https://github.com/ahming2000/EcollaManagement) (629 commits)
-- [ecolla-snacks-store-web](https://github.com/ahming2000/ecolla-snacks-store-web) (current repository)
+- [ecolla-snacks-store-web](https://github.com/ecolla-snacks-store/ecolla-snacks-store-web) (current repository)
 
 Total 1400++ commits for this project.
 
@@ -111,7 +111,7 @@ Software required to download (recommend to install in order with guideline belo
 npm run setup
 ```
 
-In this script, several action run:
+In this script, several actions run:
 
 - Install npm and composer packages.
 - Generate local .env file.
