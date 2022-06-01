@@ -3,27 +3,45 @@
 namespace App\Http\Controllers;
 
 use App\Models\SystemConfig;
+use App\Models\User;
 use App\Util\SystemUpdate;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Hash;
 
 class SystemController extends Controller
 {
-    public function freshSetup()
+    public function freshSetup(string $password)
     {
-        Artisan::call('migrate:fresh');
-        Artisan::call('db:seed ProdSeeder');
+        $user = User::query()
+            ->where('username', '=', 'admin')
+            ->first();
 
-        echo "Setup up completed!";
+        if (Hash::check($password, $user->password)) {
+            Artisan::call('migrate:fresh');
+            Artisan::call('db:seed ProdSeeder');
+
+            echo "Setup up completed!";
+        } else {
+            abort(403);
+        }
     }
 
-    public function systemUpdate()
+    public function systemUpdate(string $password)
     {
-        // Update function import here
-        // SystemUpdate::updateSomething();
+        $user = User::query()
+            ->where('username', '=', 'admin')
+            ->first();
 
-        echo "<br><br>Update completed!";
+        if (Hash::check($password, $user->password)) {
+            // Update function import here
+            // SystemUpdate::updateSomething();
+
+            echo "<br><br>Update completed!";
+        } else {
+            abort(403);
+        }
     }
 
     public function shippingFeeConfig(): JsonResponse
