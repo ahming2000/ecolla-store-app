@@ -1,64 +1,147 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+<img src="docs/images/1.png" alt="Cover Image">
+
+## Ecolla Snacks Store Online Listing Website
+
+This website is created with [Laravel Framework](https://laravel.com/). Feature provided:
+
+- Item listing and ordering.
+- Item and order management.
+- Multiple variation for each item to list.
+- Price discount settings for each variation with date range.
+- Duo languages for user to switch.
+- PDF download for each order.
+- Free shipping feature.
+- Account login for managing the item and order.
+- Account permission managing for admin.
+
+## Project Architecture
+
+This project uses [PHP](https://www.php.net/) mainly and some [Javascript](https://www.javascript.com/).
 
 <p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+    <a href="https://laravel.com" target="_blank">
+        <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Banner">
+    </a>
 </p>
 
-## About Laravel
+## Project Information
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This project is currently active and hosted 
+[over here (listing page)](https://www.newrainbowmarket.com/) 
+and [here (management page)](https://www.management.newrainbowmarket.com/). 
+And also [beta site](https://www.beta.newrainbowmarket.com/).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### GitHub Commit
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+This project has total 4 repositories due to the way on demonstrating the project product, the repositories info:
 
-## Learning Laravel
+- [EcollaLegacy](https://github.com/ahming2000/EcollaLegacy) (517 commits)
+- [EcollaClient](https://github.com/ahming2000/EcollaClient) (246 commits)
+- [EcollaManagement](https://github.com/ahming2000/EcollaManagement) (629 commits)
+- [ecolla-snacks-store-web](https://github.com/ahming2000/ecolla-snacks-store-web) (current repository)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Total 1400++ commits for this project.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Due to subdomain policy, the idea come out last times was separating into two repositories. 
+But this repository will merge them again and make many improvements. 
 
-## Laravel Sponsors
+<hr>
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## Project Setup
 
-### Premium Partners
+Software required to download (recommend to install in order with guideline below):
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+- [git](https://git-scm.com/downloads) (latest)
+- [node.js](https://nodejs.org/en/) (v16 LTS)
+- [WampServer](https://sourceforge.net/projects/wampserver/) (^3.2.6)
+- [Composer](https://getcomposer.org/download/) (latest)
 
-## Contributing
+### WampServer Installation and Setup
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### Before Installing the Software
 
-## Code of Conduct
+- Please install [Visual C++ Packages](https://www.techpowerup.com/download/visual-c-redistributable-runtime-package-all-in-one/) before install the WampServer!
+- Please install the software with default path.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### Version of Addon
 
-## Security Vulnerabilities
+- PHP v8.x
+- MariaDB v10.5.x
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+#### PHP Version
 
-## License
+> You are required to change the version to v8.x manually.
+> 
+> **Left** click the wamp server icon.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+<p align="center">
+    <img src="docs/images/2.png" alt="PHP Version Changing" width="400">
+</p>
+
+#### MariaDB Version
+
+> Since default database is MySQL, you are required to change the default database and make sure the version is v10.5.x.
+> 
+> **Right** click the wamp server icon.
+
+<p align="center">
+    <img src="docs/images/3.png" alt="MariaDB Version Changing" width="400">
+</p>
+
+### Composer Installation
+
+> Please make sure to choose PHP v8.x as the command line version, this will auto add the php version to the environment variables.
+
+<p align="center">
+    <img src="docs/images/4.png" alt="Command-line PHP" width="400">
+</p>
+
+### Repository Setup
+
+- Please clone the repository into `C:\wamp64\www` (default path).
+- Create database named `ecolla-snacks-store-web` with [phpMyAdmin](http://localhost/phpmyadmin) console. Please make sure `utf8mb4_unicode_ci` is selected.
+
+<p align="center">
+    <img src="docs/images/5.png" alt="Create Database" width="400">
+</p>
+
+- Run the following script to set up the project:
+
+```shell
+npm run setup
+```
+
+In this script, several action run:
+
+- Install npm and composer packages.
+- Generate local .env file.
+- Create symbolic links for files uploading function.
+- Migrate database tables and generate faker data
+
+### Virtual Host Setup
+
+> **Left** click the wamp server icon
+
+<p align="center">
+    <img src="docs/images/6.png" alt="Virtual Host Management" width="400">
+</p>
+
+> Fill up virtual host name with `ecolla-snacks-store-web` and path with `C:\wamp64\www\ecolla-snacks-store-web\public` and start the creation.
+
+<p align="center">
+    <img src="docs/images/7.png" alt="Create Virtual Host" width="400">
+</p>
+
+> Restart the DNS by **right** clicking the wamp server icon.
+
+<p align="center">
+    <img src="docs/images/8.png" alt="Restart DNS" width="400">
+</p>
+
+### Debugging
+
+> Go http://ecolla-snacks-store-web/ and http://ecolla-snacks-store-web/management which created just now for the page debugging.
+
+### Version Changing Log
+
+- Please refer to [this (EcollaManagement)](https://www.management.newrainbowmarket.com/changing-log) or [this (current repository)](https://www.beta.newrainbowmarket.com/management/changing-log).
