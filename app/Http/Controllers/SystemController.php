@@ -3,11 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\SystemConfig;
+use App\Util\SystemUpdate;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 
 class SystemController extends Controller
 {
+    public function freshSetup()
+    {
+        Artisan::call('migrate:fresh');
+        Artisan::call('db:seed ProdSeeder');
+
+        echo "Setup up completed!";
+    }
+
+    public function systemUpdate()
+    {
+        // Update function import here
+        // SystemUpdate::updateSomething();
+
+        echo "<br><br>Update completed!";
+    }
+
     public function shippingFeeConfig(): JsonResponse
     {
         return response()->json(
@@ -19,7 +37,6 @@ class SystemController extends Controller
             ]
         );
     }
-
 
     public function updateShippingFee(): JsonResponse
     {

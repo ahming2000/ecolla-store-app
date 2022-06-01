@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\SettingController;
