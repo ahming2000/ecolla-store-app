@@ -9,7 +9,7 @@ use App\Http\Controllers\SystemController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/setup/{password}', [SystemController::class, 'freshSetup']);
+Route::get('/setup', [SystemController::class, 'freshSetup']);
 Route::get('/system-update/{password}', [SystemController::class, 'systemUpdate']);
 
 Route::get('/changing-log', [InfoController::class, 'changingLogPage']);

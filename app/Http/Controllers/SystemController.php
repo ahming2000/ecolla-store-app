@@ -12,20 +12,12 @@ use Illuminate\Support\Facades\Hash;
 
 class SystemController extends Controller
 {
-    public function freshSetup(string $password)
+    public function freshSetup()
     {
-        $user = User::query()
-            ->where('username', '=', 'admin')
-            ->first();
+        Artisan::call('migrate:fresh');
+        Artisan::call('db:seed ProdSeeder');
 
-        if (Hash::check($password, $user->password)) {
-            Artisan::call('migrate:fresh');
-            Artisan::call('db:seed ProdSeeder');
-
-            echo "Setup up completed!";
-        } else {
-            abort(403);
-        }
+        echo "Setup up completed!";
     }
 
     public function systemUpdate(string $password)
