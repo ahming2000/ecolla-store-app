@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('system_configs', function (Blueprint $table) {
-            $table->string('name')->primary();
+            $table->string('name')->unique()->primary();
             $table->string('value');
             $table->string('desc');
             $table->timestamps();
