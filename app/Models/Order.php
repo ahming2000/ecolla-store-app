@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\FormatDateToSerialize;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Order extends Model
 {
-    use HasFactory, ReturnRegionDateTime;
+    use HasFactory, FormatDateToSerialize;
 
     public $incrementing = false;
 

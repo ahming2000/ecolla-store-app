@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\FormatDateToSerialize;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Date;
 
 class Origin extends Model
 {
-    use HasFactory, ReturnRegionDateTime, SoftDeletes;
+    use HasFactory, FormatDateToSerialize, SoftDeletes;
 
     protected $fillable = [
         'name',

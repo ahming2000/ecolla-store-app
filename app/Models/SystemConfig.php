@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\FormatDateToSerialize;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class SystemConfig extends Model
 {
-    use HasFactory, ReturnRegionDateTime;
+    use HasFactory, FormatDateToSerialize;
 
     protected $primaryKey = 'name';
 

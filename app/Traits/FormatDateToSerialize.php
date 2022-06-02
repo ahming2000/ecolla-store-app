@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Traits;
 
 use DateTimeInterface;
 
-trait ReturnRegionDateTime
+trait FormatDateToSerialize
 {
     /**
      * Override function to cast datetime to current timezone.
