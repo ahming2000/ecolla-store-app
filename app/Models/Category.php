@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\FormatDateToSerialize;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Category extends Model
 {
@@ -18,16 +19,17 @@ class Category extends Model
     public function count(bool $showUnlisted = false): int
     {
         if ($showUnlisted) {
-            return Item::query()
-                ->join('category_item', 'items.id', 'category_item.item_id')
-                ->where('category_item.category_id', '=', $this->id)
-                ->count('items.id');
+            return $this->items()
+                ->count();
         } else {
-            return Item::query()
-                ->join('category_item', 'items.id', 'category_item.item_id')
-                ->where('category_item.category_id', '=', $this->id)
-                ->where('items.is_listed', '=', true)
-                ->count('items.id');
+            return $this->items()
+                ->where('is_listed', '=', true)
+                ->count();
         }
+    }
+
+    public function items(): BelongsToMany
+    {
+        return $this->belongsToMany(Item::class);
     }
 }
