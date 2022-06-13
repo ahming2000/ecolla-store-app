@@ -1,4 +1,4 @@
-import api from "../api";
+import api from "../../api";
 
 export const createOrigin = async (name, name_en) => {
     let { data } = await api.post('/setting/origin', {

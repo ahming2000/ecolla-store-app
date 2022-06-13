@@ -1,4 +1,4 @@
-import {createCategory, createOrigin, deleteCategory, deleteOrigin, updateCategory, updateOrigin} from "../api/setting";
+import {createCategory, createOrigin, deleteCategory, deleteOrigin, updateCategory, updateOrigin} from "../api/setting/setting";
 
 const getPillTemplate = (data) => {
     return `

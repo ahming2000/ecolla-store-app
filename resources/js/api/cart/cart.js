@@ -1,14 +1,8 @@
-import api from "../api";
+import api from "../../api";
 
 export const count = async () => {
     let { data } = await api.get('/cart/count')
     return data.count
-}
-
-export const setOrderMode = async (orderMode) => {
-    return await api.post('/cart/update-order-mode', {
-        orderMode: orderMode,
-    })
 }
 
 export const reset = async () => {
@@ -28,8 +22,14 @@ export const remove = async (barcode) => {
 }
 
 export const setQuantity = async (barcode, quantity) => {
-    return await api.post('/cart/update-quantity', {
+    return await api.post('/cart/quantity', {
         barcode: barcode,
         quantity: quantity,
+    })
+}
+
+export const setOrderMode = async (orderMode) => {
+    return await api.post('/cart/order-mode', {
+        orderMode: orderMode,
     })
 }

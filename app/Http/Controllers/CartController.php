@@ -164,7 +164,7 @@ class CartController extends Controller
         return response()->json([], 204);
     }
 
-    public function updateQuantity(): JsonResponse
+    public function setQuantity(): JsonResponse
     {
         $barcode = request('barcode');
         $quantity = request('quantity');
@@ -175,11 +175,11 @@ class CartController extends Controller
             $cart->saveSession();
             return response()->json([], 204);
         } else {
-            return response()->json([], 400);
+            return response()->json([], 500);
         }
     }
 
-    public function updateOrderMode(): JsonResponse
+    public function setOrderMode(): JsonResponse
     {
         $orderMode = request('orderMode');
 

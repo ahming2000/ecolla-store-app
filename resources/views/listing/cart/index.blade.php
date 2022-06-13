@@ -30,6 +30,6 @@
 
 @section('script')
     <script>
-        useQuantityControl(true)
+        useCartControl()
     </script>
 @endsection

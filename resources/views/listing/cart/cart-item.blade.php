@@ -1,4 +1,4 @@
-<div class="col-12 mb-3 cart-item-container" id="{{ $cartItem->variation->barcode }}">
+<div class="col-12 mb-3 cart-item" data-barcode="{{ $cartItem->variation->barcode }}">
     <div class="row">
         <div class="col-4 col-lg-3">
             <a href="{{ url('/item/' . $cartItem->variation->item->id) }}">
@@ -19,7 +19,7 @@
                     </a>
                 </div>
 
-                <button class="btn btn-danger btn-sm rounded-pill px-3" onclick="removeCartItem(event)">
+                <button class="btn btn-danger btn-sm rounded-pill px-3" onclick="removeFromCart(event)">
                     <i class="bi bi-cart-dash"></i>
                 </button>
             </div>
@@ -52,8 +52,7 @@
                 RM{{ number_format($cartItem->subPrice(), 2, '.', '') }}
             </div>
 
-            @include('common.quantity-control', ['barcode' => $cartItem->variation->barcode, 'min' => 1, 'max' => $cartItem->variation->stock, 'quantity' => $cartItem->quantity, 'disabled' => true])
+            @include('common.quantity-control', ['barcode' => $cartItem->variation->barcode, 'min' => 1, 'max' => $cartItem->variation->stock, 'quantity' => $cartItem->quantity])
         </div>
-
     </div>
 </div>
