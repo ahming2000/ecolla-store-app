@@ -1,127 +1,85 @@
-import {setQuantity} from "../api/cart";
-
-const getAllQuantityControl = () => {
-    return $('.quantity-control')
-}
-
-const getQuantityNode = (quantityControl) => {
-    return quantityControl.find('.quantity')
-}
-
-const getQuantity = (quantityControl) => {
-    return parseInt(quantityControl.find('.quantity').val())
-}
-
-const getMaxQuantity = (quantityControl) => {
-    return parseInt(quantityControl.find('.quantity').attr('max'))
-}
-
-const getMinQuantity = (quantityControl) => {
-    return parseInt(quantityControl.find('.quantity').attr('min'))
-}
-
-const getIncreaseButton = (quantityControl) => {
-    return quantityControl.find('.quantity-increase')
-}
-
-const getDecreaseButton = (quantityControl) => {
-    return quantityControl.find('.quantity-decrease')
-}
-
-const toggleButtonDisabled = (quantityControl) => {
-    let currentValue = getQuantity(quantityControl)
-    let maxValue = getMaxQuantity(quantityControl)
-    let minValue = getMinQuantity(quantityControl)
-    let increaseButton = getIncreaseButton(quantityControl)
-    let decreaseButton = getDecreaseButton(quantityControl)
+const updateButtonBehavior = async (quantityControl) => {
+    let currentQuantity = parseInt(quantityControl.find('.quantity').val())
+    let maxQuantity = parseInt(quantityControl.find('.quantity').attr('max'))
+    let minQuantity = parseInt(quantityControl.find('.quantity').attr('min'))
+    let increaseButton = quantityControl.find('.quantity-increase')
+    let decreaseButton = quantityControl.find('.quantity-decrease')
 
     increaseButton.attr('disabled', false)
     decreaseButton.attr('disabled', false)
 
-    if (currentValue === minValue) {
+    if (currentQuantity === minQuantity) {
         decreaseButton.attr('disabled', true)
     }
 
-    if (currentValue === maxValue) {
+    if (currentQuantity === maxQuantity) {
         increaseButton.attr('disabled', true)
     }
 }
 
-const increaseQuantity = (event) => {
+const increaseQuantity = async (event) => {
     let quantityControl = $(event.target).closest('.quantity-control')
-    let current = getQuantityNode(quantityControl)
-    let currentValue = getQuantity(quantityControl)
-    let maxValue = getMaxQuantity(quantityControl)
-    let minValue = getMinQuantity(quantityControl)
+    let quantityNode = quantityControl.find('.quantity')
 
-    if (minValue <= currentValue && currentValue < maxValue) {
-        current.val(currentValue + 1)
+    let currentQuantity = parseInt(quantityNode.val())
+    let maxQuantity = parseInt(quantityControl.find('.quantity').attr('max'))
+    let minQuantity = parseInt(quantityControl.find('.quantity').attr('min'))
+
+    if (minQuantity <= currentQuantity && currentQuantity < maxQuantity) {
+        quantityNode.val(currentQuantity + 1)
     }
 
-    toggleButtonDisabled(quantityControl)
+    await updateButtonBehavior(quantityControl)
 }
 
-const decreaseQuantity = (event) => {
+const decreaseQuantity = async (event) => {
     let quantityControl = $(event.target).closest('.quantity-control')
-    let current = getQuantityNode(quantityControl)
-    let currentValue = getQuantity(quantityControl)
-    let maxValue = getMaxQuantity(quantityControl)
-    let minValue = getMinQuantity(quantityControl)
+    let quantityNode = quantityControl.find('.quantity')
 
-    if (minValue < currentValue && currentValue <= maxValue) {
-        current.val(currentValue - 1)
+    let currentQuantity = parseInt(quantityNode.val())
+    let maxQuantity = parseInt(quantityControl.find('.quantity').attr('max'))
+    let minQuantity = parseInt(quantityControl.find('.quantity').attr('min'))
+
+    if (minQuantity < currentQuantity && currentQuantity <= maxQuantity) {
+        quantityNode.val(currentQuantity - 1)
     }
 
-    toggleButtonDisabled(quantityControl)
+    await updateButtonBehavior(quantityControl)
 }
 
-const updateQuantity = (event) => {
+const quantityOnChange = async (event) => {
     let quantityControl = $(event.target).closest('.quantity-control')
-    let current = getQuantityNode(quantityControl)
-    let currentValue = getQuantity(quantityControl)
-    let maxValue = getMaxQuantity(quantityControl)
-    let minValue = getMinQuantity(quantityControl)
+    let quantityNode = quantityControl.find('.quantity')
 
-    if (currentValue >= maxValue) {
-        current.val(maxValue)
-    } else if (currentValue <= minValue) {
-        current.val(minValue)
+    let maxQuantity = parseInt(quantityControl.find('.quantity').attr('max'))
+    let minQuantity = parseInt(quantityControl.find('.quantity').attr('min'))
+    let currentQuantity = parseInt(quantityNode.val() === '' ? minQuantity : quantityNode.val())
+
+    if (currentQuantity >= maxQuantity) {
+        quantityNode.val(maxQuantity)
+    } else if (currentQuantity <= minQuantity) {
+        quantityNode.val(minQuantity)
     }
 
-    toggleButtonDisabled(quantityControl)
+    await updateButtonBehavior(quantityControl)
 }
 
-const saveQuantity = async (event) => {
-    let quantityControl = $(event.target).closest('.quantity-control')
-    let barcode = quantityControl.attr('id')
-    let currentValue = getQuantity(quantityControl)
+window.useQuantityControl = async () => {
+    let quantityControls = $('.quantity-control')
 
-    await setQuantity(barcode, currentValue)
-}
-
-window.useQuantityControl = async (isCart = false) => {
-    let quantityControls = getAllQuantityControl()
     for (let i = 0; i < quantityControls.length; i++) {
         let quantityControl = quantityControls.eq(i)
-        let increaseButton = getIncreaseButton(quantityControl)
-        let decreaseButton = getDecreaseButton(quantityControl)
-        let quantityNode = getQuantityNode(quantityControl)
+
+        let increaseButton = quantityControl.find('.quantity-increase')
+        let decreaseButton = quantityControl.find('.quantity-decrease')
+        let quantityNode = quantityControl.find('.quantity')
 
         increaseButton.click(increaseQuantity)
         decreaseButton.click(decreaseQuantity)
-        quantityNode.change(updateQuantity)
+        quantityNode.change(quantityOnChange)
 
-        toggleButtonDisabled(quantityControl)
-
-        if (isCart) {
-            increaseButton.click($.debounce(500, false, await saveQuantity))
-            decreaseButton.click($.debounce(500, false, await saveQuantity))
-
-            increaseButton.click(updateCartDisplayValue)
-            decreaseButton.click(updateCartDisplayValue)
-
-            increaseButton.click($.debounce(500, false, await updateSummary))
-            decreaseButton.click($.debounce(500, false, await updateSummary))
-        }
+        await updateButtonBehavior(quantityControl)
     }
+
+    return quantityControls
 }

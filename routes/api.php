@@ -12,8 +12,8 @@ Route::prefix('/cart')->group(function () {
     Route::post('/add', [CartController::class, 'add']);
     Route::post('/remove', [CartController::class, 'remove']);
     Route::post('/reset', [CartController::class, 'reset']);
-    Route::post('/update-quantity', [CartController::class, 'updateQuantity']);
-    Route::post('/update-order-mode', [CartController::class, 'updateOrderMode']);
+    Route::post('/quantity', [CartController::class, 'setQuantity']);
+    Route::post('/order-mode', [CartController::class, 'setOrderMode']);
 });
 
 Route::prefix('/image')->group(function () {

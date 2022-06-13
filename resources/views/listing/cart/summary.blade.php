@@ -1,7 +1,7 @@
 <div class="card shadow mb-3">
     <div class="card-body">
         <div class="form-floating mb-3">
-            <select class="form-select" name="orderMode" id="order-mode-input" onchange="updateShippingFee(event)">
+            <select class="form-select" name="orderMode" id="order-mode-input" onchange="orderModeOnChange(event)">
                 <option value="{{ \App\Enum\OrderMode::$SELF_PICKUP }}" @selected(session('cart')->orderMode == \App\Enum\OrderMode::$SELF_PICKUP)>
                     @if(session('lang') == 'en')
                         Pick-up
@@ -88,7 +88,7 @@
         </ul>
 
         <a class="btn btn-primary w-100 @disabled(session('cart')->count() == 0)"
-           href="{{ url('/cart/check-out') }}">
+           href="{{ url('/cart/check-out') }}" id="check-out-button">
             @if(session('lang') == 'en')
                 Check Out
             @else
