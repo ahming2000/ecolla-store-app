@@ -2,7 +2,7 @@
     <div class="p-4 footer-content-bg">
         <div class="container">
             <div class="row">
-                <div class="col-lg-6 col-mb-6 col-sm-6 mb-3">
+                <div class="col-12 col-md-6 mb-3">
                     <div class="container-fluid m-0">
                         <iframe
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d994.610069720882!2d101.14378741460057!3d4.328107998352038!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cae2bc71984c77%3A0x85e97a678280a2b!2s2365%2C%20Jalan%20Hala%20Timah%203%2C%20Taman%20Kolej%20Perdana%2C%2031900%20Kampar%2C%20Negeri%20Perak!5e0!3m2!1sen!2smy!4v1603436959003!5m2!1sen!2smy"
@@ -11,7 +11,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-3 col-mb-3 col-sm-3">
+                <div class="col-12 col-md-3">
                     <h4 class="footer-font-color font-weight-bold">
                         @if(session('lang') == 'en')
                             Our Location
@@ -29,7 +29,7 @@
                     </p>
                 </div>
 
-                <div class="col-lg-3 col-mb-3 col-sm-3">
+                <div class="col-12 col-md-3">
                     <h4 class='footer-font-color font-weight-bold'>
                         @if(session('lang') == 'en')
                             Contact Us

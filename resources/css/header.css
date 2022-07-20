@@ -8,10 +8,10 @@
     background-position: top;
     background-repeat: no-repeat;
     background-size: cover;
-    padding-top: 115px;
+    padding: 50px 0 50px;
     color: white;
     font-size: 35px;
-    height: 40vh;
+    height: 8em;
     text-align: center;
 }
 

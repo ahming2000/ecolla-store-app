@@ -1723,10 +1723,10 @@ url(/fonts/vendor/bootstrap-icons/bootstrap-icons.woff?7ff3ca6fa798de3f8ac2251c7
     background-position: top;
     background-repeat: no-repeat;
     background-size: cover;
-    padding-top: 115px;
+    padding: 50px 0 50px;
     color: white;
     font-size: 35px;
-    height: 40vh;
+    height: 8em;
     text-align: center;
 }
 

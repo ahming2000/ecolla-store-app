@@ -10,7 +10,7 @@
 
 @section('content')
     <div class="container py-3">
-        @include('listing.shared.shipping-discount-notification')
+        @include('listing.common.shipping-discount-notification')
 
         @include('listing.item.breadcrumb')
 
@@ -104,7 +104,7 @@
                 <div class="random-item-container">
                     @foreach($randomItems as $item)
                         <div class="me-2">
-                            @include('listing.item.item-card')
+                            @include('listing.common.item-card')
                         </div>
                     @endforeach
                 </div>
@@ -124,7 +124,7 @@
                 <div class="may-like-item-container">
                     @foreach($mayLikeItems as $item)
                         <div class="me-2">
-                            @include('listing.item.item-card')
+                            @include('listing.common.item-card')
                         </div>
                     @endforeach
                 </div>
