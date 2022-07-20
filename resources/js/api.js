@@ -12,8 +12,12 @@ api.interceptors.response.use(
         return response
     },
     (error) => {
-        console.error(error)
-        return Promise.reject(error)
+        if (error.response.status === 400) {
+            return error.response
+        } else {
+            console.error(error)
+            return Promise.reject(error)
+        }
     }
 )
 

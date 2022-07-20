@@ -3,9 +3,9 @@
 
     <div class="h4 fw-bold">
         @if(session('lang') == 'en')
-            Delivery Info
+            Delivery Info ({{ \App\Enum\OrderMode::getLabel($cart->orderMode, session('lang')) }})
         @else
-            资料填写
+            资料填写（{{ \App\Enum\OrderMode::getLabel($cart->orderMode, session('lang')) }}）
         @endif
     </div>
 

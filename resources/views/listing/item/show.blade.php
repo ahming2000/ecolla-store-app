@@ -59,7 +59,7 @@
                         @endforeach
 
                         <div class="d-flex justify-content-center mt-3">
-                            <button class="btn btn-primary" onclick="addToCart()">
+                            <button class="btn btn-primary" onclick="addToCart(event, '{{ session('lang') }}')">
                                 <i class="bi bi-cart-plus"></i>
                                 @if(session('lang') == 'en')
                                     Add To Cart
@@ -191,56 +191,5 @@
             nav: false,
             loop: false,
         });
-
-        const addToCart = () => {
-            let quantityControls = $('.quantity-control')
-            let addList = [];
-
-            for (let i = 0; i < quantityControls.length; i++) {
-                let barcode = quantityControls.eq(i).attr('id')
-                let quantity = parseInt(quantityControls.eq(i).find('.quantity').val()) || 0
-
-                if (quantity !== 0) {
-                    addList.push(
-                        {
-                            barcode: barcode,
-                            quantity: quantity,
-                        }
-                    )
-                }
-            }
-
-            if (addList.length !== 0) {
-                axios.post('/api/cart/add', {
-                    addList: addList,
-                }).then(async (res) => {
-                    @if(session('lang') == 'en')
-                    addNotification('Cart', 'Add to cart successfully!', [
-                            {
-                                buttonText: 'Go To Cart', redirectTo: '/cart'
-                            },
-                            {
-                                buttonText: 'Back To Item List', redirectTo: '/item'
-                            }
-                        ]
-                    )
-                    @else
-                    addNotification('购物车', '成功加入购物车！', [
-                            {
-                                buttonText: '前往购物车', redirectTo: '/cart'
-                            },
-                            {
-                                buttonText: '返回商品列表', redirectTo: '/item'
-                            }
-                        ]
-                    )
-                    @endif
-
-                    await updateCartCount()
-                }).catch((error) => {
-                    console.error(error)
-                })
-            }
-        }
     </script>
 @endsection
