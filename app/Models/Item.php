@@ -20,6 +20,18 @@ class Item extends Model
         'origin_id',
     ];
 
+    public static function getTotalItemListed(): int
+    {
+        return self::query()
+            ->where('is_listed', '=', true)
+            ->count();
+    }
+
+    public static function getTotalItem(): int
+    {
+        return self::query()->count();
+    }
+
     public function getCoverImage(): string
     {
         if (sizeof($this->images) == 0) {

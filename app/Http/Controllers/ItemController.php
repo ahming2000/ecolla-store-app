@@ -32,7 +32,7 @@ class ItemController extends Controller
             ->whereIn('id', $ids)
             ->where('is_listed', '=', true)
             ->orderByRaw(AttributeName::getName($orderBy) . ' ' . Arrangement::getArrangement($arrangement))
-            ->paginate(5);
+            ->paginate($this->estimatePagination(sizeof($ids)));
 
         $categories = Category::all();
 

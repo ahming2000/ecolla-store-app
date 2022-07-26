@@ -23,7 +23,7 @@
                 <div class="row">
                     <div class="col-12 mb-3">
                         @foreach($item->categories as $category)
-                            <a href="{{ url('/ch/item?category=' . $category->id) }}">
+                            <a href="{{ url('/item?category=' . $category->id) }}">
                                 <span class="badge rounded-pill mr-1 p-2" style="background-color: mediumpurple">
                                     @if(session('lang') == 'en')
                                         {{ $category->name_en }}
@@ -173,7 +173,7 @@
                     items: 3,
                 },
                 768: {
-                    items: 3,
+                    items: 4,
                 },
                 992: {
                     items: 5,
