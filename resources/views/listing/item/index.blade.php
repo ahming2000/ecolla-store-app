@@ -49,9 +49,9 @@
                 <select class="form-select shadow" name="category" onchange="filter()">
                     <option value="-1">
                         @if(session('lang') == 'en')
-                            All Item ({{ sizeof($items) }})
+                            All Categories' Item ({{ \App\Models\Item::getTotalItemListed() }})
                         @else
-                            全部商品 ({{ sizeof($items) }})
+                            所有类别的商品 ({{ \App\Models\Item::getTotalItemListed() }})
                         @endif
 
                     </option>
@@ -74,9 +74,9 @@
                 <select class="form-select shadow" name="origin" onchange="filter()">
                     <option value="-1">
                         @if(session('lang') == 'en')
-                            From All Country ({{ sizeof($origins) }})
+                            From All Country
                         @else
-                            全部出产地 ({{ sizeof($origins) }})
+                            全部出产地
                         @endif
                     </option>
 
