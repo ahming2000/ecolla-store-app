@@ -4,18 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\SystemConfig;
 use App\Models\User;
-use App\Util\SystemUpdate;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 
 class SystemController extends Controller
 {
     public function freshSetup()
     {
-        Artisan::call('migrate:fresh');
-        Artisan::call('db:seed ProdSeeder');
+        if (!Schema::hasTable('users')) {
+            Artisan::call('migrate:fresh');
+            Artisan::call('db:seed ProdSeeder');
+        }
 
         echo "Setup up completed!";
     }
