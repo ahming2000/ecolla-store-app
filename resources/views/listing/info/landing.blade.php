@@ -97,7 +97,7 @@
                     items: 3,
                 },
                 768: {
-                    items: 3,
+                    items: 4,
                 },
                 992: {
                     items: 5,
