@@ -12,7 +12,7 @@
 
 @section('content')
     <div class="container py-3">
-        @include('listing.common.shipping-discount-notification')
+        @include('common.shipping-discount-notification')
 
         <form class="row my-2" action="{{ url('/item') }}" id="filterForm">
             <div class="col-12 col-md-6 mb-2">
@@ -96,7 +96,7 @@
                         <select class="form-select shadow" name="orderBy" onchange="filter()">
                             @foreach(\App\Enum\AttributeName::all() as $attribute)
                                 <option
-                                        value="{{ $attribute }}" {{ $helper->paramSelected('orderBy', strval($attribute)) }}>
+                                    value="{{ $attribute }}" {{ $helper->paramSelected('orderBy', strval($attribute)) }}>
                                     {{ \App\Enum\AttributeName::getLabel($attribute, session('lang') == 'en') }}
                                 </option>
                             @endforeach
@@ -105,8 +105,8 @@
 
                     <div class="d-flex justify-content center align-items-center">
                         <input
-                                value="{{ $helper->param('arrangement', 0, true) == \App\Enum\Arrangement::$DESC ? \App\Enum\Arrangement::$ASC : \App\Enum\Arrangement::$DESC }}"
-                                type="hidden" name="arrangement">
+                            value="{{ $helper->param('arrangement', 0, true) == \App\Enum\Arrangement::$DESC ? \App\Enum\Arrangement::$ASC : \App\Enum\Arrangement::$DESC }}"
+                            type="hidden" name="arrangement">
 
                         <button class="btn btn-primary">
                             @if($helper->param('arrangement', 0, true) == 0)
@@ -130,7 +130,7 @@
 
             @foreach($items as $item)
                 <div class="col-6 col-md-4 col-lg-3 col-xxl-2 mb-3">
-                    @include('listing.common.item-card')
+                    @include('common.item-card')
                 </div>
             @endforeach
 
