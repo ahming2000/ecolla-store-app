@@ -169,58 +169,7 @@
 
 @section('script')
     <script>
-        let highestViewCountItemsCarousel = tinySlider({
-            container: '.highest-view-count-item-container',
-            items: 2,
-            responsive: {
-                576: {
-                    items: 3,
-                },
-                768: {
-                    items: 4,
-                },
-                992: {
-                    items: 5,
-                },
-                1200: {
-                    items: 6,
-                },
-                1400: {
-                    items: 7,
-                },
-            },
-
-            mouseDrag: true,
-            controls: false,
-            nav: false,
-            loop: false,
-        });
-
-        let highestSoldItemsCarousel = tinySlider({
-            container: '.highest-sold-item-container',
-            items: 2,
-            responsive: {
-                576: {
-                    items: 3,
-                },
-                768: {
-                    items: 4,
-                },
-                992: {
-                    items: 5,
-                },
-                1200: {
-                    items: 6,
-                },
-                1400: {
-                    items: 7,
-                },
-            },
-
-            mouseDrag: true,
-            controls: false,
-            nav: false,
-            loop: false,
-        });
+        useTinySliderCarousel('.highest-view-count-item-container')
+        useTinySliderCarousel('.highest-sold-item-container')
     </script>
 @endsection
