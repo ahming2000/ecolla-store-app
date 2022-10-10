@@ -1,5 +1,7 @@
 require('./bootstrap');
 
+require('./libs/tiny-slider')
+
 require('./modules/notification');
 require('./modules/cart-control');
 require('./modules/quantity-control');
