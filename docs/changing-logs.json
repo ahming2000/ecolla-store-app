@@ -1,14 +1,14 @@
 {
     "versionName": "v3.0.0.beta",
     "versionLabel": "v3.0.0 公测版",
-    "updateDate": "2022/06/10",
+    "updateDate": "N/A",
     "logs": [
         {
             "groupName": "v3.0 公测版",
             "subGroups": [
                 {
                     "name": "v3.0.0 公测版",
-                    "date": "2022/06/10",
+                    "date": "N/A",
                     "details": [
                         {
                             "type": "功能",
@@ -387,7 +387,7 @@
                     ]
                 },
                 {
-                    "name": "v2.0.1 公测版",
+                    "name": "v2.0.0 公测版",
                     "date": "2021/06/14",
                     "details": [
                         {
