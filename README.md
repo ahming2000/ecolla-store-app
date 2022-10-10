@@ -2,21 +2,21 @@
 
 ## Ecolla Snacks Store Online Listing Website
 
-This website is created with [Laravel Framework](https://laravel.com/). Feature provided:
+This website is created with [Laravel Framework](https://laravel.com/). Currently, the feature provided are:
 
 - Item listing and ordering.
 - Item and order management.
 - Multiple variation for each item to list.
 - Price discount settings for each variation with date range.
-- Duo languages for user to switch.
-- PDF download for each order.
+- Duo languages (English and Chinese) for user to switch.
+- PDF download for orders.
 - Free shipping feature.
 - Account login for managing the item and order.
 - Account permission managing for admin.
 
 ## Project Architecture
 
-This project uses [PHP](https://www.php.net/) mainly and some [Javascript](https://www.javascript.com/).
+This project uses [PHP](https://www.php.net/) mainly and some [Javascript](https://www.javascript.com/). [Laravel](https://laravel.com) is used in this project.
 
 <p align="center">
     <a href="https://laravel.com" target="_blank">
@@ -37,10 +37,10 @@ This project has total 4 repositories due to the way on demonstrating the projec
 
 - [EcollaLegacy](https://github.com/ahming2000/EcollaLegacy) (517 commits)
 - [EcollaClient](https://github.com/ahming2000/EcollaClient) (246 commits)
-- [EcollaManagement](https://github.com/ahming2000/EcollaManagement) (629 commits)
+- [EcollaManagement](https://github.com/ahming2000/EcollaManagement/tree/beta) (629 commits)
 - [ecolla-snacks-store-web](https://github.com/ecolla-snacks-store/ecolla-snacks-store-web) (current repository)
 
-Total 1400++ commits for this project.
+More than 1400 commits for this project.
 
 Due to subdomain policy, the idea come out last times was separating into two repositories. 
 But this repository will merge them again and make many improvements. 
@@ -65,12 +65,18 @@ Software required to download (recommend to install in order with guideline belo
 
 #### Version of Addon
 
-- PHP v8.x
+> Please choose the correct version for installation!
+
+- PHP v8.1.x
 - MariaDB v10.5.x
+
+<p align="center">
+    <img src="docs/images/10.png" alt="MariaDB Version Changing" width="400">
+</p>
 
 #### PHP Version
 
-> You are required to change the version to v8.x manually.
+> You are required to change the version to v8.1.x manually.
 > 
 > **Left** click the wamp server icon.
 
@@ -90,7 +96,7 @@ Software required to download (recommend to install in order with guideline belo
 
 ### Composer Installation
 
-> Please make sure to choose PHP v8.x as the command line version, this will auto add the php version to the environment variables.
+> Please make sure to choose **PHP v8.1.x** as the command line version, this will auto add the php version to the environment variables.
 
 <p align="center">
     <img src="docs/images/4.png" alt="Command-line PHP" width="400">
@@ -99,7 +105,7 @@ Software required to download (recommend to install in order with guideline belo
 ### Repository Setup
 
 - Please clone the repository into `C:\wamp64\www` (default path).
-- Create database named `ecolla-snacks-store-web` with [phpMyAdmin](http://localhost/phpmyadmin) console. Please make sure `utf8mb4_unicode_ci` is selected.
+- Create database named `ecolla_snacks_store_web` with [phpMyAdmin](http://localhost/phpmyadmin) console. Please make sure `utf8mb4_unicode_ci` is selected. **(Note that it uses `_` instead of `-`)**
 
 <p align="center">
     <img src="docs/images/5.png" alt="Create Database" width="400">
@@ -138,10 +144,24 @@ In this script, several actions run:
     <img src="docs/images/8.png" alt="Restart DNS" width="400">
 </p>
 
+### Issue With Port 80 Being Used
+
+> You can change to desire port by **right-clicking** the wamp icon
+
+<p align="center">
+    <img src="docs/images/11.png" alt="Restart DNS" width="400">
+</p>
+
 ### Debugging
 
-> Go http://ecolla-snacks-store-web/ and http://ecolla-snacks-store-web/management which created just now for the page debugging.
+> Go http://ecolla-snacks-store-web/ and http://ecolla-snacks-store-web/management which created at [here](https://github.com/ecolla-snacks-store/ecolla-snacks-store-web#virtual-host-setup) for the page debugging.
+
+<hr>
 
 ### Version Changing Log
 
-- Please refer to [this (EcollaManagement)](https://www.management.newrainbowmarket.com/changing-log) or [this (current repository)](https://www.beta.newrainbowmarket.com/management/changing-log).
+> Please refer to [this link (EcollaManagement)](https://www.management.newrainbowmarket.com/changing-log) or [this link (current repository)](https://www.beta.newrainbowmarket.com/management/changing-log).
+
+### Issue Reporting
+
+> Feel free to report any issues or improvement for this project in [GitHub repository issue page](https://github.com/ecolla-snacks-store/ecolla-snacks-store-web/issues).
