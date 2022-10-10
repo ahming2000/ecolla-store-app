@@ -10,7 +10,7 @@
 
 @section('content')
     <div class="container py-3">
-        @include('listing.shared.shipping-discount-notification')
+        @include('listing.common.shipping-discount-notification')
 
         <div class="row">
             <div class="col-lg-8">

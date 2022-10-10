@@ -10,7 +10,7 @@
 
 @section('content')
     <div class="container py-3">
-        @include('listing.shared.shipping-discount-notification')
+        @include('listing.common.shipping-discount-notification')
 
         <div class="row">
             <div class="col-sm-12 col-md-8 offset-md-2">
@@ -48,7 +48,8 @@
                 <div class="modal-content">
                     <div class="modal-body">
                         <div class="d-flex justify-content-center align-content-center">
-                            <img class="img-fluid" src="{{ asset('/images/ecolla.png') }}" alt="QR Code" id="qr-code-image">
+                            <img class="img-fluid" src="{{ asset('/images/ecolla.png') }}" alt="QR Code"
+                                 id="qr-code-image">
                         </div>
                     </div>
                 </div>

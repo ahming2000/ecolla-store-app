@@ -19,6 +19,17 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/') }}">
+                        <i class="bi bi-house"></i>
+                        @if(session('lang') == 'en')
+                            Home
+                        @else
+                            主页
+                        @endif
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a class="nav-link" href="{{ url('/item') }}">
                         <i class="bi bi-list"></i>
                         @if(session('lang') == 'en')
