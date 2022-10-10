@@ -622,7 +622,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 try {
   window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 
-  __webpack_require__(/*! ./vendor/jquery.ba-throttle-debounce */ "./resources/js/vendor/jquery.ba-throttle-debounce.js");
+  __webpack_require__(/*! ./plugin/jquery.ba-throttle-debounce */ "./resources/js/plugin/jquery.ba-throttle-debounce.js");
 
   window.bootstrap = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
 } catch (error) {
@@ -1808,9 +1808,9 @@ window.verifyImage = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "./resources/js/vendor/jquery.ba-throttle-debounce.js":
+/***/ "./resources/js/plugin/jquery.ba-throttle-debounce.js":
 /*!************************************************************!*\
-  !*** ./resources/js/vendor/jquery.ba-throttle-debounce.js ***!
+  !*** ./resources/js/plugin/jquery.ba-throttle-debounce.js ***!
   \************************************************************/
 /***/ (function() {
 
