@@ -1,6 +1,6 @@
-<a href="{{ url('/item/' . $item->id) }}" class="no-anchor-style">
+<a href="{{ url('/item/' . $item->id) }}">
     <div class="card shadow">
-        <img src="{{ $item->getCoverImage() }}" class="card-img-top" alt="Cover Image" loading="lazy">
+        <img src="{{ asset($item->getCoverImage()) }}" class="card-img-top" alt="Cover Image" loading="lazy">
 
         <div class="card-body">
             <div class="h5 card-title text-truncate">

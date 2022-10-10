@@ -55,7 +55,7 @@
                     <div class="highest-view-count-item-container">
                         @foreach($highestViewItems as $item)
                             <div class="me-2">
-                                @include('listing.common.item-card')
+                                @include('common.item-card')
                             </div>
                         @endforeach
                     </div>
@@ -77,7 +77,7 @@
                     <div class="highest-sold-item-container">
                         @foreach($highestSoldItems as $item)
                             <div class="me-2">
-                                @include('listing.common.item-card')
+                                @include('common.item-card')
                             </div>
                         @endforeach
                     </div>

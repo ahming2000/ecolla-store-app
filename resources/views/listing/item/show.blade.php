@@ -10,7 +10,7 @@
 
 @section('content')
     <div class="container py-3">
-        @include('listing.common.shipping-discount-notification')
+        @include('common.shipping-discount-notification')
 
         @include('listing.item.breadcrumb')
 
@@ -104,7 +104,7 @@
                 <div class="random-item-container">
                     @foreach($randomItems as $item)
                         <div class="me-2">
-                            @include('listing.common.item-card')
+                            @include('common.item-card')
                         </div>
                     @endforeach
                 </div>
@@ -124,7 +124,7 @@
                 <div class="may-like-item-container">
                     @foreach($mayLikeItems as $item)
                         <div class="me-2">
-                            @include('listing.common.item-card')
+                            @include('common.item-card')
                         </div>
                     @endforeach
                 </div>
@@ -137,59 +137,8 @@
 @section('script')
     <script>
         useQuantityControl()
-
-        let randomItemsCarousel = tinySlider({
-            container: '.random-item-container',
-            items: 2,
-            responsive: {
-                576: {
-                    items: 3,
-                },
-                768: {
-                    items: 4,
-                },
-                992: {
-                    items: 5,
-                },
-                1200: {
-                    items: 6,
-                },
-                1400: {
-                    items: 7,
-                },
-            },
-
-            mouseDrag: true,
-            controls: false,
-            nav: false,
-            loop: false,
-        });
-
-        let mayLikeItemsCarousel = tinySlider({
-            container: '.may-like-item-container',
-            items: 2,
-            responsive: {
-                576: {
-                    items: 3,
-                },
-                768: {
-                    items: 4,
-                },
-                992: {
-                    items: 5,
-                },
-                1200: {
-                    items: 6,
-                },
-                1400: {
-                    items: 7,
-                },
-            },
-
-            mouseDrag: true,
-            controls: false,
-            nav: false,
-            loop: false,
-        });
+        useTinySliderItemImageNavigator().play()
+        useTinySliderCarousel('.random-item-container')
+        useTinySliderCarousel('.may-like-item-container')
     </script>
 @endsection
