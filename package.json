@@ -8,6 +8,7 @@
         "prod": "mix --production",
         "setup": "sh \"scripts/setup.sh\"",
         "db:dev": "php artisan migrate:fresh && php artisan db:seed DevSeeder",
+        "db:prod": "php artisan migrate:fresh && php artisan db:seed ProdSeeder",
         "deploy:staging": "git checkout staging && git merge origin/dev && git push && git checkout dev"
     },
     "devDependencies": {
