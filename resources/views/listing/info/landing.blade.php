@@ -16,7 +16,7 @@
     <div class="container py-3">
         <section id="about-company">
             <div class="row g-2">
-                <div class="col-8 col-md-8 my-auto">
+                <div class="col-8 col-md-8 my-auto wow animate__fadeInLeft">
                     <div class="h1 fw-bold">
                         @if(session('lang') == 'en')
                             About Ecolla
@@ -35,14 +35,14 @@
                     </p>
                 </div>
 
-                <div class="col-4 col-md-4 my-auto">
+                <div class="col-4 col-md-4 my-auto wow animate__fadeInRight">
                     <img class="img-fluid" src="{{ asset('/images/shop-clipart.jpeg') }}" alt="Shop Clipart">
                 </div>
             </div>
         </section>
 
         @if(sizeof($highestViewItems) != 0)
-            <section id="highest-view" class="px-1">
+            <section id="highest-view" class="px-1 wow animate__fadeInUp">
                 <div class="h2">
                     @if(session('lang') == 'en')
                         Highest View Count Items
@@ -64,7 +64,7 @@
         @endif
 
         @if(sizeof($highestSoldItems) != 0)
-            <section id="highest-sold" class="px-1">
+            <section id="highest-sold" class="px-1 wow animate__fadeInUp">
                 <div class="h2">
                     @if(session('lang') == 'en')
                         Highest Sold Count Items
@@ -85,7 +85,7 @@
             </section>
         @endif
 
-        <section id="links">
+        <section id="links" class="wow animate__fadeInUp">
             <div class="h2">
                 @if(session('lang') == 'en')
                     Links
@@ -169,6 +169,7 @@
 
 @section('script')
     <script>
+        useWowJs()
         useTinySliderCarousel('.highest-view-count-item-container')
         useTinySliderCarousel('.highest-sold-item-container')
     </script>
