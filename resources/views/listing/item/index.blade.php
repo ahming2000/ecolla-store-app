@@ -110,9 +110,9 @@
 
                         <button class="btn btn-primary">
                             @if($helper->param('arrangement', 0, true) == 0)
-                                <i class="bi bi-sort-down" onclick="filter()"></i>
-                            @else
                                 <i class="bi bi-sort-up" onclick="filter()"></i>
+                            @else
+                                <i class="bi bi-sort-down" onclick="filter()"></i>
                             @endif
                         </button>
                     </div>
