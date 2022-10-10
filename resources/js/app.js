@@ -1,6 +1,7 @@
 require('./bootstrap');
 
 require('./libs/tiny-slider')
+require('./libs/wow')
 
 require('./modules/notification');
 require('./modules/cart-control');

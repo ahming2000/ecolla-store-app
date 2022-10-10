@@ -19,7 +19,7 @@
 
         <br>
 
-        <a href="{{ url('/item') }}" class="btn btn-success">
+        <a href="{{ url('/item') }}" class="btn btn-success wow animate__tada animate__delay-1s">
             <i class="bi bi-arrow-right-circle"></i>
             点击浏览商品
         </a>
