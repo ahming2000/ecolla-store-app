@@ -160,7 +160,7 @@ In this script, several actions run:
 
 ### Version Changing Log
 
-> Please refer to [this link (EcollaManagement)](https://www.management.newrainbowmarket.com/changing-log) or [this link (current repository)](https://www.beta.newrainbowmarket.com/management/changing-log).
+> Please refer to [this link (EcollaManagement)](https://management.newrainbowmarket.com/changing-log) or [this link (current repository)](https://staging.newrainbowmarket.com/management/changing-log).
 
 ### Issue Reporting
 
