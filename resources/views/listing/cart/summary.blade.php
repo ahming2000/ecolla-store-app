@@ -88,7 +88,7 @@
         </ul>
 
         <a class="btn btn-primary w-100 @disabled(session('cart')->count() == 0)"
-           href="{{ url('/cart/check-out') }}" id="check-out-button">
+           href="{{ route('listing.cart.checkOut') }}" id="check-out-button">
             @if(session('lang') == 'en')
                 Check Out
             @else

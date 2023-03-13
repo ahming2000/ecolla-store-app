@@ -1,7 +1,7 @@
 <nav class="fixed-top navbar navbar-expand-md navbar-light bg-white shadow">
     <div class="container">
 
-        <a class="navbar-brand" href="{{ url('/management') }}">
+        <a class="navbar-brand" href="{{ route('management.dashboard') }}">
             <img src="{{ asset('/images/ecolla.png') }}" width="30" height="30"
                  class="d-inline-block align-top" alt="Logo" loading="lazy">
             e口乐网页管理
@@ -16,31 +16,31 @@
             <ul class="navbar-nav ms-auto">
                 @guest
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">
+                        <a class="nav-link" href="{{ route('management.login.index') }}">
                             <i class="bi bi-box-arrow-in-left"></i> 登录
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/management/changing-log') }}">
+                        <a class="nav-link" href="{{ route('management.changingLog.index') }}">
                             <i class="bi bi-journals"></i> 更新日志
                         </a>
                     </li>
                 @else
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/management') }}">
+                        <a class="nav-link" href="{{ route('management.dashboard') }}">
                             <i class="bi bi-house"></i> 主页
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/management/item') }}">
+                        <a class="nav-link" href="{{ route('management.item.index') }}">
                             <i class="bi bi-list-ul"></i> 商品
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/management/order') }}">
+                        <a class="nav-link" href="{{ route('management.order.index') }}">
                             <i class="bi bi-bag-check"></i> 订单
                         </a>
                     </li>
@@ -53,33 +53,33 @@
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="{{ url('/management/profile') }}">
+                            <a class="dropdown-item" href="{{ route('management.profile.index') }}">
                                 <i class="bi bi-person"></i> 个人资料
                             </a>
 
                             @can('admin')
-                                <a class="dropdown-item" href="{{ url('/management/user') }}">
+                                <a class="dropdown-item" href="{{ route('management.user.index') }}">
                                     <i class="bi bi-people"></i> 员工账户管理
                                 </a>
                             @endcan
 
                             @can('manager')
-                                <a class="dropdown-item" href="{{ url('/management/setting') }}">
+                                <a class="dropdown-item" href="{{ route('management.setting.index') }}">
                                     <i class="bi bi-gear"></i> 网页设置
                                 </a>
                             @endcan
 
-                            <a class="dropdown-item" href="{{ url('/management/changing-log') }}">
+                            <a class="dropdown-item" href="{{ route('management.changingLog.index') }}">
                                 <i class="bi bi-journals"></i> 更新日志
                             </a>
 
                             <a class="dropdown-item"
-                               href="{{ route('logout') }}"
+                               href="#"
                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <i class="bi bi-box-arrow-right"></i> 登出
                             </a>
 
-                            <form id="logout-form" action="{{ route('logout') }}" method="post" class="d-none">
+                            <form id="logout-form" action="{{ route('api.logout') }}" method="post" class="d-none">
                                 @csrf
                             </form>
                         </div>

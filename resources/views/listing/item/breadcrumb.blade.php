@@ -1,7 +1,7 @@
 <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
     <ol class="breadcrumb bg-white p-2 px-3" style="border-radius: 10px;">
         <li class="breadcrumb-item">
-            <a href="{{ url('/item') }}">
+            <a href="{{ route('listing.item.index') }}">
                 <i class="bi bi-list"></i>
                 @if(session('lang') == 'en')
                     Item List
@@ -12,7 +12,7 @@
         </li>
 
         <li class="breadcrumb-item" aria-current="page">
-            <a href="{{ url('/item?origin=' . $item->origin->id) }}">
+            <a href="{{ route('listing.item.index') . '?origin=' . $item->origin->id }}">
                 <i class="bi bi-globe2"></i>
                 @if(session('lang') == 'en')
                     From {{ $item->origin->name_en }}

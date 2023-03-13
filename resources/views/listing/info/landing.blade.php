@@ -96,7 +96,7 @@
 
             <div class="row g-2">
                 <div class="col-6 col-lg-3">
-                    <a href="{{ url('/payment-method') }}">
+                    <a href="{{ route('listing.payment.index') }}">
                         <div class="d-flex justify-content-center align-items-center rounded-3"
                              style="background-color: #1c713e;height: 100px">
                             <span class="fw-bold text-white">
@@ -113,7 +113,7 @@
                 </div>
 
                 <div class="col-6 col-lg-3">
-                    <a href="{{ url('/item') }}">
+                    <a href="{{ route('listing.item.index') }}">
                         <div class="d-flex justify-content-center align-items-center rounded-3"
                              style="background-color: #e968a8;height: 100px">
                             <span class="fw-bold text-white">
@@ -130,7 +130,7 @@
                 </div>
 
                 <div class="col-6 col-lg-3">
-                    <a href="{{ url('/cart') }}">
+                    <a href="{{ route('listing.cart.index') }}">
                         <div class="d-flex justify-content-center align-items-center rounded-3"
                              style="background-color: #8c9126;height: 100px">
                             <span class="fw-bold text-white">

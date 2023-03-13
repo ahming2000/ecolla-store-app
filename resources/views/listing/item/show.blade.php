@@ -23,7 +23,7 @@
                 <div class="row">
                     <div class="col-12 mb-3">
                         @foreach($item->categories as $category)
-                            <a href="{{ url('/item?category=' . $category->id) }}">
+                            <a href="{{ route('listing.item.index') . '?category=' . $category->id }}">
                                 <span class="badge rounded-pill mr-1 p-2" style="background-color: mediumpurple">
                                     @if(session('lang') == 'en')
                                         {{ $category->name_en }}

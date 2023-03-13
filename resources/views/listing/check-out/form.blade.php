@@ -1,4 +1,4 @@
-<form action="{{ url('/cart/check-out') }}" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+<form action="{{ route('listing.cart.checkOut') }}" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
     @csrf
 
     <div class="h4 fw-bold">
