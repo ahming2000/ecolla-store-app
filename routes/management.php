@@ -9,61 +9,61 @@ use App\Http\Controllers\SystemController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/setup', [SystemController::class, 'freshSetup']);
-Route::get('/system-update/{password}', [SystemController::class, 'systemUpdate']);
+Route::get('/setup', [SystemController::class, 'freshSetup'])->name('management.freshSetup');
+Route::get('/system-update/{password}', [SystemController::class, 'systemUpdate'])->name('management.systemUpdate');
 
-Route::get('/changing-log', [InfoController::class, 'changingLogPage']);
+Route::get('/changing-log', [InfoController::class, 'changingLogPage'])->name('management.changingLog.index');
 
 Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthController::class, 'loginPage'])->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/login', [AuthController::class, 'loginPage'])->name('management.login');
+    Route::post('/login', [AuthController::class, 'login'])->name('management.login.api');
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', [InfoController::class, 'dashboardPage']);
-    Route::get('/profile', [UserController::class, 'profilePage']);
+    Route::get('/', [InfoController::class, 'dashboardPage'])->name('management.dashboard');
+    Route::get('/profile', [UserController::class, 'profilePage'])->name('management.profile.index');
 
-    Route::patch('/profile', [UserController::class, 'updatePassword']);
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::patch('/profile', [UserController::class, 'updatePassword'])->name('management.profile.update');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('management.logout');
 
     Route::prefix('/item')->group(function () {
-        Route::get('/', [ItemController::class, 'managePage']);
-        Route::get('/{item}', [ItemController::class, 'singlePage']);
+        Route::get('/', [ItemController::class, 'managePage'])->name('management.item.index');
+        Route::get('/{item}', [ItemController::class, 'singlePage'])->name('management.item.view');
 
         Route::middleware('can:employee')->group(function () {
-            Route::get('/edit', [ItemController::class, 'editPage']);
-            Route::patch('/{item}', [ItemController::class, 'update']);
+            Route::get('/edit', [ItemController::class, 'editPage'])->name('management.item.edit');
+            Route::patch('/{item}', [ItemController::class, 'update'])->name('management.item.update');
         });
 
         Route::middleware('can:manager')->group(function () {
-            Route::post('/', [ItemController::class, 'create']);
-            Route::delete('/{item}', [ItemController::class, 'delete']);
+            Route::post('/', [ItemController::class, 'create'])->name('management.item.create');
+            Route::delete('/{item}', [ItemController::class, 'delete'])->name('management.item.delete');
         });
     });
 
     Route::prefix('/order')->group(function () {
-        Route::get('/', [OrderController::class, 'managePage']);
-        Route::get('/{order}', [OrderController::class, 'singlePage']);
+        Route::get('/', [OrderController::class, 'managePage'])->name('management.order.index');
+        Route::get('/{order}', [OrderController::class, 'singlePage'])->name('management.order.view');
 
         Route::middleware('can:employee')->group(function () {
-            Route::patch('/{order}', [OrderController::class, 'update']);
+            Route::patch('/{order}', [OrderController::class, 'update'])->name('management.order.update');
         });
 
         Route::middleware('can:manager')->group(function () {
-            Route::post('/', [OrderController::class, 'create']);
-            Route::delete('/{order}', [OrderController::class, 'delete']);
+            Route::post('/', [OrderController::class, 'create'])->name('management.order.create');
+            Route::delete('/{order}', [OrderController::class, 'delete'])->name('management.order.delete');
         });
     });
 
     Route::prefix('/user')->middleware('can:admin')->group(function () {
-        Route::get('/', [UserController::class, 'managePage']);
+        Route::get('/', [UserController::class, 'managePage'])->name('management.user.index');
 
-        Route::post('/', [UserController::class, 'create']);
-        Route::patch('/{user}', [UserController::class, 'update']);
-        Route::delete('/{user}', [UserController::class, 'delete']);
+        Route::post('/', [UserController::class, 'create'])->name('management.user.create');
+        Route::patch('/{user}', [UserController::class, 'update'])->name('management.user.update');
+        Route::delete('/{user}', [UserController::class, 'delete'])->name('management.user.delete');
     });
 
     Route::prefix('/setting')->middleware('can:admin')->group(function () {
-        Route::get('/', [SettingController::class, 'settingPage']);
+        Route::get('/', [SettingController::class, 'settingPage'])->name('management.setting.index');
     });
 });
