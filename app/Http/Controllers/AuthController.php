@@ -40,6 +40,6 @@ class AuthController extends Controller
         auth()->guard()->logout();
         request()->session()->invalidate();
         request()->session()->regenerateToken();
-        return response()->redirectToRoute('login');
+        return response()->redirectToRoute('management.login.index');
     }
 }

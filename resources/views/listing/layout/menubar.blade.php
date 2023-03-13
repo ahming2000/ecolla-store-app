@@ -1,7 +1,7 @@
 <nav class="fixed-top navbar navbar-expand-md navbar-light bg-white shadow">
     <div class="container" id="nav-container">
 
-        <a class="navbar-brand" href="{{ url('/') }}">
+        <a class="navbar-brand" href="{{ route('listing.landing') }}">
             <img src="{{ asset('/images/ecolla.png') }}" width="30" height="30"
                  class="d-inline-block align-top" alt="Logo" loading="lazy">
             @if(session('lang') == 'en')
@@ -19,7 +19,7 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url('/') }}">
+                    <a class="nav-link" href="{{ route('listing.landing') }}">
                         <i class="bi bi-house"></i>
                         @if(session('lang') == 'en')
                             Home
@@ -30,7 +30,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url('/item') }}">
+                    <a class="nav-link" href="{{ route('listing.item.index') }}">
                         <i class="bi bi-list"></i>
                         @if(session('lang') == 'en')
                             Item List
@@ -41,7 +41,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url('/payment-method') }}">
+                    <a class="nav-link" href="{{ route('listing.payment.index') }}">
                         <i class="bi bi-wallet"></i>
                         @if(session('lang') == 'en')
                             Payment Method
@@ -52,7 +52,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url('/cart') }}">
+                    <a class="nav-link" href="{{ route('listing.cart.index') }}">
                         <i class="bi bi-cart"></i>
                         @if(session('lang') == 'en')
                             Cart
@@ -66,12 +66,12 @@
                 <li class="nav-item">
                     @if(session('lang') == 'en')
                         <a class="nav-link"
-                           href="{{ url('/lang/ch' . '?redirectTo=' . $_SERVER['REQUEST_URI']) }}">
+                           href="{{ route('listing.language.update', ['lang' => 'ch']) . '?redirectTo=' . $_SERVER['REQUEST_URI'] }}">
                             <i class="bi bi-translate"></i> 中文
                         </a>
                     @else
                         <a class="nav-link"
-                           href="{{ url('/lang/en' . '?redirectTo=' . $_SERVER['REQUEST_URI']) }}">
+                           href="{{ route('listing.language.update', ['lang' => 'en']) . '?redirectTo=' . $_SERVER['REQUEST_URI'] }}">
                             <i class="bi bi-translate"></i> English
                         </a>
                     @endif

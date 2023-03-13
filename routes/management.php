@@ -14,17 +14,13 @@ Route::get('/system-update/{password}', [SystemController::class, 'systemUpdate'
 
 Route::get('/changing-log', [InfoController::class, 'changingLogPage'])->name('management.changingLog.index');
 
-Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthController::class, 'loginPage'])->name('management.login');
-    Route::post('/login', [AuthController::class, 'login'])->name('management.login.api');
-});
+Route::get('/login', [AuthController::class, 'loginPage'])->name('management.login.index')->middleware('guest');
 
 Route::middleware('auth')->group(function () {
     Route::get('/', [InfoController::class, 'dashboardPage'])->name('management.dashboard');
     Route::get('/profile', [UserController::class, 'profilePage'])->name('management.profile.index');
 
     Route::patch('/profile', [UserController::class, 'updatePassword'])->name('management.profile.update');
-    Route::post('/logout', [AuthController::class, 'logout'])->name('management.logout');
 
     Route::prefix('/item')->group(function () {
         Route::get('/', [ItemController::class, 'managePage'])->name('management.item.index');

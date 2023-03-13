@@ -11,7 +11,7 @@
                 <div class="card-header">登录</div>
 
                 <div class="card-body">
-                    <form action="{{ url('/management/login') }}" method="post">
+                    <form action="{{ route('api.login') }}" method="post">
                         @csrf
 
                         <div class="form-floating mb-1">

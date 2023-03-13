@@ -1,7 +1,7 @@
 <div class="col-12 mb-3 cart-item" data-barcode="{{ $cartItem->variation->barcode }}">
     <div class="row">
         <div class="col-4 col-lg-3">
-            <a href="{{ url('/item/' . $cartItem->variation->item->id) }}">
+            <a href="{{ route('listing.item.view', ['item' => $cartItem->variation->item->id]) }}">
                 <img class="img-fluid rounded-3" alt="Variation Image"
                      src="{{ $cartItem->variation->image ?? $cartItem->variation->item->getCoverImage() }}">
             </a>
@@ -10,7 +10,7 @@
         <div class="col-8 col-lg-9">
             <div class="d-flex justify-content-between align-content-center">
                 <div class="h4 fw-bold text-truncate">
-                    <a href="{{ url('/item/' . $cartItem->variation->item->id) }}">
+                    <a href="{{ route('listing.item.view', ['item' => $cartItem->variation->item->id]) }}">
                         @if(session('lang') == 'en')
                             {{ $cartItem->variation->item->name_en }}
                         @else

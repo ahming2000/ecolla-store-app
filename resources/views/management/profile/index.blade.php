@@ -25,7 +25,7 @@
                     </small>
                 </div>
 
-                <form action="{{ url('/management/profile') }}" method="post" class="mb-3">
+                <form action="{{ route('management.profile.update') }}" method="post" class="mb-3">
                     @method('patch')
                     @csrf
 

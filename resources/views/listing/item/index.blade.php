@@ -14,7 +14,7 @@
     <div class="container py-3">
         @include('common.shipping-discount-notification')
 
-        <form class="row my-2" action="{{ url('/item') }}" id="filterForm">
+        <form class="row my-2" action="{{ route('listing.item.index') }}" id="filterForm">
             <div class="col-12 col-md-6 mb-2">
                 <div class="row">
                     <div class="d-flex justify-content-between">

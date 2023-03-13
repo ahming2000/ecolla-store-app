@@ -68,12 +68,12 @@
                 </div>
 
                 <div class="mt-3 mb-3">
-                    <a class="btn btn-secondary" href="{{ url('/item') }}">
+                    <a class="btn btn-secondary" href="{{ route('listing.item.index') }}">
                         <i class="bi bi-house"></i>
                         @if(session('lang') == 'en')
-                            Back To Home Page
+                            Back To Item Browsing
                         @else
-                            返回主页
+                            返回商品浏览
                         @endif
                     </a>
                 </div>

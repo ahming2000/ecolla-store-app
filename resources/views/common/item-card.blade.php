@@ -1,4 +1,4 @@
-<a href="{{ url('/item/' . $item->id) }}">
+<a href="{{  route('listing.item.view', ['item' => $item->id]) }}">
     <div class="card shadow">
         <img src="{{ asset($item->getCoverImage()) }}" class="card-img-top" alt="Cover Image" loading="lazy">
 
