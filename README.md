@@ -26,7 +26,7 @@ This project uses [PHP](https://www.php.net/) mainly and some [Javascript](https
 
 ## Project Information
 
-This project is currently active and hosted 
+This project is currently **INACTIVATE** and previously hosted 
 [over here (listing page)](https://www.newrainbowmarket.com/) 
 and [here (management page)](https://www.management.newrainbowmarket.com/). 
 And also [beta site](https://www.beta.newrainbowmarket.com/).
