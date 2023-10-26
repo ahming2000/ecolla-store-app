@@ -20,6 +20,6 @@ echo Generating symbolic links for files uploading...
 php artisan storage:link
 
 echo Migrating database tables and generating faker data...
-npm run db:dev
+npm run seed:dev
 
 echo Done.
