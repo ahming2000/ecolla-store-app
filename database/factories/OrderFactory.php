@@ -22,7 +22,7 @@ class OrderFactory extends Factory
             'mode' => $this->faker->numberBetween(0, 1),
             'tracking_id' => Str::random(),
             'shipping_fee' => 3.0,
-            'payment_method' => $this->faker->numberBetween(0, 4),
+            'payment_method' => $this->faker->numberBetween(1, 5),
             'status' => $this->faker->numberBetween(0, 2),
             'receipt_image' => $this->faker->imageUrl(),
             'note' => '',
