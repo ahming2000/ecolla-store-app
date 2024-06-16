@@ -11,7 +11,7 @@ class UserAccessLevel
      * 3: admin
      */
     public static int $VIEW_ONLY = 0;
-    public static int $UPDATE_ONLY = 0;
-    public static int $UPDATE_WEBSITE_SETTINGS = 0;
-    public static int $ADMIN = 0;
+    public static int $UPDATE_ONLY = 1;
+    public static int $UPDATE_WEBSITE_SETTINGS = 2;
+    public static int $ADMIN = 3;
 }
