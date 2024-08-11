@@ -217,12 +217,12 @@ input:checked + .slider:before {
               <div class="row mb-3">
                 <div class="col-6">
                   <div class="form-group w-100">
-                    <label class="label" for="variationPrice">原价</label>
+                    <label class="label text-primary" for="variationPrice">原价</label>
                     <div class="input-group">
-                      <span class="input-group-text" id="currencyUnit">RM</span>
+                      <span class="input-group-text text-primary fw-bold" id="currencyUnit">RM</span>
                       <input
                         type="number"
-                        class="form-control"
+                        class="form-control text-primary fw-bold"
                         id="variationPrice"
                         min="0.00"
                         step="0.10"
@@ -236,7 +236,7 @@ input:checked + .slider:before {
                   <div class="form-group w-100">
                     <label class="label" for="variationStock">库存</label>
                     <input
-                      class="form-control"
+                      class="form-control text-end"
                       type="number"
                       id="variationStock"
                       min="0"
@@ -252,7 +252,7 @@ input:checked + .slider:before {
                 <div class="input-group">
                   <input
                     type="number"
-                    class="form-control"
+                    class="form-control text-end"
                     id="variationWeight"
                     min="0.01"
                     step="0.01"
@@ -297,7 +297,7 @@ input:checked + .slider:before {
                       >
                       <input
                         type="date"
-                        class="form-control"
+                        class="form-control text-center"
                         id="discountStartDate"
                         :value="dateToString(variationDiscountStart)"
                         :min="dateToString(getToday())"
@@ -318,7 +318,7 @@ input:checked + .slider:before {
                         >
                         <input
                           type="date"
-                          class="form-control"
+                          class="form-control text-center"
                           id="discountEndDate"
                           :value="dateToString(variationDiscountEnd)"
                           :min="

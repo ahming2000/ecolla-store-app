@@ -63,7 +63,6 @@
       @onConfirmDelete="confirmDelete($event)"
       @onResponse="(...args) => onResponse(...args)"
     ></item-variation-modal>
-
   </div>
 </template>
 
@@ -199,9 +198,11 @@ export default {
               weight: res.data.data.weight,
               image: res.data.data.image,
               discount: newVariation.discount,
-            }
+            };
             this.variationList = [...this.variationList, addedVariation];
             this.selectedVariation = null;
+
+            this.$emit("onVariationsUpdated", this.variationList);
           } else {
             this.$emit("onResponse", res.data.messages, "error");
           }
@@ -237,7 +238,7 @@ export default {
               weight: this.selectedVariation.info.weight,
               image: this.selectedVariation.info.image,
               discount: this.selectedVariation.discount,
-            }
+            };
             this.variationList = this.variationList.map((variation) => {
               if (variation.id === editedVariation.id) {
                 return editedVariation;
@@ -246,6 +247,8 @@ export default {
               }
             });
             this.selectedVariation = null;
+
+            this.$emit("onVariationsUpdated", this.variationList);
           } else {
             this.$emit("onResponse", res.data.messages, "error");
           }
@@ -275,6 +278,8 @@ export default {
               (variation) => variation.id !== this.selectedVariation.info.id
             );
             this.selectedVariation = null;
+
+            this.$emit("onVariationsUpdated", this.variationList);
           } else {
             this.$emit("onResponse", res.data.messages, "error");
           }
@@ -287,7 +292,7 @@ export default {
 
     onResponse(...args) {
       this.$emit("onResponse", ...args);
-    }
+    },
   },
 };
 </script>

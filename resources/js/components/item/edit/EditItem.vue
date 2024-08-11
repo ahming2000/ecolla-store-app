@@ -63,8 +63,9 @@ li:hover {
         </li>
         <!-- <li class="nav-item" role="presentation">
           <a
-            class="nav-link d-inline-block"
+            class="nav-link"
             id="pills-wholesale-discount-tab"
+            data-bs-toggle="pill"
             data-bs-target="#pills-wholesale-discount"
             role="tab"
             aria-controls="pills-wholesale-discount"
@@ -133,8 +134,9 @@ li:hover {
       >
         <edit-item-variation-list
           :item_id="item.id"
-          :variations="item.variations"
+          :variations="variations"
           @onResponse="(...args) => onResponse(...args)"
+          @onVariationsUpdated="onVariationsUpdated($event)"
         ></edit-item-variation-list>
       </div>
       <div
@@ -144,6 +146,8 @@ li:hover {
         aria-labelledby="pills-wholesale-discount-tab"
       >
         <edit-item-wholesale-discount-list
+          :item_id="item.id"
+          :is_wholesale_discount_allowed="isWholesaleDiscountAllowed"
           :wholesale_discounts="item.discounts"
           :original_price="firstVariationPrice"
         ></edit-item-wholesale-discount-list>
@@ -209,9 +213,29 @@ export default {
         created_at: this.item.created_at ?? null,
         updated_at: this.item.updated_at ?? null,
       },
+      variations: this.item.variations ?? [],
+      isWholesaleDiscountAllowed: false,
       firstVariationPrice: this.item.variations[0]?.price ?? null,
       messageData: { message: "", type: "" },
     };
+  },
+
+  created() {
+    this.checkWholesaleDiscountAllowed(this.variations);
+    console.log(
+      "this.isWholesaleDiscountAllowed",
+      this.isWholesaleDiscountAllowed
+    );
+  },
+
+  watch: {
+    variations: function (val) {
+      this.checkWholesaleDiscountAllowed(val);
+      console.log(
+        "this.isWholesaleDiscountAllowed",
+        this.isWholesaleDiscountAllowed
+      );
+    },
   },
 
   methods: {
@@ -232,6 +256,17 @@ export default {
       });
 
       toastList[0].show();
+    },
+
+    onVariationsUpdated(variations) {
+      this.variations = variations;
+    },
+
+    checkWholesaleDiscountAllowed(variations) {
+      const variationPrices = variations.map((variation) => variation.price);
+      const isPriceEqual = (currentPrice) =>
+        currentPrice === variationPrices[0];
+      this.isWholesaleDiscountAllowed = variationPrices.every(isPriceEqual);
     },
   },
 };
