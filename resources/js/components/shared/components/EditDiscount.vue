@@ -27,7 +27,7 @@
           <span class="input-group-text" id="openBracket">(</span>
           <input
             type="number"
-            class="form-control"
+            class="form-control text-end"
             id="discountRatePercentage"
             min="0"
             max="100"
@@ -40,13 +40,13 @@
       </div>
     </div>
 
-    <div class="form-group mb-3 w-100">
-      <label class="label" for="discountedPrice">折扣后的价钱</label>
+    <div class="form-group mb-3 w-100 ">
+      <label class="label text-primary" for="discountedPrice">折扣后的价钱</label>
       <div class="input-group">
-        <span class="input-group-text" id="currencyUnit">RM</span>
+        <span class="input-group-text text-primary fw-bold" id="currencyUnit">RM</span>
         <input
           type="number"
-          class="form-control"
+          class="form-control text-primary fw-bold"
           id="discountedPrice"
           :value="discountedPrice.toFixed(2)"
           @change="onChange($event, 'discountedPrice')"
