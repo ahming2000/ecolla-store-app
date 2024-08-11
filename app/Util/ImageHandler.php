@@ -15,6 +15,8 @@ class ImageHandler
 
         if (substr($data, 0, 4) == 'http') { // Primary display way (Local)
             return $data;
+        } else if (substr($data, 0, 8) == '/images/') { // test images directory
+            return $data;
         } else { // Not readable in string, assume it is binary data
             return ImageHandler::binaryToBase64($data);
         }

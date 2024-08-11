@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use App\Models\ItemImage;
+use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Variation;
 use App\Util\ImageHandler;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Exception\NotReadableException;
 use Intervention\Image\Facades\Image;
+use Ulid\Ulid;
 
 class SystemUpdateController extends Controller
 {
@@ -26,9 +28,94 @@ class SystemUpdateController extends Controller
 
     public function performUpdate()
     {
-        $this->removeResidualImages();
+        echo "WARNING: THIS ACTION WILL CREATE HUGE AMOUNT OF SPACE, PLEASE RUN ONLY ONCE!<br><br>";
+
+//        $this->resortImages('App\Models\ItemImage', false);
+//        $this->resortImages('App\Models\Variation', false);
+//        $this->resortReceipt(false);
 
         die('<br/>All Tasks completed.');
+    }
+
+    private function resortImages($model, $updateColumn = false)
+    {
+        // get rows with id and image src
+        // update src path in the same row with id (old: with domain name, new: without domain name)
+        $rows = $this->getImagePaths($model);
+
+        // loop through all the rows
+        // move the file to /public/images/
+        // rename into ULID format
+        foreach ($rows as $image) {
+            // avoid duplicated (assume all using weblink)
+//            if (!str_starts_with($image['image'], 'http')) continue;
+
+            $path = '/images/' . Ulid::generate() . $this->getFileExtension($image['image']);
+            $originalPath = public_path($image['image']);
+            $destinationPath = public_path($path);
+
+            try {
+                if (copy($originalPath, $destinationPath)) {
+                    // save to database
+                    if ($updateColumn) $model::query()->where('id', '=', $image['id'])->update(['image' => $path]);
+                } else {
+                    dump("Error when converting $model image at id " . $image['id'] . '<br>');
+                }
+            } catch (Exception $e) {
+                dump("Error when converting $model image at id " . $image['id'] . '<br>');
+            }
+
+        }
+    }
+
+    private function resortReceipt($updateColumn = false) {
+        $orders = Order::query()
+            ->get(['id', 'receipt_image'])
+            ->toArray();
+
+        for ($i = 0; $i < sizeof($orders); $i++) {
+            $orders[$i]['receipt_image'] = str_replace('https://www.newrainbowmarket.com/', '', $orders[$i]['receipt_image']);
+        }
+
+        foreach ($orders as $order) {
+            $path = '/images/' . Ulid::generate() . $this->getFileExtension($order['receipt_image']);
+            $originalPath = public_path($order['receipt_image']);
+            $destinationPath = public_path($path);
+
+            try {
+                if (copy($originalPath, $destinationPath)) {
+                    // save to database
+                    if ($updateColumn) Order::query()->where('id', '=', $order['id'])->update(['receipt_image' => $path]);
+                } else {
+                    dump("Error when converting receipt image at order id " . $order['id'] . '<br>');
+                }
+            } catch (Exception $e) {
+                dump("Error when converting receipt image at order id " . $order['id'] . '<br>');
+            }
+        }
+    }
+
+    private function getImagePaths($model)
+    {
+        $rows = $model::query()
+            ->whereNotNull('image')
+            ->get(['id', 'image'])
+            ->toArray();
+
+        // remove html link
+        for ($i = 0; $i < sizeof($rows); $i++) {
+            $path = str_replace('https://www.management.newrainbowmarket.com:443/', '', $rows[$i]['image']);
+            if ($path == $rows[$i]['image']) $path = str_replace('https://management.newrainbowmarket.com:443/', '', $rows[$i]['image']);
+            if ($path == $rows[$i]['image']) $path = str_replace('https://management.newrainbowmarket.com/', '', $rows[$i]['image']);
+            $rows[$i]['image'] = $path;
+        }
+
+        return $rows;
+    }
+
+    private function getFileExtension($path)
+    {
+        return '.' . substr(strrchr($path, '.'), 1);
     }
 
     private function removeResidualImages()
