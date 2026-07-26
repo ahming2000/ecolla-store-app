@@ -1,25 +1,32 @@
 {
     "name": "laravel/laravel",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "description": "The skeleton application for the Laravel framework.",
+    "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
-        "guzzlehttp/guzzle": "^7.4.5",
-        "intervention/image": "^2.7",
-        "laravel/framework": "^9.2",
-        "laravel/sanctum": "^2.14.1",
-        "laravel/tinker": "^2.7",
-        "robinvdvleuten/ulid": "^5.0"
+        "php": "^8.4",
+        "barryvdh/laravel-dompdf": "^3.1",
+        "inertiajs/inertia-laravel": "^3.0",
+        "intervention/image": "^3.7",
+        "laravel/framework": "^13.0",
+        "laravel/telescope": "^5.2",
+        "laravel/tinker": "^3.0",
+        "laravel/wayfinder": "^0.1.20"
     },
     "require-dev": {
-        "fakerphp/faker": "^1.9.1",
-        "laravel/sail": "^1.0.1",
-        "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^6.1",
-        "phpunit/phpunit": "^9.5.10",
-        "spatie/laravel-ignition": "^1.0"
+        "barryvdh/laravel-ide-helper": "^3.1",
+        "fakerphp/faker": "^1.23",
+        "fruitcake/laravel-debugbar": "^4.0",
+        "larastan/larastan": "^3.9",
+        "laravel/boost": "^2.4",
+        "laravel/pail": "^1.2.5",
+        "laravel/pao": "^1.0.6",
+        "laravel/pint": "^1.17",
+        "laravel/sail": "^1.61",
+        "mockery/mockery": "^1.6",
+        "nunomaduro/collision": "^8.4",
+        "phpunit/phpunit": "^12.0"
     },
     "autoload": {
         "psr-4": {
@@ -39,13 +46,47 @@
             "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:meta"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
-            "@php artisan key:generate --ansi"
+            "@php artisan key:generate --ansi",
+            "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
+            "@php artisan migrate --graceful --ansi"
+        ],
+        "lint": "pint --parallel",
+        "lint:check": "pint --parallel --test",
+        "logs": "@php artisan pail --timeout=0",
+        "dev": [
+            "Composer\\Config::disableProcessTimeout",
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1 --timeout=0\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite --kill-others"
+        ],
+        "test": [
+            "@lint:check",
+            "@types:check",
+            "@php artisan test --compact"
+        ],
+        "test:all": [
+            "@test",
+            "npm run test:e2e"
+        ],
+        "types:check": "phpstan analyse --memory-limit=1G",
+        "wayfinder:generate": "@php artisan wayfinder:generate --skip-actions --no-interaction",
+        "setup": [
+            "@php artisan migrate --no-interaction",
+            "@php artisan db:seed DevSeeder --no-interaction"
+        ],
+        "setup:fresh": [
+            "@php artisan migrate:fresh --no-interaction",
+            "@php artisan db:seed DevSeeder --no-interaction"
+        ],
+        "setup:prod": [
+            "@php artisan migrate:fresh --no-interaction",
+            "@php artisan db:seed ProdSeeder --no-interaction"
         ]
     },
     "extra": {
@@ -56,8 +97,12 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
+        }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }

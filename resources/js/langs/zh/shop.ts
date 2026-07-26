@@ -1,0 +1,96 @@
+export default {
+    brand: 'e口乐 Ecolla',
+    address: {
+        line1: '2365, Jalan Hala Timah 3',
+        line2: 'Taman Bandar Baru',
+        line3: '31900 Kampar, Perak',
+    },
+    'item-list': {
+        empty: '无任何商品',
+        title: '商品',
+    },
+    item: {
+        breadcrumbs: {
+            list: '商品列表',
+            origin: '出产于{name}',
+        },
+        'sold-out': '已售完',
+    },
+    cart: {
+        title: '购物车',
+        'item-count': '购物车（{count} 件）',
+        clear: '清空',
+        'order-mode': '订单模式',
+        empty: {
+            alt: '空购物车',
+            description: '您的购物车为空',
+        },
+        item: {
+            'image-alt': '{name}图片',
+            remove: '从购物车移除{name}',
+        },
+        summary: {
+            checkout: '前往付款',
+            shipping: '邮费',
+            subtotal: '小计',
+            title: '购物车订单摘要',
+            total: '总计',
+        },
+        contact: {
+            title: '如有任何问题，请联系我们！',
+            'phone-copied': '已成功复制电话号码！',
+            facebook: 'e口乐官方脸书',
+            whatsapp: 'WhatsApp 客服',
+        },
+        delivery: {
+            title: '外送',
+            'cash-on-delivery': '不支持货到付款。',
+            'within-distance': '提供距离本店 5 公里以内的外送服务。',
+            'outside-distance': '暂不开放 5 公里以外的外送服务。',
+            fee: '外送费：{amount}',
+            schedule: '配送时段详情：',
+            'before-three': '下午 3 时前下单：下午 3 时至 4 时配送',
+            'after-three': '下午 3 时后下单：晚上 7 时至 8 时配送',
+        },
+        pickup: {
+            title: '预购取货',
+            description: '请填写电话号码，以便到店领取您的商品。',
+        },
+    },
+    checkout: {
+        title: '付款',
+        'items-title': '购物车的商品',
+        shipping: '运费',
+        total: '总计',
+        'form-title': '资料填写（{mode}）',
+        fields: {
+            address: '地址',
+            name: '名字',
+            phone: '电话号码',
+        },
+        placeholders: {
+            address: '10, Jalan Kampar',
+            name: 'John',
+            phone: '0121234567',
+        },
+        submit: '提交订单',
+        payment: {
+            select: '选择付款方式',
+            'show-qr-code': '显示 QR Code',
+        },
+        receipt: {
+            prompt: '请上传收据',
+            upload: '上传收据',
+        },
+        success: {
+            title: '下单成功',
+            heading: '感谢您的订单！',
+            reference: '您的订单编号是 {reference}。',
+        },
+    },
+    'payment-methods': {
+        title: '付款方式',
+        description: '以下是我们接受的付款方式。',
+        'view-qr-code': '点击查看 QR Code',
+    },
+} as const

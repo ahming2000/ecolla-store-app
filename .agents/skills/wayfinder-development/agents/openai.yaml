@@ -1,0 +1,4 @@
+interface:
+  display_name: "Wayfinder Development"
+  short_description: "Use typed Laravel routes from Vue and TypeScript"
+  default_prompt: "Use $wayfinder-development to connect this frontend change to named Laravel routes without hardcoded internal URLs."

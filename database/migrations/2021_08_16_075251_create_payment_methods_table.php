@@ -8,16 +8,17 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('payment_methods', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->string('icon');
-            $table->string('qr_code');
+
+            $table->string('name');
+            $table->string('icon_img_path');
+            $table->string('qr_code_img_path');
+            $table->boolean('is_enabled')->default(true);
+
             $table->timestamps();
             $table->softDeletes();
         });
@@ -25,10 +26,8 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('payment_methods');
     }

@@ -1,0 +1,820 @@
+{
+    "versionName": "v4.0.0",
+    "versionLabel": "v4.0.0 Public Release",
+    "updateDate": "2026/07/26",
+    "logs": [
+        {
+            "groupName": "v4.0 Public Release",
+            "subGroups": [
+                {
+                    "name": "v4.0.0 Public Release",
+                    "date": "2026/07/26",
+                    "details": [
+                        {
+                            "type": "Features",
+                            "desc": [
+                                "Introduced a completely redesigned shopping experience.",
+                                "Added complete English and Chinese support across the website.",
+                                "Enhanced item pages with variations, image galleries, categories, origins, and shareable links.",
+                                "Added more delivery and payment options, downloadable invoices, and receipt previews.",
+                                "Improved sorting and filtering and kept selected choices while browsing."
+                            ]
+                        },
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Refreshed page layouts and navigation for a clearer, more consistent experience.",
+                                "Improved cart and checkout checks, cleared the cart after successful orders, and made error messages clearer.",
+                                "Improved the speed and responsiveness of item and order listings.",
+                                "Improved the website's stability and reliability for everyday use."
+                            ]
+                        },
+                        {
+                            "type": "Other",
+                            "desc": [
+                                "v4 includes the completed features originally planned for the unreleased v3."
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "groupName": "v3.0 Never Released",
+            "subGroups": [
+                {
+                    "name": "v3.0.0 Never Released",
+                    "date": "N/A",
+                    "details": [
+                        {
+                            "type": "Release Status",
+                            "desc": [
+                                "Version 3 was never released. Its planned improvements were carried forward into v4."
+                            ]
+                        },
+                        {
+                            "type": "Features",
+                            "desc": [
+                                "Added a unified notification dialog.",
+                                "Added an item preview to the checkout page.",
+                                "Added a purchase history list after an order is placed successfully.",
+                                "Added item origin management with categorization and filtering.",
+                                "Added automatic adjustment of the number of items shown per page.",
+                                "Added an official news page."
+                            ]
+                        },
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Improved language switching.",
+                                "Improved the cart on the item listing page so its contents update without reloading the page.",
+                                "Added a new notification after an item is added to the cart.",
+                                "Improved the checkout flow.",
+                                "Improved the payment method dialog.",
+                                "Improved sorting and filtering.",
+                                "Improved the changelog.",
+                                "Improved account sign-in.",
+                                "Improved the profile page.",
+                                "Improved the website settings page.",
+                                "Improved category management and removed the “Uncategorized” category."
+                            ]
+                        },
+                        {
+                            "type": "Removed",
+                            "desc": ["Removed the order tracking page."]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "groupName": "v2.6 Public Beta",
+            "subGroups": [
+                {
+                    "name": "v2.6.1 Public Beta",
+                    "date": "2022/02/21",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Fixed an issue that allowed customers to place an order when the cart quantity exceeded available stock."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "v2.6.0 Public Beta",
+                    "date": "2022/02/18",
+                    "details": [
+                        {
+                            "type": "Features",
+                            "desc": ["Added free shipping for orders."]
+                        },
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Fixed customer-facing prices not updating after the Kampar shipping fee was changed."
+                            ]
+                        },
+                        {
+                            "type": "Other",
+                            "desc": [
+                                "Added a customer support link to the order confirmation page.",
+                                "Added more delivery and shipping fee information."
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "groupName": "v2.5 Public Beta",
+            "subGroups": [
+                {
+                    "name": "v2.5.4 Public Beta",
+                    "date": "2022/02/17",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Fixed an error that occurred when the same customer placed a second order."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "v2.5.3 Public Beta",
+                    "date": "2022/02/16",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Fixed the preorder pickup order page failing to load after the previous update."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "v2.5.2 Public Beta",
+                    "date": "2022/01/25",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Fixed an issue that prevented changing an incomplete order to another status when no tracking ID was entered."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "v2.5.1 Public Beta",
+                    "date": "2022/01/23",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Fixed shipping fees not appearing in downloaded PDFs."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "v2.5.0 Public Beta",
+                    "date": "2021/09/27",
+                    "details": [
+                        {
+                            "type": "Features",
+                            "desc": ["Introduced a new image upload system."]
+                        },
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Fixed PNG, WebP, and GIF images failing to upload or display correctly.",
+                                "Fixed images not displaying correctly on the cart page."
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "groupName": "v2.4 Public Beta",
+            "subGroups": [
+                {
+                    "name": "v2.4.1 Public Beta",
+                    "date": "2021/09/17",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Fixed uncategorized items not displaying correctly on the customer item page.",
+                                "The item creation page can now use a name that is already assigned to another item."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "v2.4.0 Public Beta",
+                    "date": "2021/09/13",
+                    "details": [
+                        {
+                            "type": "Features",
+                            "desc": [
+                                "Added filters for unlisted and out-of-stock items."
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "groupName": "v2.3 Public Beta",
+            "subGroups": [
+                {
+                    "name": "v2.3.1 Public Beta",
+                    "date": "2021/09/11",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Fixed pagination not working on the item page."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "v2.3.0 Public Beta",
+                    "date": "2021/09/10",
+                    "details": [
+                        {
+                            "type": "Features",
+                            "desc": ["Added sorting and filtering."]
+                        },
+                        {
+                            "type": "Improvements",
+                            "desc": ["Improved the page display."]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "groupName": "v2.2 Public Beta",
+            "subGroups": [
+                {
+                    "name": "v2.2.3 Public Beta",
+                    "date": "2021/09/09",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Fixed items not being deleted completely and the resulting page display issue."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "v2.2.2 Public Beta",
+                    "date": "2021/08/17",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Fixed order date selection not finding orders from the selected date.",
+                                "Fixed failed image uploads still being saved."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "v2.2.1 Public Beta",
+                    "date": "2021/08/16",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Fixed discounts not following their configured schedule."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "v2.2.0 Public Beta",
+                    "date": "2021/08/16",
+                    "details": [
+                        {
+                            "type": "Features",
+                            "desc": [
+                                "Introduced a new item editing interface.",
+                                "Introduced a new visual design.",
+                                "Added item discounts."
+                            ]
+                        },
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Improved major pages throughout the site.",
+                                "Improved item image storage.",
+                                "Improved item image display.",
+                                "Improved image upload error handling.",
+                                "Improved page loading speed."
+                            ]
+                        },
+                        {
+                            "type": "Other",
+                            "desc": ["Removed unused resources."]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "groupName": "v2.1 Public Beta",
+            "subGroups": [
+                {
+                    "name": "v2.1.1 Public Beta",
+                    "date": "2021/07/07",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": ["Fixed item price display."]
+                        }
+                    ]
+                },
+                {
+                    "name": "v2.1.0 Public Beta",
+                    "date": "2021/06/27",
+                    "details": [
+                        {
+                            "type": "Features",
+                            "desc": [
+                                "Added support for adding item variations to the cart."
+                            ]
+                        },
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Improved the item browsing page.",
+                                "Improved the item details page.",
+                                "Improved the cart page.",
+                                "Improved the order confirmation page."
+                            ]
+                        },
+                        {
+                            "type": "Other",
+                            "desc": ["Removed unused resources."]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "groupName": "v2.0 Public Beta",
+            "subGroups": [
+                {
+                    "name": "v2.0.3 Public Beta",
+                    "date": "2021/06/24",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Fixed duplicate item names being allowed.",
+                                "Improved customer item page links so names may contain the “/” character."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "v2.0.2 Public Beta",
+                    "date": "2021/06/14",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Fixed customer category lists displaying more than 10 items.",
+                                "Fixed several cart icons displaying incorrectly.",
+                                "Fixed the English item page displaying incorrectly when an item had only one image.",
+                                "Improved the add-to-cart message implementation.",
+                                "Item cover images can now be viewed from the item management page.",
+                                "Improved the item editing interface.",
+                                "Improved account management and access control."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "v2.0.1 Public Beta",
+                    "date": "2021/06/14",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Restored customer details on orders after they were removed accidentally."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "v2.0.0 Public Beta",
+                    "date": "2021/06/14",
+                    "details": [
+                        {
+                            "type": "Features",
+                            "desc": [
+                                "Added account access levels and administrator management.",
+                                "Added personal account settings.",
+                                "Added order prefix and Kampar shipping fee settings.",
+                                "Added controls for listing and unlisting items.",
+                                "Added refunded order calculations to the dashboard.",
+                                "Added a configurable number of items per page in the admin area."
+                            ]
+                        },
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Improved the item category management page.",
+                                "Improved the dashboard on mobile devices.",
+                                "Improved item category tags.",
+                                "Fixed variation names overflowing beneath variation images in the item editor.",
+                                "Improved the item viewing interface.",
+                                "Improved the order viewing interface.",
+                                "Improved the item editing interface.",
+                                "Corrected incorrectly translated error messages."
+                            ]
+                        },
+                        {
+                            "type": "Page updates",
+                            "desc": [
+                                "Moved customer support to WhatsApp on customer pages."
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "groupName": "v1.5 Public Beta",
+            "subGroups": [
+                {
+                    "name": "v1.5.4 Public Beta",
+                    "date": "2021/05/29",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Fixed item lists within the same category displaying incorrectly on customer pages."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "v1.5.3 Public Beta",
+                    "date": "2021/05/25",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Fixed item description text overflowing the viewport."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "v1.5.2 Public Beta",
+                    "date": "2021/05/22",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Improved order mode selection in the customer cart."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "v1.5.1 Public Beta",
+                    "date": "2021/05/19",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": ["Fixed slow order receipt downloads."]
+                        }
+                    ]
+                },
+                {
+                    "name": "v1.5.0 Public Beta",
+                    "date": "2021/05/17",
+                    "details": [
+                        {
+                            "type": "Features",
+                            "desc": [
+                                "Added order receipt downloads.",
+                                "Added item search to item management.",
+                                "Added category filters to item management."
+                            ]
+                        },
+                        {
+                            "type": "Page updates",
+                            "desc": ["Added promotional images."]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "groupName": "v1.4 Public Beta",
+            "subGroups": [
+                {
+                    "name": "v1.4.9 Public Beta",
+                    "date": "2021/05/15",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Fixed items remaining unlisted after being saved.",
+                                "Fixed the save confirmation not appearing after an item was saved."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "v1.4.8 Public Beta",
+                    "date": "2021/05/14",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Fixed categories becoming impossible to delete after a new category was added.",
+                                "Improved item category filtering so categories with no items are hidden."
+                            ]
+                        },
+                        {
+                            "type": "Page updates",
+                            "desc": [
+                                "Changed the customer item page to reverse sorting."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "v1.4.7 Public Beta",
+                    "date": "2021/05/14",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Improved image loading time.",
+                                "Fixed items without images not opening from the item listing."
+                            ]
+                        },
+                        {
+                            "type": "Page updates",
+                            "desc": [
+                                "Adjusted the position of content on the home page."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "v1.4.6 Public Beta",
+                    "date": "2021/05/14",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": ["Improved the home page display."]
+                        },
+                        {
+                            "type": "Page updates",
+                            "desc": [
+                                "Changed customer-facing colors. Clear the browser cache if parts of the interface display incorrectly."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "v1.4.5 Public Beta",
+                    "date": "2021/05/14",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Fixed an internal error when a variation used the same SKU as another variation on the same or a different item.",
+                                "Improved styling code. Clear the browser cache if parts of the interface display incorrectly."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "v1.4.4 Public Beta",
+                    "date": "2021/05/13",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Fixed selected categories not being retained after validation failed for another item field in the item editor.",
+                                "Improved styling code. Clear the browser cache if parts of the interface display incorrectly."
+                            ]
+                        },
+                        {
+                            "type": "Page updates",
+                            "desc": ["Added a new home page banner."]
+                        }
+                    ]
+                },
+                {
+                    "name": "v1.4.3 Public Beta",
+                    "date": "2021/05/13",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Fixed uploaded variation images not being removable."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "v1.4.2 Public Beta",
+                    "date": "2021/05/13",
+                    "details": [
+                        {
+                            "type": "Page updates",
+                            "desc": [
+                                "Replaced the old payment method examples with new payment methods and QR codes."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "v1.4.1 Public Beta",
+                    "date": "2021/05/12",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Improved search on the item management page.",
+                                "Fixed English item names not displaying correctly after validation errors in the item editor.",
+                                "Fixed the canceled and refunded options being reversed in the order status editor."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "v1.4.0 Public Beta",
+                    "date": "2021/05/09",
+                    "details": [
+                        {
+                            "type": "Features",
+                            "desc": [
+                                "Added item descriptions to customer item pages.",
+                                "Added related items to customer item pages."
+                            ]
+                        },
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Fixed the customer home page toolbar becoming transparent after scrolling."
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "groupName": "v1.3 Public Beta",
+            "subGroups": [
+                {
+                    "name": "v1.3.3 Public Beta",
+                    "date": "2021/05/08",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Fixed the item page allowing more than one unit to be added to the cart when only one was in stock.",
+                                "Fixed customer home page controls displaying incorrectly on mobile.",
+                                "Fixed the dashboard not displaying correctly."
+                            ]
+                        },
+                        {
+                            "type": "Page updates",
+                            "desc": ["Translated the dashboard page."]
+                        }
+                    ]
+                },
+                {
+                    "name": "v1.3.2 Public Beta",
+                    "date": "2021/05/07",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Removed item brands.",
+                                "Merged separate item variation names."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "v1.3.1 Public Beta",
+                    "date": "2021/05/06",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Fixed customer details not being saved for delivery orders.",
+                                "Fixed shipping fees displaying incorrectly."
+                            ]
+                        },
+                        {
+                            "type": "Page updates",
+                            "desc": ["Updated delivery details."]
+                        }
+                    ]
+                },
+                {
+                    "name": "v1.3.0 Public Beta",
+                    "date": "2021/05/06",
+                    "details": [
+                        {
+                            "type": "Features",
+                            "desc": [
+                                "Added item deletion.",
+                                "Added item category management."
+                            ]
+                        },
+                        {
+                            "type": "Improvements",
+                            "desc": ["Improved image display on item pages."]
+                        },
+                        {
+                            "type": "Other",
+                            "desc": ["Removed sample items."]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "groupName": "v1.2 Public Beta",
+            "subGroups": [
+                {
+                    "name": "v1.2.0 Public Beta",
+                    "date": "2021/05/02",
+                    "details": [
+                        {
+                            "type": "Features",
+                            "desc": [
+                                "Added item creation.",
+                                "Added item editing."
+                            ]
+                        },
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Improved item stock management.",
+                                "Fixed item images not displaying two per row on mobile.",
+                                "Improved item and order management pages."
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "groupName": "v1.1 Public Beta",
+            "subGroups": [
+                {
+                    "name": "v1.1.1 Public Beta",
+                    "date": "2021/04/25",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Fixed inaccurate order times on the order details page."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "v1.1.0 Public Beta",
+                    "date": "2021/04/23",
+                    "details": [
+                        {
+                            "type": "Features",
+                            "desc": [
+                                "Fixed inaccurate order times on the order details page.",
+                                "Added order detail views."
+                            ]
+                        },
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Improved wholesale information on customer item pages."
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

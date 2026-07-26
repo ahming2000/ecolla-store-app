@@ -2,11 +2,16 @@
 
 namespace Database\Factories;
 
+use App\Enums\DeliveryMode;
+use App\Enums\Status;
+use App\Models\Image;
+use App\Models\Order;
+use App\Models\PaymentMethod;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Order>
+ * @extends Factory<Order>
  */
 class OrderFactory extends Factory
 {
@@ -15,17 +20,31 @@ class OrderFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
+        $imageIds = Image::query()->pluck('id')->all();
+        $paymentMethodIds = PaymentMethod::query()->pluck('id')->all();
+
+        $orderDeliveryModeList = collect(DeliveryMode::cases())->map(fn ($s) => $s->value)->toArray();
+        $statusList = collect(Status::cases())->map(fn ($s) => $s->value)->toArray();
+
         return [
-            'id' => Str::random(),
-            'mode' => $this->faker->numberBetween(0, 1),
-            'tracking_id' => Str::random(),
+            'reference_num' => Str::random(),
+            'delivery_mode' => fake()->randomElement($orderDeliveryModeList),
+            'status' => fake()->randomElement($statusList),
+
+            'payment_method_id' => fake()->randomElement($paymentMethodIds),
+
+            'tracking_no' => Str::random(),
             'shipping_fee' => 3.0,
-            'payment_method' => $this->faker->numberBetween(1, 5),
-            'status' => $this->faker->numberBetween(0, 2),
-            'receipt_image' => $this->faker->imageUrl(),
+
+            'receipt_image_id' => fake()->randomElement($imageIds),
+
             'note' => '',
+
+            'cus_name' => fake()->name(),
+            'cus_phone' => fake()->phoneNumber(),
+            'cus_address' => fake()->address(),
         ];
     }
 }

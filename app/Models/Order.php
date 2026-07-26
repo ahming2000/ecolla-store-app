@@ -2,35 +2,61 @@
 
 namespace App\Models;
 
-use App\Traits\FormatDateToSerialize;
+use App\Enums\DeliveryMode;
+use App\Enums\Status;
+use Database\Factories\OrderFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
-    use HasFactory, FormatDateToSerialize;
-
-    public $incrementing = false;
+    /** @use HasFactory<OrderFactory> */
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'mode',
-        'tracking_id',
-        'shipping_fee',
-        'payment_method',
+        'reference_num',
+        'delivery_mode',
         'status',
-        'receipt_image',
+        'tracking_no',
+        'shipping_fee',
+        'payment_method_id',
+        'receipt_image_id',
         'note',
+        'cus_name',
+        'cus_phone',
+        'cus_address',
     ];
 
-    public function customer(): HasOne
+    protected $casts = [
+        'delivery_mode' => DeliveryMode::class,
+        'status' => Status::class,
+    ];
+
+    /**
+     * @return BelongsTo<PaymentMethod, $this>
+     */
+    public function paymentMethod(): BelongsTo
     {
-        return $this->hasOne(Customer::class);
+        return $this->belongsTo(PaymentMethod::class, 'payment_method_id');
     }
 
-    public function orderItems(): HasMany
+    /**
+     * @return HasOne<Image, $this>
+     */
+    public function receiptImage(): HasOne
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->hasOne(Image::class, 'id', 'receipt_image_id');
+    }
+
+    /**
+     * @return HasMany<OrderedItem, $this>
+     */
+    public function items(): HasMany
+    {
+        return $this->hasMany(OrderedItem::class);
     }
 }

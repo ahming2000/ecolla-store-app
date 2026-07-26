@@ -1,0 +1,98 @@
+name: CI
+
+on:
+    push:
+    pull_request:
+
+permissions:
+    contents: read
+
+concurrency:
+    group: ci-${{ github.ref }}
+    cancel-in-progress: true
+
+jobs:
+    verify:
+        runs-on: ubuntu-latest
+        timeout-minutes: 20
+
+        services:
+            postgres:
+                image: postgres:18-alpine
+                env:
+                    POSTGRES_DB: ecolla_ci
+                    POSTGRES_USER: postgres
+                    POSTGRES_PASSWORD: postgres
+                ports:
+                    - 5432:5432
+                options: >-
+                    --health-cmd "pg_isready -U postgres -d ecolla_ci"
+                    --health-interval 5s
+                    --health-timeout 5s
+                    --health-retries 12
+
+        env:
+            CI_POSTGRES_CHECK: 'true'
+            DB_HOST: 127.0.0.1
+            DB_PORT: 5432
+            DB_DATABASE: ecolla_ci
+            DB_USERNAME: postgres
+            DB_PASSWORD: postgres
+            VITE_PRIMEUI_LICENSE_KEY: ${{ secrets.PRIMEUI_LICENSE_KEY }}
+
+        steps:
+            - name: Check out repository
+              uses: actions/checkout@v6
+
+            - name: Set up PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.4'
+                  extensions: bcmath, curl, dom, fileinfo, gd, intl, mbstring, pdo_pgsql, pdo_sqlite, xml, zip
+                  coverage: none
+                  tools: composer:v2
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v6
+              with:
+                  node-version-file: .nvmrc
+                  cache: npm
+
+            - name: Run project verification
+              run: bash ci/verify.sh
+
+    containers:
+        runs-on: ubuntu-latest
+        timeout-minutes: 20
+        env:
+            VITE_PRIMEUI_LICENSE_KEY: ${{ secrets.PRIMEUI_LICENSE_KEY }}
+
+        steps:
+            - name: Check out repository
+              uses: actions/checkout@v6
+
+            - name: Validate shell scripts
+              run: >-
+                  docker run --rm
+                  --volume "$PWD:/mnt"
+                  --workdir /mnt
+                  koalaman/shellcheck-alpine:stable
+                  shellcheck scripts/*.sh ci/*.sh
+
+            - name: Validate GitHub Actions workflows
+              run: >-
+                  docker run --rm
+                  --volume "$PWD:/repo"
+                  --workdir /repo
+                  rhysd/actionlint:latest
+
+            - name: Validate Docker Compose configuration
+              run: |
+                  cp .env.example .env
+                  export VITE_PRIMEUI_LICENSE_KEY="${VITE_PRIMEUI_LICENSE_KEY:-ci-placeholder}"
+                  export PRIMEUI_LICENSE_FINGERPRINT=ci-placeholder
+                  docker compose --file compose.yaml config --quiet
+                  docker compose --file compose.production.yaml config --quiet
+
+            - name: Build production containers
+              run: bash ci/build-containers.sh

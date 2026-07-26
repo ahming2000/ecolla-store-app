@@ -1,0 +1,89 @@
+name: ecolla-store-app-production
+
+x-production-service: &production-service
+    image: ecolla-store-app:production
+    build:
+        context: .
+        dockerfile: ci/docker/Dockerfile
+        target: production
+        args:
+            PRIMEUI_LICENSE_FINGERPRINT: ${PRIMEUI_LICENSE_FINGERPRINT:?Run scripts/configure-primeui.sh}
+        secrets:
+            - primeui_license
+    env_file:
+        - .env
+    environment:
+        APP_ENV: production
+        APP_DEBUG: 'false'
+        DB_CONNECTION: pgsql
+        DB_HOST: postgres
+        DB_PORT: 5432
+    volumes:
+        - application_cache:/var/www/html/bootstrap/cache
+        - application_storage:/var/www/html/storage
+        - uploaded_files:/var/www/html/storage/app/public
+    depends_on:
+        postgres:
+            condition: service_healthy
+
+services:
+    app:
+        <<: *production-service
+        restart: always
+
+    nginx:
+        image: ecolla-store-nginx:production
+        build:
+            context: .
+            dockerfile: ci/docker/Dockerfile
+            target: nginx-production
+            args:
+                PRIMEUI_LICENSE_FINGERPRINT: ${PRIMEUI_LICENSE_FINGERPRINT:?Run scripts/configure-primeui.sh}
+            secrets:
+                - primeui_license
+        restart: always
+        ports:
+            - '127.0.0.1:${DOCKER_HTTP_PORT:-8080}:80'
+        volumes:
+            - uploaded_files:/var/www/html/public/storage:ro
+        depends_on:
+            - app
+
+    queue:
+        <<: *production-service
+        command: php artisan queue:work --sleep=3 --tries=3 --max-time=3600
+        restart: always
+
+    scheduler:
+        <<: *production-service
+        command: php artisan schedule:work
+        restart: always
+
+    postgres:
+        image: postgres:18-alpine
+        restart: always
+        env_file:
+            - .env
+        environment:
+            POSTGRES_DB: ${DB_DATABASE}
+            POSTGRES_USER: ${DB_USERNAME}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+        volumes:
+            - postgres_data:/var/lib/postgresql
+        healthcheck:
+            test:
+                - CMD-SHELL
+                - pg_isready -U "${DB_USERNAME}" -d "${DB_DATABASE}"
+            interval: 5s
+            timeout: 5s
+            retries: 12
+
+volumes:
+    application_cache:
+    application_storage:
+    postgres_data:
+    uploaded_files:
+
+secrets:
+    primeui_license:
+        environment: VITE_PRIMEUI_LICENSE_KEY
