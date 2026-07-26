@@ -476,37 +476,18 @@ bash scripts/deploy-docker.sh
 
 The PostgreSQL data, Laravel storage, uploaded files, and optimized cache use named Docker volumes. Back up the PostgreSQL and uploaded-file volumes before operating-system or destructive database maintenance.
 
-## CI/CD
+## Manual verification and deployment
 
-The GitHub Actions workflows are thin wrappers around scripts stored in `ci/`:
+GitHub Actions CI and deployment workflows are intentionally disabled. Pushing a branch or opening a pull request will not run checks or deploy the application.
 
-- `.github/workflows/ci.yml` runs on every push and pull request.
-- `ci/verify.sh` runs application checks against PostgreSQL 18 and SQLite-backed PHPUnit tests.
-- `ci/build-containers.sh` verifies both production container targets build.
-- `.github/workflows/deploy.yml` is a manual production deployment.
-- `ci/deploy-compute-engine.sh` connects to the VM, checks out the selected commit, and runs the native or Docker deployment script.
+Run the reusable checks locally when needed:
 
-The deployment workflow uses Google Cloud Workload Identity Federation instead of a long-lived service-account JSON key.
+```bash
+bash ci/verify.sh
+bash ci/build-containers.sh
+```
 
-Add `PRIMEUI_LICENSE_KEY` as a GitHub Actions repository secret so licensed frontend and container builds also run in CI. Pull requests from forks do not receive repository secrets; those builds still compile, but PrimeUI browser verification requires a licensed build.
-
-Create a protected GitHub environment named `production`, then configure:
-
-| Type     | Name                             | Example                                                                                 |
-| -------- | -------------------------------- | --------------------------------------------------------------------------------------- |
-| Secret   | `GCP_WORKLOAD_IDENTITY_PROVIDER` | `projects/123456789/locations/global/workloadIdentityPools/github/providers/repository` |
-| Secret   | `GCP_SERVICE_ACCOUNT`            | `github-deploy@project-id.iam.gserviceaccount.com`                                      |
-| Variable | `GCP_PROJECT_ID`                 | `my-project-id`                                                                         |
-| Variable | `GCE_INSTANCE`                   | `ecolla-store-production`                                                               |
-| Variable | `GCE_ZONE`                       | `asia-southeast1-b`                                                                     |
-| Variable | `GCE_APP_PATH`                   | `/var/www/ecolla-store-app`                                                             |
-| Variable | `GCE_SSH_USER`                   | Deployment OS user; optional with OS Login                                              |
-| Variable | `GCE_USE_IAP`                    | `true` or `false`                                                                       |
-| Variable | `DEPLOYMENT_METHOD`              | `native` or `docker`                                                                    |
-
-Grant the federated service account only the Compute Engine/OS Login permissions needed to SSH to this VM. If `GCE_USE_IAP=true`, also configure IAP TCP forwarding access. Protect the `production` environment with required reviewers before enabling unattended deployment.
-
-Run a deployment from **Actions → Deploy to Compute Engine → Run workflow** and select the Git ref to deploy. Automatic deployment on every push is intentionally not enabled during the refactoring period.
+Deploy directly from the Compute Engine VM using `scripts/deploy.sh` for native deployments or `scripts/deploy-docker.sh` for Docker deployments, following the preceding Compute Engine instructions.
 
 ## Operational notes
 
@@ -517,7 +498,7 @@ Run a deployment from **Actions → Deploy to Compute Engine → Run workflow** 
 - Local Docker development uses Sail with dedicated Vite and queue services.
 - Production Docker uses the separate optimized Compose stack with dedicated queue and scheduler services.
 - `APP_DEBUG` must always be `false` in production.
-- The native PostgreSQL Apt meta-package follows the latest stable PostgreSQL major. Docker and CI are pinned to PostgreSQL 18 for reproducible builds; update the image deliberately after testing a major upgrade and planning a database migration.
+- The native PostgreSQL Apt meta-package follows the latest stable PostgreSQL major. Docker configurations and local container verification are pinned to PostgreSQL 18 for reproducible builds; update the image deliberately after testing a major upgrade and planning a database migration.
 - If a frontend change is not visible, run `npm run build` for production or confirm `npm run dev` is running locally.
 
 ## Useful links

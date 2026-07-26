@@ -28,12 +28,10 @@ composer validate --strict
 composer install --no-interaction --no-progress --prefer-dist
 npm ci --no-audit --no-fund
 
-log "Checking deployment scripts and configuration formatting"
+log "Checking scripts and configuration formatting"
 bash -n scripts/*.sh ci/*.sh
 npx prettier --check \
     README.md \
-    .github/workflows/ci.yml \
-    .github/workflows/deploy.yml \
     compose.yaml \
     compose.production.yaml \
     composer.json \
