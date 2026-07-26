@@ -2,25 +2,35 @@
 
 namespace Database\Factories;
 
+use App\Enums\Language;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * @extends Factory<User>
  */
 class UserFactory extends Factory
 {
+    /**
+     * The current password being used by the factory.
+     */
+    protected static ?string $password;
+
     /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
-            'username' => $this->faker->unique()->userName(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'access_level' => $this->faker->randomElement([0, 1, 2]),
+            'username' => fake()->unique()->userName(),
+            'password' => static::$password ??= Hash::make('password'),
+            'lang' => Language::ZH->value,
+            'timezone' => 'Asia/Kuala_Lumpur',
+            'access_level' => fake()->randomElement([0, 1, 2]),
             'is_enabled' => true,
             'remember_token' => Str::random(10),
         ];

@@ -2,24 +2,34 @@
 
 namespace App\Models;
 
-use App\Traits\FormatDateToSerialize;
-use Illuminate\Contracts\Auth\Authenticatable;
+use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class User extends Model implements Authenticatable
+class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, \Illuminate\Auth\Authenticatable, FormatDateToSerialize, SoftDeletes;
+    /** @use HasFactory<UserFactory> */
+    use HasFactory, Notifiable, SoftDeletes;
 
     protected $fillable = [
         'username',
         'password',
+        'access_level',
+        'is_enabled',
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'is_enabled' => 'boolean',
+            'password' => 'hashed',
+        ];
+    }
 }

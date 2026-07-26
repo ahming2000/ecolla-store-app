@@ -2,118 +2,191 @@
 
 namespace App\Models;
 
-use App\Traits\FormatDateToSerialize;
+use Database\Factories\ItemFactory;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class Item extends Model
 {
-    use HasFactory, FormatDateToSerialize;
+    /** @use HasFactory<ItemFactory> */
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name',
         'name_en',
+        'slug',
         'desc',
+        'is_listed',
+        'view_count',
+        'sold_count',
         'origin_id',
     ];
 
-    public static function getTotalItemListed(): int
+    protected $appends = [
+        'cover_image',
+        'total_stock',
+        'total_image_count',
+        'all_images',
+    ];
+
+    protected static function booted(): void
     {
-        return self::query()
-            ->where('is_listed', '=', true)
-            ->count();
+        static::saving(function (Item $item): void {
+            if (! $item->exists || $item->isDirty(['name', 'name_en'])) {
+                $item->slug = $item->generateUniqueSlug();
+            }
+        });
     }
 
-    public static function getTotalItem(): int
+    protected function casts(): array
     {
-        return self::query()->count();
+        return [
+            'is_listed' => 'boolean',
+            'sold_count' => 'integer',
+            'view_count' => 'integer',
+        ];
     }
 
-    public function getCoverImage(): string
+    public function getCoverImageAttribute(): ?string
     {
-        if (sizeof($this->images) == 0) {
-            foreach ($this->variations as $variation) {
+        $image = $this->relationLoaded('images')
+            ? $this->images->first()
+            : $this->images()->first();
+
+        if ($image
+            && ($image->url || $image->data_uri)
+        ) {
+            return $image->src;
+        }
+
+        $variation = $this->relationLoaded('variations')
+            ? $this->variations->first(
+                fn (ItemVariation $variation): bool => $variation->image_id !== null,
+            )
+            : $this->variations()
+                ->whereNotNull('image_id')
+                ->with('image')
+                ->first();
+
+        if ($variation && $variation->image) {
+            return $variation->image->src;
+        }
+
+        return null;
+    }
+
+    public function getTotalStockAttribute(): int
+    {
+        if ($this->relationLoaded('variations')) {
+            return (int) $this->variations->sum('stock');
+        }
+
+        return (int) $this->variations()->sum('stock');
+    }
+
+    public function getTotalImageCountAttribute(): int
+    {
+        $imageCount = $this->relationLoaded('images')
+            ? $this->images->count()
+            : $this->images()->count();
+        $variationCount = $this->relationLoaded('variations')
+            ? $this->variations->count()
+            : $this->variations()->count();
+
+        return $imageCount + $variationCount;
+    }
+
+    /**
+     * @return EloquentCollection<int, Image>
+     */
+    public function getAllImagesAttribute(): EloquentCollection
+    {
+        $variationImages = $this->variations
+            ->map(function (ItemVariation $variation): ?Image {
                 if ($variation->image) {
-                    return $variation->image;
+                    $image = clone $variation->image;
+                    $image->setAttribute('variation_id', $variation->getKey());
+
+                    return $image;
                 }
-            }
-        } else {
-            return $this->images[0]->image;
-        }
 
-        return asset('/images/ecolla.png');
+                return null;
+            })
+            ->filter(fn (?Image $image): bool => $image !== null);
+
+        return $this->images->merge($variationImages);
     }
 
-    public function getDisplayablePrice(): string
-    {
-        $min = 0.0;
-        $max = 0.0;
-
-        foreach ($this->variations as $variation) {
-            $price = $variation->price;
-
-            // TODO: Include variation discount
-
-            if ($price > $max) {
-                $max = $price;
-            }
-
-            if ($price < $min or $min == 0.0) {
-                $min = $price;
-            }
-        }
-
-        if ($min == $max) {
-            return 'RM' . number_format($min, 2);
-        } else {
-            return 'RM' . number_format($min, 2) . ' - RM' . number_format($max, 2);
-        }
-    }
-
-    public function getTotalStock(): int
-    {
-        $total = 0;
-
-        foreach ($this->variations as $variation){
-            $total += $variation->stock;
-        }
-
-        return $total;
-    }
-
-    public function getTotalImageCount(): int
-    {
-        $total = sizeof($this->images) ?? 0;
-
-        foreach ($this->variations as $variation){
-            if($variation->image != null){
-                $total++;
-            }
-        }
-
-        return $total;
-    }
-
+    /**
+     * @return HasMany<ItemVariation, $this>
+     */
     public function variations(): HasMany
     {
-        return $this->hasMany(Variation::class);
+        return $this->hasMany(ItemVariation::class);
     }
 
+    /**
+     * @return BelongsTo<Origin, $this>
+     */
     public function origin(): BelongsTo
     {
         return $this->belongsTo(Origin::class);
     }
 
-    public function images(): HasMany
+    /**
+     * @return BelongsToMany<Image, $this>
+     */
+    public function images(): BelongsToMany
     {
-        return $this->hasMany(ItemImage::class);
+        return $this->belongsToMany(Image::class, 'item_images');
     }
 
+    /**
+     * @return BelongsToMany<Category, $this>
+     */
     public function categories(): BelongsToMany
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class, 'item_categories');
+    }
+
+    private function generateUniqueSlug(): string
+    {
+        $englishName = trim((string) $this->name_en);
+        $slugSource = $englishName !== '' ? $englishName : $this->name;
+        $language = $englishName !== '' ? 'en' : 'zh';
+        $baseSlug = Str::limit(
+            Str::slug($slugSource, language: $language) ?: 'item',
+            240,
+            '',
+        );
+        $slug = $baseSlug;
+        $suffix = 2;
+
+        while (
+            static::query()
+                ->withTrashed()
+                ->where('slug', $slug)
+                ->when(
+                    $this->exists,
+                    fn (Builder $query): Builder => $query->where(
+                        $this->getKeyName(),
+                        '!=',
+                        $this->getKey(),
+                    ),
+                )
+                ->exists()
+        ) {
+            $slug = "{$baseSlug}-{$suffix}";
+            $suffix++;
+        }
+
+        return $slug;
     }
 }

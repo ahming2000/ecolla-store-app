@@ -8,39 +8,52 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->string('id')->primary();
-            $table->integer('mode')->default(0);
-            /*
-             * 0: self pickup
-             * 1: delivery
-             */
-            $table->string('tracking_id')->nullable();
-            $table->double('shipping_fee')->default(0.0);
-            $table->foreignId('payment_method')->constrained('payment_methods');
-            $table->integer('status')->default(0);
-            /*
-             * 0: processing
-             * 1: completed
-             * 2: canceled
-             */
-            $table->string('receipt_image');
+            $table->id();
+
+            $table->string('reference_num');
+            $table->enum('delivery_mode', ['外送', '预购取货'])
+                ->default('外送');
+            $table->enum('status', [
+                '处理中',
+                '准备就绪',
+                '已完成',
+                '已退款',
+                '已取消',
+            ])
+                ->default('处理中');
+
+            $table->foreignId('payment_method_id')
+                ->references('id')
+                ->on('payment_methods')
+                ->restrictOnDelete();
+
+            $table->string('tracking_no')->nullable();
+            $table->decimal('shipping_fee')->default(0.0);
+
+            $table->foreignId('receipt_image_id')
+                ->references('id')
+                ->on('images')
+                ->restrictOnDelete();
+
             $table->string('note')->nullable();
+
+            $table->string('cus_name')->nullable();
+            $table->string('cus_phone');
+            $table->string('cus_address')->nullable();
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('orders');
     }

@@ -2,34 +2,26 @@
 
 namespace App\Models;
 
-use App\Traits\FormatDateToSerialize;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
-    use HasFactory, FormatDateToSerialize;
+    use SoftDeletes;
+
+    public const DEFAULT_CATEGORY_ID = 1;
 
     protected $fillable = [
         'name',
         'name_en',
     ];
 
-    public function count(bool $showUnlisted = false): int
-    {
-        if ($showUnlisted) {
-            return $this->items()
-                ->count();
-        } else {
-            return $this->items()
-                ->where('is_listed', '=', true)
-                ->count();
-        }
-    }
-
+    /**
+     * @return BelongsToMany<Item, $this>
+     */
     public function items(): BelongsToMany
     {
-        return $this->belongsToMany(Item::class);
+        return $this->belongsToMany(Item::class, 'item_categories');
     }
 }

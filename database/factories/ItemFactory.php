@@ -2,11 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Item;
 use App\Models\Origin;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Item>
+ * @extends Factory<Item>
  */
 class ItemFactory extends Factory
 {
@@ -15,18 +16,21 @@ class ItemFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
-        $name = $this->faker->name();
-        $origin_ids = array_column(Origin::all('id')->toArray(), 'id');
+        $name = fake()->name();
+        $originIds = Origin::query()->pluck('id')->all();
+
         return [
             'name' => $name,
             'name_en' => $name,
-            'desc' => $this->faker->text(),
+            'desc' => fake()->text(),
+
             'is_listed' => false,
-            'view_count' => $this->faker->numberBetween(0, 100),
-            'sold' => $this->faker->numberBetween(0, 100),
-            'origin_id' => $this->faker->randomElement($origin_ids),
+            'view_count' => fake()->numberBetween(0, 100),
+            'sold_count' => fake()->numberBetween(0, 100),
+
+            'origin_id' => fake()->randomElement($originIds),
         ];
     }
 }

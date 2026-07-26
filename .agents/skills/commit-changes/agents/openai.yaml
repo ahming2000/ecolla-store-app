@@ -1,0 +1,4 @@
+interface:
+  display_name: "Commit Changes"
+  short_description: "Create safe, focused conventional commits"
+  default_prompt: "Use $commit-changes to commit only your changes as focused Conventional Commits without pushing."

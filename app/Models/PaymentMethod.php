@@ -2,23 +2,33 @@
 
 namespace App\Models;
 
-use App\Traits\FormatDateToSerialize;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PaymentMethod extends Model
 {
-    use HasFactory, FormatDateToSerialize;
+    use SoftDeletes;
 
     protected $fillable = [
         'name',
-        'icon',
-        'qr_code',
+        'icon_img_path',
+        'qr_code_img_path',
+        'is_enabled',
     ];
 
-    public function orders(): BelongsToMany
+    protected function casts(): array
     {
-        return $this->belongsToMany(OrderItem::class);
+        return [
+            'is_enabled' => 'boolean',
+        ];
+    }
+
+    /**
+     * @return HasMany<Order, $this>
+     */
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
     }
 }
