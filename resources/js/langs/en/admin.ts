@@ -229,6 +229,9 @@ export default {
         'confirm-password': 'Confirm password',
         'new-password': 'New password',
         'old-password': 'Current password',
+        'password-update-failed':
+            'The password could not be updated. Check the form and try again.',
+        'password-updated-success': 'Password updated successfully.',
         title: 'Profile',
     },
     users: {

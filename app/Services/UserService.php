@@ -32,6 +32,11 @@ class UserService
         ]);
     }
 
+    public function updatePassword(User $user, string $password): void
+    {
+        $user->update(['password' => $password]);
+    }
+
     public function deactivateUser(User $user): User
     {
         $user->update(['is_enabled' => false]);

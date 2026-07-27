@@ -216,6 +216,8 @@ export default {
         'confirm-password': '确认密码',
         'new-password': '新密码',
         'old-password': '旧密码',
+        'password-update-failed': '无法更新密码，请检查表格后重试。',
+        'password-updated-success': '密码已成功更新。',
         title: '个人资料',
     },
     users: {
