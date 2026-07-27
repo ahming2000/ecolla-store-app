@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\AccessLevel;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\CreateUserRequest;
+use App\Http\Requests\User\UpdatePasswordRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response as HttpResponse;
 use Inertia\Inertia;
@@ -30,6 +32,16 @@ class UserController extends Controller
     public function profilePage(): Response
     {
         return Inertia::render('admin/profile/Index');
+    }
+
+    public function updatePassword(UpdatePasswordRequest $request): RedirectResponse
+    {
+        /** @var User $user */
+        $user = $request->user();
+
+        $this->userService->updatePassword($user, $request->password());
+
+        return to_route('admin.profile.page');
     }
 
     public function create(CreateUserRequest $request): JsonResponse

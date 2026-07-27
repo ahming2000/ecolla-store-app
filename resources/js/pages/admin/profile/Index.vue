@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import FloatInputText from '@/components/input/FloatInputText.vue'
 import Admin from '@/layouts/Admin.vue'
+import Notification from '@/libraries/primevue/toast/Notification'
+import { update as updatePassword } from '@/routes/admin/profile/password'
 import type { AppPageProps } from '@/types'
 import { Head, useForm, usePage } from '@inertiajs/vue3'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
+import { useToast } from 'primevue/usetoast'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -21,10 +24,25 @@ const authUser = computed(() => {
 })
 
 const { t } = useI18n()
+const toast = Notification.init(useToast())
 
-const onUpdatePassword = () => {
-    // TODO submit for changing the password
-    console.log(form)
+const onUpdatePassword = (): void => {
+    form.submit(updatePassword(), {
+        preserveScroll: true,
+        onSuccess: () => {
+            form.reset()
+            toast.success(
+                t('admin.profile.password-updated-success'),
+                t('common.notifications.success')
+            )
+        },
+        onError: () => {
+            toast.error(
+                t('admin.profile.password-update-failed'),
+                t('common.notifications.error')
+            )
+        },
+    })
 }
 </script>
 
@@ -58,15 +76,21 @@ const onUpdatePassword = () => {
 
             <Card>
                 <template #content>
-                    <form @submit.prevent="onUpdatePassword">
+                    <form
+                        data-testid="profile-password-form"
+                        @submit.prevent="onUpdatePassword"
+                    >
                         <div class="flex justify-between items-center mb-7">
                             <div class="text-3xl font-bold">
                                 {{ t('admin.profile.change-password') }}
                             </div>
 
                             <Button
+                                data-testid="save-profile-password"
+                                :disabled="form.processing"
                                 icon="pi pi-save"
                                 :label="t('common.actions.save')"
+                                :loading="form.processing"
                                 type="submit"
                             />
                         </div>
@@ -78,6 +102,8 @@ const onUpdatePassword = () => {
                                 id="old_password"
                                 :label="t('admin.profile.old-password')"
                                 type="password"
+                                autocomplete="current-password"
+                                :error="form.errors.old_password"
                             />
 
                             <FloatInputText
@@ -86,14 +112,18 @@ const onUpdatePassword = () => {
                                 id="password"
                                 :label="t('admin.profile.new-password')"
                                 type="password"
+                                autocomplete="new-password"
+                                :error="form.errors.password"
                             />
 
                             <FloatInputText
                                 v-model="form.password_confirmation"
                                 input-class="w-full"
-                                id="old_password"
+                                id="password_confirmation"
                                 :label="t('admin.profile.confirm-password')"
                                 type="password"
+                                autocomplete="new-password"
+                                :error="form.errors.password_confirmation"
                             />
                         </div>
                     </form>

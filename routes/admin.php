@@ -126,6 +126,8 @@ Route::prefix('/admin')->name('admin.')->group(function () {
         Route::put('/lang', [LanguageController::class, 'update'])->name('lang.update');
         Route::get('/', [DashboardController::class, 'page'])->name('dashboard.page');
         Route::get('/profile', [UserController::class, 'profilePage'])->name('profile.page');
+        Route::patch('/profile/password', [UserController::class, 'updatePassword'])
+            ->name('profile.password.update');
         Route::get('/wiki', [WikiController::class, 'page'])->name('wiki.page');
         Route::get('/item', [ItemController::class, 'page'])->name('item.page')->can('viewAny', Item::class);
         Route::get('/order', [OrderController::class, 'page'])->name('order.page')->can('viewAny', Order::class);
