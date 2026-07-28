@@ -46,8 +46,8 @@ Laravel Sail is the standardized Docker development option. Herd is the simplest
 Clone the repository and enter it. The checked-in `.nvmrc` pins Node.js 24 for NVM and CI:
 
 ```bash
-git clone <repository-url> example-app
-cd example-app
+git clone <repository-url> ecolla-store-app
+cd ecolla-store-app
 ```
 
 Never commit `.env`. Production secrets should be managed on the server or through a secret manager.
@@ -163,7 +163,7 @@ Persist that line in `~/.zshrc` after confirming the installed version directory
 Projects inside `~/Herd` are served automatically as `.test` domains:
 
 ```bash
-cd ~/Herd/example-app
+cd ~/Herd/ecolla-store-app
 composer install
 npm ci
 cp .env.example .env
@@ -182,7 +182,7 @@ Herd serves the Laravel application, so only start Vite for frontend hot reload:
 npm run dev
 ```
 
-Open `http://example-app.test`. Run `php artisan queue:work` in a separate terminal when testing queued jobs.
+Open `http://ecolla-store-app.test`. Run `php artisan queue:work` in a separate terminal when testing queued jobs.
 
 ## Windows development with Laravel Herd
 
@@ -196,7 +196,7 @@ The recommended beginner-friendly native setup is:
 From Git Bash:
 
 ```bash
-cd /c/Users/<your-user>/Herd/example-app
+cd /c/Users/<your-user>/Herd/ecolla-store-app
 composer install
 npm ci
 cp .env.example .env
