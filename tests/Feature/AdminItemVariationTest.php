@@ -7,6 +7,7 @@ use App\Models\Image;
 use App\Models\Item;
 use App\Models\ItemVariation;
 use App\Models\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
@@ -253,6 +254,41 @@ class AdminItemVariationTest extends TestCase
             )
             ->assertUnprocessable()
             ->assertJsonValidationErrors('barcode');
+    }
+
+    public function test_active_barcode_unique_index_rejects_duplicates(): void
+    {
+        $firstItem = Item::query()->create(['name' => 'Tea']);
+        $this->variation($firstItem);
+        $secondItem = Item::query()->create(['name' => 'Coffee']);
+
+        $this->expectException(QueryException::class);
+
+        $this->variation($secondItem);
+    }
+
+    public function test_barcode_can_be_reused_after_variation_is_soft_deleted(): void
+    {
+        $firstItem = Item::query()->create(['name' => 'Tea']);
+        $deletedVariation = $this->variation($firstItem);
+        $deletedVariation->delete();
+        $secondItem = Item::query()->create(['name' => 'Coffee']);
+
+        $activeVariation = $this->variation($secondItem);
+
+        $this->assertSame($deletedVariation->barcode, $activeVariation->barcode);
+        $this->assertSame(
+            2,
+            ItemVariation::withTrashed()
+                ->where('barcode', $activeVariation->barcode)
+                ->count(),
+        );
+        $this->assertSame(
+            1,
+            ItemVariation::query()
+                ->where('barcode', $activeVariation->barcode)
+                ->count(),
+        );
     }
 
     public function test_variation_data_must_follow_the_legacy_save_rules(): void
