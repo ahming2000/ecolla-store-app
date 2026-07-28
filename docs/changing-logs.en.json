@@ -1,11 +1,26 @@
 {
-    "versionName": "v4.1.0",
-    "versionLabel": "v4.1.0 Public Release",
+    "versionName": "v4.1.1",
+    "versionLabel": "v4.1.1 Public Release",
     "updateDate": "2026/07/28",
     "logs": [
         {
             "groupName": "v4.1 Public Release",
             "subGroups": [
+                {
+                    "name": "v4.1.1 Public Release",
+                    "date": "2026/07/28",
+                    "details": [
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Refreshed error pages with clearer branded styling, responsive layouts, and improved navigation.",
+                                "Prevented duplicate active variation barcodes while allowing deleted barcodes to be reused.",
+                                "Restored category and origin management in settings, including creating, editing, and deleting entries.",
+                                "Ensured predefined categories and origins are available in production."
+                            ]
+                        }
+                    ]
+                },
                 {
                     "name": "v4.1.0 Public Release",
                     "date": "2026/07/28",
