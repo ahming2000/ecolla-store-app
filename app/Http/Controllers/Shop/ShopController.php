@@ -22,7 +22,7 @@ class ShopController extends Controller
         $highestSoldCountItems = $this->itemService->getHighestSoldCountItems();
 
         return Inertia::render(
-            'shop/landing/Index',
+            'shop/landing/LandingPage',
             compact('highestViewCountItems', 'highestSoldCountItems'),
         );
     }
@@ -32,7 +32,7 @@ class ShopController extends Controller
         $paymentMethods = $this->paymentMethodService->getPaymentMethods();
 
         return Inertia::render(
-            'shop/payment-method/Index',
+            'shop/payment-method/PaymentMethodPage',
             compact('paymentMethods'),
         );
     }

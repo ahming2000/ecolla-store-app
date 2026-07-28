@@ -29,14 +29,14 @@ class CartController extends Controller
 
     public function cartPage(): Response
     {
-        return Inertia::render('shop/cart/Index', [
+        return Inertia::render('shop/cart/CartPage', [
             'shipping' => $this->settingService->getShippingSettings(),
         ]);
     }
 
     public function checkoutPage(): Response
     {
-        return Inertia::render('shop/checkout/Index', [
+        return Inertia::render('shop/checkout/CheckoutPage', [
             'shipping' => $this->settingService->getShippingSettings(),
         ]);
     }

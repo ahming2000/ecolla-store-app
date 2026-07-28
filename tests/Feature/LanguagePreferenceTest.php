@@ -63,6 +63,7 @@ class LanguagePreferenceTest extends TestCase
             ->get(route('admin.changing-log.page'))
             ->assertOk()
             ->assertInertia(fn (Assert $page) => $page
+                ->component('admin/changing-log/ChangingLogPage')
                 ->where('auth.user.lang', Language::EN->value)
                 ->where('notes.en.versionLabel', 'v4.1.0 Public Release')
                 ->where('notes.en.logs.0.groupName', 'v4.1 Public Release')

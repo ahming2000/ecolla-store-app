@@ -29,7 +29,7 @@ class StorefrontPagesTest extends TestCase
         $this->get(route('shop.landing.page'))
             ->assertOk()
             ->assertInertia(fn (Assert $page) => $page
-                ->component('shop/landing/Index')
+                ->component('shop/landing/LandingPage')
                 ->has('highestViewCountItems', 0)
                 ->has('highestSoldCountItems', 0));
     }
@@ -39,7 +39,7 @@ class StorefrontPagesTest extends TestCase
         $this->get(route('shop.item.page'))
             ->assertOk()
             ->assertInertia(fn (Assert $page) => $page
-                ->component('shop/item-list/Index'));
+                ->component('shop/item-list/ItemListPage'));
     }
 
     public function test_listed_item_page_is_available(): void
@@ -53,7 +53,7 @@ class StorefrontPagesTest extends TestCase
         $this->get(route('shop.item.show', ['item' => $item->slug]))
             ->assertOk()
             ->assertInertia(fn (Assert $page) => $page
-                ->component('shop/item/Index')
+                ->component('shop/item/ItemPage')
                 ->where('item.id', $item->getKey())
                 ->where('item.slug', 'listed-item'));
 
@@ -115,7 +115,15 @@ class StorefrontPagesTest extends TestCase
         $this->get(route('shop.cart.page'))
             ->assertOk()
             ->assertInertia(fn (Assert $page) => $page
-                ->component('shop/cart/Index'));
+                ->component('shop/cart/CartPage'));
+    }
+
+    public function test_checkout_page_is_available(): void
+    {
+        $this->get(route('shop.cart.checkout-page'))
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('shop/checkout/CheckoutPage'));
     }
 
     public function test_payment_method_page_returns_enabled_methods(): void
@@ -129,7 +137,7 @@ class StorefrontPagesTest extends TestCase
         $this->get(route('shop.payment-method.page'))
             ->assertOk()
             ->assertInertia(fn (Assert $page) => $page
-                ->component('shop/payment-method/Index')
+                ->component('shop/payment-method/PaymentMethodPage')
                 ->has('paymentMethods', 0));
     }
 

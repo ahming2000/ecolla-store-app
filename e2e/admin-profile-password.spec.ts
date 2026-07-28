@@ -42,7 +42,7 @@ test('submits the profile password form and clears it after success', async ({
         url: string
     }
 
-    expect(currentPage.component).toBe('admin/profile/Index')
+    expect(currentPage.component).toBe('admin/profile/ProfilePage')
     currentPage.props.errors = {}
     currentPage.url = '/admin/profile'
 

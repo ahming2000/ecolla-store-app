@@ -12,7 +12,7 @@ use Tests\TestCase;
 
 class AdminAuthorizationTest extends TestCase
 {
-    public function test_viewer_can_open_item_management_but_not_user_management(): void
+    public function test_viewer_can_open_management_pages_but_not_user_management(): void
     {
         $viewer = $this->user(AccessLevel::VIEWER);
 
@@ -20,7 +20,13 @@ class AdminAuthorizationTest extends TestCase
             ->get(route('admin.item.page'))
             ->assertOk()
             ->assertInertia(fn (Assert $page) => $page
-                ->component('admin/item/Index'));
+                ->component('admin/item/ItemPage'));
+
+        $this->actingAs($viewer)
+            ->get(route('admin.order.page'))
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('admin/order/OrderPage'));
 
         $this->actingAs($viewer)
             ->get(route('admin.user.page'))
@@ -58,7 +64,7 @@ class AdminAuthorizationTest extends TestCase
             ->get(route('admin.user.page'))
             ->assertOk()
             ->assertInertia(fn (Assert $page) => $page
-                ->component('admin/user/Index')
+                ->component('admin/user/UserPage')
                 ->has('users', 0));
     }
 

@@ -27,7 +27,7 @@ class SettingController extends Controller
         $shipping = $this->settingService->getShippingSettings();
 
         return Inertia::render(
-            'admin/setting/Index',
+            'admin/setting/SettingPage',
             compact('origins', 'categories', 'shipping'),
         );
     }

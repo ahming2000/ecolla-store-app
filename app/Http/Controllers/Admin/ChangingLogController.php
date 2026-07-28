@@ -28,7 +28,7 @@ class ChangingLogController extends Controller
         ];
 
         return Inertia::render(
-            'admin/changing-log/Index',
+            'admin/changing-log/ChangingLogPage',
             compact('notes')
         );
     }

@@ -29,7 +29,7 @@ class OrderController extends Controller
 
     public function page(): Response
     {
-        return Inertia::render('admin/order/Index');
+        return Inertia::render('admin/order/OrderPage');
     }
 
     public function index(IndexAdminOrdersRequest $request): JsonResponse

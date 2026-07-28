@@ -22,7 +22,7 @@ class ItemController extends Controller
 
     public function page(): Response
     {
-        return Inertia::render('admin/item/Index');
+        return Inertia::render('admin/item/ItemPage');
     }
 
     public function index(IndexAdminItemsRequest $request): JsonResponse

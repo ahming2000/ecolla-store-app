@@ -30,6 +30,6 @@ class AdminWikiTest extends TestCase
             ->get(route('admin.wiki.page'))
             ->assertOk()
             ->assertInertia(fn (Assert $page) => $page
-                ->component('admin/wiki/Index'));
+                ->component('admin/wiki/WikiPage'));
     }
 }
