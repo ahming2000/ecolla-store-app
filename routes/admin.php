@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ChangingLogController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ItemController;
@@ -13,7 +14,6 @@ use App\Http\Controllers\Admin\OriginController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\WikiController;
-use App\Http\Controllers\Shop\CategoryController;
 use App\Models\Item;
 use App\Models\Order;
 use App\Models\Setting;
@@ -136,6 +136,20 @@ Route::prefix('/admin')->name('admin.')->group(function () {
             ->can('view', 'order');
         Route::get('/user', [UserController::class, 'page'])->name('user.page')->can('viewAny', User::class);
         Route::get('/setting', [SettingController::class, 'settingPage'])->name('setting.page')->can('viewAny', Setting::class);
+        Route::post('/setting/category', [CategoryController::class, 'store'])
+            ->name('setting.category.store');
+        Route::patch('/setting/category/{category}', [CategoryController::class, 'update'])
+            ->name('setting.category.update');
+        Route::delete('/setting/category/{category}', [CategoryController::class, 'destroy'])
+            ->name('setting.category.destroy')
+            ->can('delete', 'category');
+        Route::post('/setting/origin', [OriginController::class, 'store'])
+            ->name('setting.origin.store');
+        Route::patch('/setting/origin/{origin}', [OriginController::class, 'update'])
+            ->name('setting.origin.update');
+        Route::delete('/setting/origin/{origin}', [OriginController::class, 'destroy'])
+            ->name('setting.origin.destroy')
+            ->can('delete', 'origin');
         Route::patch('/setting/shipping', [SettingController::class, 'updateShippingFee'])
             ->name('setting.shipping.update');
         Route::patch('/setting/free-shipping', [SettingController::class, 'updateFreeShipping'])

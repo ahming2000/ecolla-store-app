@@ -327,6 +327,19 @@ export default {
         'add-origin': 'Add origin',
         category: 'Category',
         'category-filter': 'Category filter',
+        'catalog-created-success': '{subject} created successfully.',
+        'catalog-delete-confirmation':
+            'Delete {subject} “{name}”? This action cannot be undone.',
+        'catalog-delete-failed': 'Unable to delete this {subject}.',
+        'catalog-deleted-success': '{subject} deleted successfully.',
+        'catalog-in-use':
+            'This {subject} is assigned to {count} item(s) and cannot be deleted.',
+        'catalog-save-failed': 'Unable to save this {subject}.',
+        'catalog-updated-success': '{subject} updated successfully.',
+        'create-subject': 'Create {subject}',
+        'default-category-delete-disabled':
+            'The default category cannot be deleted.',
+        'delete-subject': 'Delete {subject}',
         'edit-subject': 'Edit {subject} “{name}”',
         'free-shipping-after': 'for free shipping',
         'free-shipping-description-input': 'Free-shipping note',

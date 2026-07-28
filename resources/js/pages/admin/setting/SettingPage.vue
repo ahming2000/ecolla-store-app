@@ -40,11 +40,6 @@ const props = withDefaults(
     }
 )
 
-const onUpdateOrigin = () => {}
-const onDeleteOrigin = () => {}
-const onUpdateCategory = () => {}
-const onDeleteCategory = () => {}
-
 const { t } = useI18n()
 const page = usePage<AppPageProps>()
 const toast = Notification.init(useToast())
@@ -122,49 +117,26 @@ const onUpdateFreeShipping = (): void => {
                 {{ t('admin.settings.title') }}
             </div>
 
-            <div data-testid="origin-settings">
-                <div class="flex justify-between items-center mb-2">
-                    <div class="text-2xl">
-                        {{ t('admin.settings.origin-filter') }}
-                    </div>
+            <ElementTagCard
+                :add-label="t('admin.settings.add-origin')"
+                :can-manage="canUpdateSettings"
+                data-testid="origin-settings"
+                :elements="origins"
+                element-type="origin"
+                :subject="t('admin.settings.origin')"
+                :title="t('admin.settings.origin-filter')"
+            />
 
-                    <Button
-                        icon="pi pi-plus"
-                        :label="t('admin.settings.add-origin')"
-                        type="submit"
-                        size="small"
-                    />
-                </div>
-
-                <ElementTagCard
-                    :elements="origins"
-                    :subject="t('admin.settings.origin')"
-                    :on-update="onUpdateOrigin"
-                    :on-delete="onDeleteOrigin"
-                />
-            </div>
-
-            <div data-testid="category-settings">
-                <div class="flex justify-between items-center mb-2">
-                    <div class="text-2xl">
-                        {{ t('admin.settings.category-filter') }}
-                    </div>
-
-                    <Button
-                        icon="pi pi-plus"
-                        :label="t('admin.settings.add-category')"
-                        type="submit"
-                        size="small"
-                    />
-                </div>
-
-                <ElementTagCard
-                    :elements="categories"
-                    :subject="t('admin.settings.category')"
-                    :on-update="onUpdateCategory"
-                    :on-delete="onDeleteCategory"
-                />
-            </div>
+            <ElementTagCard
+                :add-label="t('admin.settings.add-category')"
+                :can-manage="canUpdateSettings"
+                data-testid="category-settings"
+                :default-element-id="1"
+                :elements="categories"
+                element-type="category"
+                :subject="t('admin.settings.category')"
+                :title="t('admin.settings.category-filter')"
+            />
 
             <Card>
                 <template #title>{{ t('admin.settings.shipping') }}</template>
