@@ -10,5 +10,7 @@ class ProdSeeder extends BaseSeeder
     public function run(): void
     {
         parent::run();
+
+        $this->call(PredefinedCatalogSeeder::class);
     }
 }

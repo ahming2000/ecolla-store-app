@@ -8,7 +8,6 @@ use App\Models\Item;
 use App\Models\ItemVariation;
 use App\Models\Order;
 use App\Models\OrderedItem;
-use App\Models\Origin;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -22,8 +21,7 @@ class DevSeeder extends BaseSeeder
         parent::run();
 
         $this->seedUser();
-        $this->seedOrigin();
-        $this->seedCategory();
+        $this->call(PredefinedCatalogSeeder::class);
         $this->seedItem();
         $this->seedImage();
         $this->seedItemVariation();
@@ -131,42 +129,9 @@ class DevSeeder extends BaseSeeder
         }
     }
 
-    private function seedOrigin(): void
-    {
-        $names = ['中国', '台湾', '日本', '韩国', '马来西亚', '泰国'];
-        $nameEns = ['China', 'Taiwan', 'Japan', 'Korea', 'Malaysia', 'Thailand'];
-
-        for ($i = 0; $i < count($names); $i++) {
-            $origin = new Origin(
-                [
-                    'name' => $names[$i],
-                    'name_en' => $nameEns[$i],
-                ]
-            );
-
-            $origin->save();
-        }
-    }
-
     private function seedUser(): void
     {
         User::factory(10)->create();
-    }
-
-    private function seedCategory(): void
-    {
-        $names = ['未分类', '热卖', '新品', '推荐', '包点与点心', '果冻', '酸奶饮料', '零食', '酱料＆火锅底料', '火锅料', '麦片', '腌制品', '面类', '饮料', '酒类', '冰淇淋', '罐头', '糖果', '用品'];
-        $nameEns = ['Uncategorized', 'Hot Selling', 'New Product', 'Recommended', 'Buns', 'Jelly', 'Yogurt', 'Snack', 'Sauces & Hotpot Base', 'Hotpot', 'Oatmeal', 'Preserved food', 'Noodles', 'Beverage', 'Alcohol', 'Ice cream', 'Canned food', 'Candy', 'Articles'];
-
-        for ($i = 0; $i < count($names); $i++) {
-            $category = new Category(
-                [
-                    'name' => $names[$i],
-                    'name_en' => $nameEns[$i],
-                ]
-            );
-            $category->save();
-        }
     }
 
     private function seedImage(): void
