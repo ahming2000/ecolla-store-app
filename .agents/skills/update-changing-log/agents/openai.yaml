@@ -1,0 +1,4 @@
+interface:
+  display_name: "Update Changing Log"
+  short_description: "Generate bilingual semantic changelog releases"
+  default_prompt: "Use $update-changing-log to inspect new commits and add the next bilingual release to the changing log."
