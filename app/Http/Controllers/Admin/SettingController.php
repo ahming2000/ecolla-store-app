@@ -5,14 +5,32 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Setting\UpdateFreeShippingRequest;
 use App\Http\Requests\Setting\UpdateShippingFeeRequest;
+use App\Services\CategoryService;
+use App\Services\OriginService;
 use App\Services\SettingService;
 use Illuminate\Http\RedirectResponse;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class SettingController extends Controller
 {
     public function __construct(
+        private readonly OriginService $originService,
+        private readonly CategoryService $categoryService,
         private readonly SettingService $settingService,
     ) {}
+
+    public function settingPage(): Response
+    {
+        $origins = $this->originService->getOriginsWithItemCount(true);
+        $categories = $this->categoryService->getCategoriesWithItemCount(true);
+        $shipping = $this->settingService->getShippingSettings();
+
+        return Inertia::render(
+            'admin/setting/Index',
+            compact('origins', 'categories', 'shipping'),
+        );
+    }
 
     public function updateShippingFee(
         UpdateShippingFeeRequest $request,
