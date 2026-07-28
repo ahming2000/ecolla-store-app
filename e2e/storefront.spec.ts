@@ -283,8 +283,26 @@ test.describe('storefront', () => {
             page.getByText('页面不存在', { exact: true })
         ).toBeVisible()
 
-        await page.getByRole('button', { name: '主页', exact: true }).click()
+        await expect(page).toHaveTitle('页面不存在 - e口乐零食店')
+        await expect(page.getByTestId('error-page')).toHaveCSS(
+            'background-color',
+            'oklch(0.985 0 none)'
+        )
+        await expect(page.getByTestId('error-card')).toHaveCSS(
+            'background-color',
+            'rgb(255, 255, 255)'
+        )
 
+        const homeLink = page.getByRole('link', {
+            name: '主页',
+            exact: true,
+        })
+
+        await expect(homeLink).toHaveCSS(
+            'background-color',
+            'oklch(0.656 0.241 354.308)'
+        )
+        await homeLink.click()
         await expect(page).toHaveURL(/\/$/)
         await expect(page).toHaveTitle('e口乐官方网站 - e口乐零食店')
         expect(runtimeErrors).toEqual([])
