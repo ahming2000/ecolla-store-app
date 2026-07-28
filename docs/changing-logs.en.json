@@ -1,8 +1,25 @@
 {
-    "versionName": "v4.0.0",
-    "versionLabel": "v4.0.0 Public Release",
-    "updateDate": "2026/07/26",
+    "versionName": "v4.1.0",
+    "versionLabel": "v4.1.0 Public Release",
+    "updateDate": "2026/07/28",
     "logs": [
+        {
+            "groupName": "v4.1 Public Release",
+            "subGroups": [
+                {
+                    "name": "v4.1.0 Public Release",
+                    "date": "2026/07/28",
+                    "details": [
+                        {
+                            "type": "Features",
+                            "desc": [
+                                "Added the ability for users to update their password from their profile."
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
         {
             "groupName": "v4.0 Public Release",
             "subGroups": [

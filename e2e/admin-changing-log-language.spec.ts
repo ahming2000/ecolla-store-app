@@ -9,9 +9,9 @@ test('displays changelog content in the selected language', async ({
     await page.goto('/admin/changing-log')
 
     await expect(page.getByText('当前版本', { exact: true })).toBeVisible()
-    await expect(page.getByText('v4.0.0 正式版', { exact: true })).toBeVisible()
+    await expect(page.getByText('v4.1.0 正式版', { exact: true })).toBeVisible()
     await expect(
-        page.getByText('推出了全新设计的购物体验', {
+        page.getByText('添加了用户在个人资料页面更新密码的功能', {
             exact: true,
         })
     ).toBeVisible()
@@ -26,14 +26,14 @@ test('displays changelog content in the selected language', async ({
         page.getByText('Current version', { exact: true })
     ).toBeVisible()
     await expect(
-        page.getByText('v4.0.0 Public Release', { exact: true })
+        page.getByText('v4.1.0 Public Release', { exact: true })
     ).toBeVisible()
     await expect(
-        page.getByText('v4.0.0 Public Release (2026/07/26)', { exact: true })
+        page.getByText('v4.1.0 Public Release (2026/07/28)', { exact: true })
     ).toBeVisible()
     await expect(
         page.getByText(
-            'Introduced a completely redesigned shopping experience.',
+            'Added the ability for users to update their password from their profile.',
             {
                 exact: true,
             }
@@ -43,7 +43,7 @@ test('displays changelog content in the selected language', async ({
         page.getByText('v3.0 Never Released', { exact: true })
     ).toBeVisible()
     await expect(
-        page.getByText('推出了全新设计的购物体验', {
+        page.getByText('添加了用户在个人资料页面更新密码的功能', {
             exact: true,
         })
     ).toHaveCount(0)
@@ -53,10 +53,10 @@ test('displays changelog content in the selected language', async ({
 
     await expect(page.getByText('当前版本', { exact: true })).toBeVisible()
     await expect(
-        page.getByText('v4.0.0 正式版（2026/07/26）', { exact: true })
+        page.getByText('v4.1.0 正式版（2026/07/28）', { exact: true })
     ).toBeVisible()
     await expect(
-        page.getByText('推出了全新设计的购物体验', {
+        page.getByText('添加了用户在个人资料页面更新密码的功能', {
             exact: true,
         })
     ).toBeVisible()

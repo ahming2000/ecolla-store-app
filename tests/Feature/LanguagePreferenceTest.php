@@ -64,18 +64,28 @@ class LanguagePreferenceTest extends TestCase
             ->assertOk()
             ->assertInertia(fn (Assert $page) => $page
                 ->where('auth.user.lang', Language::EN->value)
-                ->where('notes.en.versionLabel', 'v4.0.0 Public Release')
-                ->where('notes.en.logs.0.groupName', 'v4.0 Public Release')
-                ->where('notes.en.logs.1.groupName', 'v3.0 Never Released')
+                ->where('notes.en.versionLabel', 'v4.1.0 Public Release')
+                ->where('notes.en.logs.0.groupName', 'v4.1 Public Release')
                 ->where(
-                    'notes.en.logs.1.subGroups.0.details.0.desc.0',
+                    'notes.en.logs.0.subGroups.0.details.0.desc.0',
+                    'Added the ability for users to update their password from their profile.',
+                )
+                ->where('notes.en.logs.1.groupName', 'v4.0 Public Release')
+                ->where('notes.en.logs.2.groupName', 'v3.0 Never Released')
+                ->where(
+                    'notes.en.logs.2.subGroups.0.details.0.desc.0',
                     'Version 3 was never released. Its planned improvements were carried forward into v4.',
                 )
-                ->where('notes.zh.versionLabel', 'v4.0.0 正式版')
-                ->where('notes.zh.logs.0.groupName', 'v4.0 正式版')
-                ->where('notes.zh.logs.1.groupName', 'v3.0 未发布版本')
+                ->where('notes.zh.versionLabel', 'v4.1.0 正式版')
+                ->where('notes.zh.logs.0.groupName', 'v4.1 正式版')
                 ->where(
-                    'notes.zh.logs.1.subGroups.0.details.0.desc.0',
+                    'notes.zh.logs.0.subGroups.0.details.0.desc.0',
+                    '添加了用户在个人资料页面更新密码的功能',
+                )
+                ->where('notes.zh.logs.1.groupName', 'v4.0 正式版')
+                ->where('notes.zh.logs.2.groupName', 'v3.0 未发布版本')
+                ->where(
+                    'notes.zh.logs.2.subGroups.0.details.0.desc.0',
                     'v3 从未正式发布，原计划推出的改进已整合至 v4',
                 ));
     }

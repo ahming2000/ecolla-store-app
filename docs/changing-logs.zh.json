@@ -1,8 +1,23 @@
 {
-    "versionName": "v4.0.0",
-    "versionLabel": "v4.0.0 正式版",
-    "updateDate": "2026/07/26",
+    "versionName": "v4.1.0",
+    "versionLabel": "v4.1.0 正式版",
+    "updateDate": "2026/07/28",
     "logs": [
+        {
+            "groupName": "v4.1 正式版",
+            "subGroups": [
+                {
+                    "name": "v4.1.0 正式版",
+                    "date": "2026/07/28",
+                    "details": [
+                        {
+                            "type": "功能",
+                            "desc": ["添加了用户在个人资料页面更新密码的功能"]
+                        }
+                    ]
+                }
+            ]
+        },
         {
             "groupName": "v4.0 正式版",
             "subGroups": [
