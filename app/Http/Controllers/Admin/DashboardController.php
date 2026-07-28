@@ -16,7 +16,7 @@ class DashboardController extends Controller
 
     public function page(DashboardSalesRequest $request): Response
     {
-        return Inertia::render('admin/dashboard/Index', [
+        return Inertia::render('admin/dashboard/DashboardPage', [
             'dashboard' => $this->dashboardSalesService->getOverview(
                 $request->period(),
                 $request->selectedDate(),

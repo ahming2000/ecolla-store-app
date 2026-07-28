@@ -18,7 +18,7 @@ class ItemController extends Controller
 
     public function page(): Response
     {
-        return Inertia::render('shop/item-list/Index');
+        return Inertia::render('shop/item-list/ItemListPage');
     }
 
     public function index(IndexShopItemsRequest $request): JsonResponse
@@ -59,7 +59,7 @@ class ItemController extends Controller
         $randomItems = $this->itemService->getRandomItems($similarItemIds);
 
         return Inertia::render(
-            'shop/item/Index',
+            'shop/item/ItemPage',
             compact('item', 'similarItems', 'randomItems'),
         );
     }

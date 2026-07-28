@@ -24,14 +24,14 @@ class UserController extends Controller
     {
         $users = $this->userService->getAllUsers(AccessLevel::getAccessLevelOptions());
 
-        return Inertia::render('admin/user/Index', [
+        return Inertia::render('admin/user/UserPage', [
             'users' => UserResource::collection($users)->resolve($request),
         ]);
     }
 
     public function profilePage(): Response
     {
-        return Inertia::render('admin/profile/Index');
+        return Inertia::render('admin/profile/ProfilePage');
     }
 
     public function updatePassword(UpdatePasswordRequest $request): RedirectResponse

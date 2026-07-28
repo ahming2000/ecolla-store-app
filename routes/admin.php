@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\ChangingLogController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ItemController;
 use App\Http\Controllers\Admin\ItemImageController;
@@ -120,7 +120,7 @@ Route::prefix('/admin')->group(function () {
 });
 
 Route::prefix('/admin')->name('admin.')->group(function () {
-    Route::get('/changing-log', [AdminController::class, 'changingLogPage'])->name('changing-log.page');
+    Route::get('/changing-log', [ChangingLogController::class, 'changingLogPage'])->name('changing-log.page');
 
     Route::middleware('auth')->group(function () {
         Route::put('/lang', [LanguageController::class, 'update'])->name('lang.update');
@@ -135,7 +135,7 @@ Route::prefix('/admin')->name('admin.')->group(function () {
             ->name('order.download')
             ->can('view', 'order');
         Route::get('/user', [UserController::class, 'page'])->name('user.page')->can('viewAny', User::class);
-        Route::get('/setting', [AdminController::class, 'settingPage'])->name('setting.page')->can('viewAny', Setting::class);
+        Route::get('/setting', [SettingController::class, 'settingPage'])->name('setting.page')->can('viewAny', Setting::class);
         Route::patch('/setting/shipping', [SettingController::class, 'updateShippingFee'])
             ->name('setting.shipping.update');
         Route::patch('/setting/free-shipping', [SettingController::class, 'updateFreeShipping'])

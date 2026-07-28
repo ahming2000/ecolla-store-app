@@ -47,7 +47,7 @@ class AdminSettingTest extends TestCase
             ->assertOk()
             ->assertInertia(
                 fn (AssertableInertia $page): AssertableInertia => $page
-                    ->component('admin/setting/Index')
+                    ->component('admin/setting/SettingPage')
                     ->where('shipping.fee', 3)
                     ->where('shipping.freeShipping.isActivated', true)
                     ->where('shipping.freeShipping.threshold', 50)

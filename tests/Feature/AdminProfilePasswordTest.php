@@ -6,11 +6,21 @@ use App\Enums\AccessLevel;
 use App\Models\User;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Support\Facades\Hash;
+use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class AdminProfilePasswordTest extends TestCase
 {
     use LazilyRefreshDatabase;
+
+    public function test_authenticated_user_can_open_their_profile_page(): void
+    {
+        $this->actingAs($this->user())
+            ->get(route('admin.profile.page'))
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('admin/profile/ProfilePage'));
+    }
 
     public function test_authenticated_user_can_update_their_password(): void
     {

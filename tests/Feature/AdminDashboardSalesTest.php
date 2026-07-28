@@ -136,7 +136,7 @@ class AdminDashboardSalesTest extends TestCase
             ]))
             ->assertOk()
             ->assertInertia(fn (Assert $page) => $page
-                ->component('admin/dashboard/Index')
+                ->component('admin/dashboard/DashboardPage')
                 ->where('dashboard.filter.period', 'daily')
                 ->where('dashboard.filter.selected_date', '2026-07-26')
                 ->where(

@@ -10,6 +10,6 @@ class WikiController extends Controller
 {
     public function page(): Response
     {
-        return Inertia::render('admin/wiki/Index');
+        return Inertia::render('admin/wiki/WikiPage');
     }
 }
