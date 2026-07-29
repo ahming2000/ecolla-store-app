@@ -3,8 +3,10 @@
 namespace Tests\Feature;
 
 use App\Models\Item;
+use App\Models\Setting;
 use App\Services\ItemService;
 use App\Services\PaymentMethodService;
+use App\Services\SettingService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -32,6 +34,27 @@ class StorefrontPagesTest extends TestCase
                 ->component('shop/landing/LandingPage')
                 ->has('highestViewCountItems', 0)
                 ->has('highestSoldCountItems', 0));
+    }
+
+    public function test_storefront_pages_share_the_free_shipping_configuration(): void
+    {
+        Setting::query()->create([
+            'name' => SettingService::FREE_SHIPPING_IS_ACTIVATED,
+            'value' => '1',
+            'desc' => 'Free shipping enabled',
+        ]);
+        Setting::query()->create([
+            'name' => SettingService::FREE_SHIPPING_THRESHOLD,
+            'value' => '75.5',
+            'desc' => 'Free shipping threshold',
+        ]);
+
+        $this->get(route('shop.payment-method.page'))
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('shop/payment-method/PaymentMethodPage')
+                ->where('shop.freeShipping.isActivated', true)
+                ->where('shop.freeShipping.threshold', 75.5));
     }
 
     public function test_item_catalog_page_is_available(): void

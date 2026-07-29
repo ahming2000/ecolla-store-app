@@ -3,11 +3,16 @@
 namespace App\Http\Middleware;
 
 use App\Http\Resources\UserResource;
+use App\Services\SettingService;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
 {
+    public function __construct(
+        private readonly SettingService $settingService,
+    ) {}
+
     /**
      * The root template that is loaded on the first page visit.
      *
@@ -30,13 +35,25 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        return [
+        $sharedData = [
             ...parent::share($request),
             'csrf' => csrf_token(),
             'auth' => [
                 'user' => $request->user()
                     ? UserResource::make($request->user())->resolve($request)
                     : null,
+            ],
+        ];
+
+        if (! $request->routeIs('shop.*')) {
+            return $sharedData;
+        }
+
+        return [
+            ...$sharedData,
+            'shop' => fn (): array => [
+                'freeShipping' => $this->settingService
+                    ->getShippingSettings()['freeShipping'],
             ],
         ];
     }

@@ -127,6 +127,28 @@ test('updates shipping rules and localizes category and origin labels', async ({
         await expect(descriptionInput).toHaveValue(updatedDescription)
         await expect(freeShippingToggle).toBeChecked()
 
+        const expectedFreeShippingNotice = `Special event! Spend RM ${Number(updatedThreshold).toFixed(2)} or more to get free shipping.`
+        const expectedChineseFreeShippingNotice = `限时优惠！消费满 RM ${Number(updatedThreshold).toFixed(2)} 即可免运！`
+
+        await page.goto('/')
+        await expect(page.getByTestId('free-shipping-notice')).toContainText(
+            expectedChineseFreeShippingNotice
+        )
+        await selectLanguage(page, 'en')
+
+        for (const path of [
+            '/',
+            '/item',
+            '/cart',
+            '/checkout',
+            '/payment-method',
+        ]) {
+            await page.goto(path)
+            await expect(
+                page.getByTestId('free-shipping-notice')
+            ).toContainText(expectedFreeShippingNotice)
+        }
+
         await page.goto('/cart')
         await expect(page.getByTestId('configured-shipping-fee')).toContainText(
             `RM ${updatedFee}`

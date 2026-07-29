@@ -144,11 +144,13 @@ export type OrderFulfilment = Pick<Order, 'id' | 'status' | 'tracking_no'>
 
 export interface ShippingSettings {
     fee: number
-    freeShipping: {
-        isActivated: boolean
-        threshold: number
-        description: string
-    }
+    freeShipping: FreeShippingSettings
+}
+
+export interface FreeShippingSettings {
+    isActivated: boolean
+    threshold: number
+    description: string
 }
 
 export interface CartData {
@@ -169,6 +171,9 @@ export interface AppPageProps {
         user: Nullable<User>
     }
     csrf: string
+    shop?: {
+        freeShipping: FreeShippingSettings
+    }
 }
 
 export interface SelectOption {

@@ -5,6 +5,9 @@ import laravel from 'laravel-vite-plugin'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
+    optimizeDeps: {
+        include: ['primevue/message'],
+    },
     plugins: [
         tailwindcss(),
         wayfinder({ actions: false }),

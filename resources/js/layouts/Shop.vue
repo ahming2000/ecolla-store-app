@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import logoImage from '@/assets/images/branding/ecolla.png'
 import LanguageSwitcher from '@/components/language/LanguageSwitcher.vue'
+import FreeShippingNotice from '@/components/shop/FreeShippingNotice.vue'
 import Base from '@/layouts/common/Base.vue'
 import { SHOP_LANGUAGE_STORAGE_KEY } from '@/libraries/i18n/language'
 import { page as adminDashboardPage } from '@/routes/admin/dashboard'
@@ -10,13 +11,14 @@ import { page as landingPage } from '@/routes/shop/landing'
 import { page as paymentMethodPage } from '@/routes/shop/payment-method'
 import { useCartStore } from '@/stores/cart.store'
 import { useItemStore } from '@/stores/item.store'
-import type { MenuItem } from '@/types'
-import { router } from '@inertiajs/vue3'
+import type { AppPageProps, MenuItem } from '@/types'
+import { router, usePage } from '@inertiajs/vue3'
 import { onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const cartStore = useCartStore()
 const itemStore = useItemStore()
+const page = usePage<AppPageProps>()
 const { locale: activeLanguage, t } = useI18n()
 
 const menuItems = ref<MenuItem[]>([])
@@ -81,6 +83,8 @@ onMounted(() => {
                 :storage-key="SHOP_LANGUAGE_STORAGE_KEY"
             />
         </template>
+
+        <FreeShippingNotice :free-shipping="page.props.shop?.freeShipping" />
 
         <slot></slot>
 
