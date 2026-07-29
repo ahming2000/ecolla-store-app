@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import DeliveryModeSelect from '@/components/filterer/order/DeliveryModeSelect.vue'
+import OrderDatePicker from '@/components/filterer/order/OrderDatePicker.vue'
 import EmptyDataPlaceholder from '@/components/placeholder/EmptyDataPlaceholder.vue'
 import LoadingPlaceholder from '@/components/placeholder/LoadingPlaceholder.vue'
 import type { DeliveryMode } from '@/enums/DeliveryMode'
@@ -11,16 +13,14 @@ import {
     getQueryParameters,
     replaceQueryParameters,
 } from '@/libraries/query-parameters'
-import OrderDetailButton from '@/pages/admin/order/OrderDetailButton.vue'
+import OrderDetailButton from '@/pages/admin/order/detail/OrderDetailButton.vue'
 import type { Order, OrderFulfilment } from '@/types'
 import { Head, usePage } from '@inertiajs/vue3'
 import Column from 'primevue/column'
 import type { DataTablePageEvent } from 'primevue/datatable'
 import DataTable from 'primevue/datatable'
-import DatePicker from 'primevue/datepicker'
-import Select from 'primevue/select'
 import { useToast } from 'primevue/usetoast'
-import { computed, onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 defineOptions({ layout: Admin })
@@ -77,13 +77,6 @@ const pagination = ref({
 const isInitialLoading = ref(true)
 const isLoading = ref(false)
 let latestRequestId = 0
-
-const deliveryModeOptions = computed(() => {
-    return getAllDeliveryModes().map((deliveryMode) => ({
-        label: getDeliveryModeLabel(t, deliveryMode),
-        value: deliveryMode,
-    }))
-})
 
 const formatSelectedDate = (date: Date): string => {
     const month = String(date.getMonth() + 1).padStart(2, '0')
@@ -232,21 +225,9 @@ onMounted(async () => {
             <template #header>
                 <div class="container mx-auto pt-5 px-3">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-                        <DatePicker
-                            v-model="selectedDate"
-                            :placeholder="t('admin.orders.date-filter')"
-                            :date-format="t('admin.orders.date-format')"
-                            show-button-bar
-                        />
+                        <OrderDatePicker v-model="selectedDate" />
 
-                        <Select
-                            v-model="selectedOrderMode"
-                            :placeholder="t('admin.orders.order-mode-filter')"
-                            :options="deliveryModeOptions"
-                            option-label="label"
-                            option-value="value"
-                            show-clear
-                        />
+                        <DeliveryModeSelect v-model="selectedOrderMode" />
                     </div>
                 </div>
             </template>
