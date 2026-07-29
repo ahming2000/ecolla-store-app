@@ -45,7 +45,10 @@ class HandleInertiaRequests extends Middleware
             ],
         ];
 
-        if (! $request->routeIs('shop.*')) {
+        if (
+            ! $request->routeIs('shop.*')
+            || $request->routeIs('shop.landing.page')
+        ) {
             return $sharedData;
         }
 

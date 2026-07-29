@@ -18,6 +18,7 @@ const threshold = computed(() => {
 <template>
     <div v-if="freeShipping?.isActivated" class="container mx-auto px-3 pt-3">
         <Message
+            closable
             class="w-full"
             data-testid="free-shipping-notice"
             icon="pi pi-gift"

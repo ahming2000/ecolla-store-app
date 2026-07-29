@@ -32,11 +32,12 @@ class StorefrontPagesTest extends TestCase
             ->assertOk()
             ->assertInertia(fn (Assert $page) => $page
                 ->component('shop/landing/LandingPage')
+                ->missing('shop')
                 ->has('highestViewCountItems', 0)
                 ->has('highestSoldCountItems', 0));
     }
 
-    public function test_storefront_pages_share_the_free_shipping_configuration(): void
+    public function test_non_landing_storefront_pages_share_the_free_shipping_configuration(): void
     {
         Setting::query()->create([
             'name' => SettingService::FREE_SHIPPING_IS_ACTIVATED,
