@@ -218,6 +218,45 @@ export default {
             title: 'Sales summary',
         },
         title: 'Dashboard',
+        visualizations: {
+            distributions: {
+                'delivery-description':
+                    'Compare how customers receive orders in the selected period.',
+                'delivery-modes': {
+                    delivery: 'Delivery',
+                    'self-pickup': 'Self pickup',
+                },
+                'delivery-title': 'Delivery modes',
+                'section-description':
+                    'See the operational mix behind the sales totals.',
+                'section-title': 'Order composition',
+                'status-description':
+                    'Compare every order status, including work still in progress.',
+                'status-title': 'Order statuses',
+                statuses: {
+                    canceled: 'Canceled',
+                    completed: 'Completed',
+                    pending: 'Pending',
+                    ready: 'Ready',
+                    refunded: 'Refunded',
+                },
+            },
+            empty: 'No orders were recorded in this period.',
+            trend: {
+                'bar-label': '{label}: {revenue}; completed orders: {orders}.',
+                'completed-orders': 'Completed: {count}',
+                'data-table': 'View trend data table',
+                description:
+                    'Compare completed-order merchandise revenue across the selected period.',
+                empty: 'No completed-order sales were recorded in this period.',
+                orders: 'Completed orders',
+                period: 'Period',
+                revenue: 'Sales revenue',
+                'table-caption':
+                    'Completed order count and sales revenue by period',
+                title: 'Sales trend',
+            },
+        },
         welcome: 'Welcome back, {username}!',
     },
     profile: {

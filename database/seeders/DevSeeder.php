@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Status;
 use App\Models\Category;
 use App\Models\Image;
 use App\Models\Item;
@@ -38,6 +39,11 @@ class DevSeeder extends BaseSeeder
     private function seedOrder(): void
     {
         Order::factory(10)->create();
+
+        Order::query()
+            ->oldest('id')
+            ->first()
+            ?->update(['status' => Status::COMPLETED]);
     }
 
     private function seedItemVariation(): void

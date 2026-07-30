@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import Admin from '@/layouts/Admin.vue'
+import OrderDistributionCharts from '@/pages/admin/dashboard/OrderDistributionCharts.vue'
 import SalesPeriodFilter from '@/pages/admin/dashboard/SalesPeriodFilter.vue'
 import SalesSummaryGrid from '@/pages/admin/dashboard/SalesSummaryGrid.vue'
+import SalesTrendChart from '@/pages/admin/dashboard/SalesTrendChart.vue'
 import type {
     DashboardFilterSelection,
     DashboardOverview,
@@ -64,6 +66,11 @@ const updateFilter = (selection: DashboardFilterSelection): void => {
                 @change="updateFilter"
             />
             <SalesSummaryGrid :summary="dashboard.summary" />
+            <SalesTrendChart
+                :filter="dashboard.filter"
+                :trend="dashboard.trend"
+            />
+            <OrderDistributionCharts :distributions="dashboard.distributions" />
         </div>
     </main>
 </template>

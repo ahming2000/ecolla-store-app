@@ -147,10 +147,44 @@ class AdminDashboardSalesTest extends TestCase
                     'dashboard.filter.ends_at',
                     '2026-07-27T00:00:00+08:00',
                 )
+                ->where(
+                    'dashboard.filter.timezone',
+                    'Asia/Kuala_Lumpur',
+                )
                 ->where('dashboard.summary.completed_order_count', 3)
                 ->where('dashboard.summary.items_sold', 6)
                 ->where('dashboard.summary.sales_revenue', '36.00')
-                ->where('dashboard.summary.canceled_order_value', '70.00'));
+                ->where('dashboard.summary.canceled_order_value', '70.00')
+                ->has('dashboard.trend', 6)
+                ->where('dashboard.trend.2', [
+                    'starts_at' => '2026-07-26T08:00:00+08:00',
+                    'ends_at' => '2026-07-26T12:00:00+08:00',
+                    'completed_order_count' => 1,
+                    'sales_revenue' => '34.00',
+                ])
+                ->where('dashboard.trend.4', [
+                    'starts_at' => '2026-07-26T16:00:00+08:00',
+                    'ends_at' => '2026-07-26T20:00:00+08:00',
+                    'completed_order_count' => 1,
+                    'sales_revenue' => '0.00',
+                ])
+                ->where('dashboard.trend.5', [
+                    'starts_at' => '2026-07-26T20:00:00+08:00',
+                    'ends_at' => '2026-07-27T00:00:00+08:00',
+                    'completed_order_count' => 1,
+                    'sales_revenue' => '2.00',
+                ])
+                ->where('dashboard.distributions.status', [
+                    'pending' => 1,
+                    'ready' => 1,
+                    'completed' => 3,
+                    'refunded' => 1,
+                    'canceled' => 1,
+                ])
+                ->where('dashboard.distributions.delivery_mode', [
+                    'delivery' => 0,
+                    'self_pickup' => 7,
+                ]));
     }
 
     public function test_dashboard_returns_expected_period_boundaries(): void
@@ -163,22 +197,28 @@ class AdminDashboardSalesTest extends TestCase
             'daily' => [
                 '2026-07-26T00:00:00+08:00',
                 '2026-07-27T00:00:00+08:00',
+                6,
             ],
             'weekly' => [
                 '2026-07-20T00:00:00+08:00',
                 '2026-07-27T00:00:00+08:00',
+                7,
             ],
             'monthly' => [
                 '2026-07-01T00:00:00+08:00',
                 '2026-08-01T00:00:00+08:00',
+                5,
             ],
             'yearly' => [
                 '2026-01-01T00:00:00+08:00',
                 '2027-01-01T00:00:00+08:00',
+                12,
             ],
         ];
 
-        foreach ($expectedBoundaries as $period => [$startsAt, $endsAt]) {
+        foreach (
+            $expectedBoundaries as $period => [$startsAt, $endsAt, $trendPointCount]
+        ) {
             $this->actingAs($user)
                 ->get(route('admin.dashboard.page', [
                     'period' => $period,
@@ -192,7 +232,19 @@ class AdminDashboardSalesTest extends TestCase
                     ->where('dashboard.summary.completed_order_count', 0)
                     ->where('dashboard.summary.items_sold', 0)
                     ->where('dashboard.summary.sales_revenue', '0.00')
-                    ->where('dashboard.summary.canceled_order_value', '0.00'));
+                    ->where('dashboard.summary.canceled_order_value', '0.00')
+                    ->has('dashboard.trend', $trendPointCount)
+                    ->where('dashboard.distributions.status', [
+                        'pending' => 0,
+                        'ready' => 0,
+                        'completed' => 0,
+                        'refunded' => 0,
+                        'canceled' => 0,
+                    ])
+                    ->where('dashboard.distributions.delivery_mode', [
+                        'delivery' => 0,
+                        'self_pickup' => 0,
+                    ]));
         }
     }
 
