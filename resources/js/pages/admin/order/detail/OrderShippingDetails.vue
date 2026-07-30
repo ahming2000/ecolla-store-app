@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { DELIVERY } from '@/enums/DeliveryMode'
 import DeliveryTrackingInput from '@/pages/admin/order/detail/DeliveryTrackingInput.vue'
 import type { Order } from '@/types'
 import { useI18n } from 'vue-i18n'
@@ -28,12 +29,16 @@ const { t } = useI18n()
 <template>
     <div>
         <div class="mb-3 mt-4 text-2xl">
-            {{ t('admin.orders.shipping-information') }}
+            {{
+                order.delivery_mode === DELIVERY
+                    ? t('admin.orders.shipping-information')
+                    : t('admin.orders.customer-information')
+            }}
         </div>
 
         <table class="w-full table-auto">
             <tbody>
-                <tr>
+                <tr v-if="order.delivery_mode === DELIVERY">
                     <td class="border border-slate-200 p-3">
                         {{ t('admin.orders.delivery-tracking-id') }}
                     </td>

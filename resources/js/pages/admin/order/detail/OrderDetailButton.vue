@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { EDITOR, SUPERVISOR } from '@/enums/AccessLevel'
-import { DELIVERY } from '@/enums/DeliveryMode'
 import { PENDING } from '@/enums/OrderStatus'
 import {
     updateOrderStatus,
@@ -11,9 +10,10 @@ import Notification from '@/libraries/primevue/toast/Notification'
 import OrderDetailActions from '@/pages/admin/order/detail/OrderDetailActions.vue'
 import OrderDetailsTable from '@/pages/admin/order/detail/OrderDetailsTable.vue'
 import OrderedItemsTable from '@/pages/admin/order/detail/OrderedItemsTable.vue'
+import OrderEditForm from '@/pages/admin/order/detail/OrderEditForm.vue'
 import OrderReceiptDialog from '@/pages/admin/order/detail/OrderReceiptDialog.vue'
 import OrderShippingDetails from '@/pages/admin/order/detail/OrderShippingDetails.vue'
-import type { AppPageProps, Order, OrderFulfilment } from '@/types'
+import type { AppPageProps, Order, OrderFulfilment, OrderPatch } from '@/types'
 import { usePage } from '@inertiajs/vue3'
 import { debounce } from 'lodash'
 import Button from 'primevue/button'
@@ -26,11 +26,12 @@ const props = defineProps<{
     order: Order
 }>()
 const emit = defineEmits<{
-    updated: [fulfilment: OrderFulfilment]
+    updated: [order: OrderPatch]
 }>()
 
 const visible = ref(false)
 const receiptVisible = ref(false)
+const isEditing = ref(false)
 const page = usePage<AppPageProps>()
 const toast = Notification.init(useToast())
 const { t } = useI18n()
@@ -51,6 +52,10 @@ const canUpdateFulfilment = computed(() => {
         accessLevel >= SUPERVISOR ||
         (accessLevel === EDITOR && persistedStatus.value === PENDING)
     )
+})
+
+const canUpdateOrder = computed(() => {
+    return (page.props.auth.user?.access_level ?? -1) >= SUPERVISOR
 })
 
 const applyFulfilment = (fulfilment: OrderFulfilment): void => {
@@ -157,6 +162,14 @@ const onViewReceipt = (): void => {
     }
 }
 
+const onOrderSaved = (updatedOrder: Order): void => {
+    persistedStatus.value = updatedOrder.status
+    selectedStatus.value = updatedOrder.status
+    trackingNo.value = updatedOrder.tracking_no
+    isEditing.value = false
+    emit('updated', updatedOrder)
+}
+
 watch(trackingNo, (newTrackingNumber) => {
     trackingError.value = ''
 
@@ -180,6 +193,12 @@ watch(
     }
 )
 
+watch(visible, (isVisible) => {
+    if (!isVisible) {
+        isEditing.value = false
+    }
+})
+
 onBeforeUnmount(() => {
     persistTrackingNumber.cancel()
 })
@@ -196,25 +215,36 @@ onBeforeUnmount(() => {
 
         <Dialog
             v-model:visible="visible"
+            content-class="min-h-0 flex-1 overflow-y-auto"
             :draggable="false"
             :header="order.reference_num"
-            class="h-full w-full"
+            class="flex h-full w-full flex-col"
             modal
         >
-            <div class="grid grid-cols-1 lg:grid-cols-3">
+            <div class="mb-4 flex items-center justify-between gap-3">
+                <div class="my-auto text-2xl font-bold">
+                    {{ t('admin.orders.order-details') }}
+                </div>
+
+                <OrderDetailActions
+                    :can-edit="canUpdateOrder"
+                    :editing="isEditing"
+                    :has-receipt="!!receiptSource"
+                    :order="order"
+                    @edit="isEditing = true"
+                    @view-receipt="onViewReceipt"
+                />
+            </div>
+
+            <OrderEditForm
+                v-if="isEditing"
+                :order="order"
+                @cancel="isEditing = false"
+                @saved="onOrderSaved"
+            />
+
+            <div v-else class="grid grid-cols-1 lg:grid-cols-3">
                 <div class="mx-3 mb-4 overflow-y-auto lg:mb-0">
-                    <div class="mb-3 flex items-center justify-between">
-                        <div class="my-auto text-2xl">
-                            {{ t('admin.orders.order-details') }}
-                        </div>
-
-                        <OrderDetailActions
-                            :has-receipt="!!receiptSource"
-                            :order="order"
-                            @view-receipt="onViewReceipt"
-                        />
-                    </div>
-
                     <OrderDetailsTable
                         v-model:status="selectedStatus"
                         :can-update-fulfilment="canUpdateFulfilment"
@@ -224,7 +254,6 @@ onBeforeUnmount(() => {
                     />
 
                     <OrderShippingDetails
-                        v-if="order.delivery_mode === DELIVERY"
                         v-model:tracking-number="trackingNo"
                         :can-update-fulfilment="canUpdateFulfilment"
                         :is-updating-tracking-number="isUpdatingTrackingNumber"

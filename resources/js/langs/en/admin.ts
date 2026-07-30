@@ -327,6 +327,7 @@ export default {
             total: 'Total (RM)',
         },
         'customer-address': 'Customer address',
+        'customer-information': 'Customer information',
         'customer-name': 'Customer name',
         'customer-phone': 'Customer phone number',
         'date-filter': 'Order date',
@@ -337,6 +338,24 @@ export default {
         },
         'delivery-tracking-id': 'Delivery tracking ID',
         'download-order': 'Download order',
+        edit: {
+            action: 'Edit order',
+            'customer-and-order': 'Customer and order details',
+            'empty-order-will-cancel':
+                'This order will be canceled when you save because its final item was removed.',
+            'items-subtotal': 'Items subtotal',
+            'order-total': 'Order total',
+            'price-help':
+                'Enter the final price charged. A lower amount is saved as a sale price.',
+            'remove-and-cancel': 'Remove item and cancel order',
+            'remove-item': 'Remove {name} from the order',
+            'remove-last-confirmation':
+                'This is the final item. Remove it and change the order status to Canceled when you save?',
+            'remove-last-title': 'Cancel order with no items?',
+            'update-failed':
+                'Unable to save the order changes. Check the form and try again.',
+            'updated-success': 'Order changes saved.',
+        },
         'item-details': 'Item details ({count})',
         note: 'Note',
         'order-details': 'Order details',

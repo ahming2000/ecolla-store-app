@@ -4,12 +4,21 @@ import type { Order } from '@/types'
 import Button from 'primevue/button'
 import { useI18n } from 'vue-i18n'
 
-defineProps<{
-    hasReceipt: boolean
-    order: Order
-}>()
+withDefaults(
+    defineProps<{
+        canEdit?: boolean
+        editing?: boolean
+        hasReceipt: boolean
+        order: Order
+    }>(),
+    {
+        canEdit: false,
+        editing: false,
+    }
+)
 
 const emit = defineEmits<{
+    edit: []
     viewReceipt: []
 }>()
 
@@ -28,7 +37,17 @@ const onDownloadOrder = (order: Order): void => {
 </script>
 
 <template>
-    <div class="flex gap-1">
+    <div class="flex flex-wrap justify-end gap-1">
+        <Button
+            v-if="canEdit"
+            :aria-label="t('admin.orders.edit.action')"
+            :data-testid="`edit-order-${order.id}`"
+            :disabled="editing"
+            :label="t('admin.orders.edit.action')"
+            icon="pi pi-pen-to-square"
+            size="small"
+            @click="emit('edit')"
+        />
         <Button
             :aria-label="t('admin.orders.view-receipt')"
             :data-testid="`view-order-receipt-${order.id}`"

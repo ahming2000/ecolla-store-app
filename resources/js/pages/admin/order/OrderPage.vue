@@ -15,7 +15,7 @@ import {
     replaceQueryParameters,
 } from '@/libraries/query-parameters'
 import OrderDetailButton from '@/pages/admin/order/detail/OrderDetailButton.vue'
-import type { Order, OrderFulfilment } from '@/types'
+import type { Order, OrderPatch } from '@/types'
 import { Head, usePage } from '@inertiajs/vue3'
 import Column from 'primevue/column'
 import type { DataTablePageEvent } from 'primevue/datatable'
@@ -86,13 +86,13 @@ const formatSelectedDate = (date: Date): string => {
     return `${date.getFullYear()}-${month}-${day}`
 }
 
-const onOrderUpdated = (fulfilment: OrderFulfilment): void => {
+const onOrderUpdated = (updatedOrder: OrderPatch): void => {
     const order = orders.value.find(
-        (currentOrder) => currentOrder.id === fulfilment.id
+        (currentOrder) => currentOrder.id === updatedOrder.id
     )
 
     if (order) {
-        Object.assign(order, fulfilment)
+        Object.assign(order, updatedOrder)
     }
 }
 

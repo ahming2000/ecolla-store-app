@@ -308,6 +308,7 @@ export default {
             total: '总计（RM）',
         },
         'customer-address': '顾客地址',
+        'customer-information': '顾客资料',
         'customer-name': '顾客名称',
         'customer-phone': '顾客电话号码',
         'date-filter': '订单日期',
@@ -318,6 +319,23 @@ export default {
         },
         'delivery-tracking-id': '邮寄追踪 ID',
         'download-order': '下载订单',
+        edit: {
+            action: '编辑订单',
+            'customer-and-order': '顾客与订单资料',
+            'empty-order-will-cancel':
+                '最后一件商品已移除，保存后此订单将会取消。',
+            'items-subtotal': '商品小计',
+            'order-total': '订单总额',
+            'price-help':
+                '请输入顾客实际支付的价格；低于原价的金额会保存为促销价。',
+            'remove-and-cancel': '移除商品并取消订单',
+            'remove-item': '从订单移除“{name}”',
+            'remove-last-confirmation':
+                '这是订单中的最后一件商品。是否移除商品，并在保存时将订单状态改为已取消？',
+            'remove-last-title': '取消无商品的订单？',
+            'update-failed': '无法保存订单修改，请检查表格后重试。',
+            'updated-success': '订单修改已保存。',
+        },
         'item-details': '商品详情（{count} 个）',
         note: '备注',
         'order-details': '订单详情',

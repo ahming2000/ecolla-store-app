@@ -140,7 +140,7 @@ export interface Order extends Timestamps {
     payment_method_id: Identifier
     receipt_image_id: Identifier
     note: Nullable<string>
-    cus_name: string
+    cus_name: Nullable<string>
     cus_phone: string
     cus_address: Nullable<string>
     subtotal: string
@@ -150,6 +150,24 @@ export interface Order extends Timestamps {
 }
 
 export type OrderFulfilment = Pick<Order, 'id' | 'status' | 'tracking_no'>
+export type OrderPatch = Pick<Order, 'id'> & Partial<Omit<Order, 'id'>>
+
+export interface OrderItemUpdateData {
+    id: Identifier
+    quantity: number
+    effective_price: number
+}
+
+export interface OrderUpdateData {
+    delivery_mode: Order['delivery_mode']
+    shipping_fee: number
+    note: Nullable<string>
+    cus_name: Nullable<string>
+    cus_phone: string
+    cus_address: Nullable<string>
+    items: OrderItemUpdateData[]
+    cancel_when_empty: boolean
+}
 
 export interface ShippingSettings {
     fee: number

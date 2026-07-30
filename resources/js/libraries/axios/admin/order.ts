@@ -1,11 +1,15 @@
 import adminAjax from '@/libraries/axios/common/admin-ajax'
-import { index as orderIndex } from '@/routes/admin/ajax/order'
+import {
+    index as orderIndex,
+    update as updateOrderRoute,
+} from '@/routes/admin/ajax/order'
 import { update as updateOrderStatusRoute } from '@/routes/admin/ajax/order/status'
 import { update as updateOrderTrackingNumberRoute } from '@/routes/admin/ajax/order/tracking-number'
 import type {
     Identifier,
     Order,
     OrderFulfilment,
+    OrderUpdateData,
     PaginatedResponse,
 } from '@/types'
 
@@ -55,4 +59,11 @@ export const updateOrderTrackingNumber = async (
             tracking_no: trackingNumber,
         }
     )
+}
+
+export const updateOrder = async (
+    orderId: Identifier,
+    data: OrderUpdateData
+): Promise<Order> => {
+    return await adminAjax.put<Order>(updateOrderRoute.url(orderId), data)
 }

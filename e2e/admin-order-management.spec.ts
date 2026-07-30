@@ -42,7 +42,7 @@ interface AdminOrder {
         src: string
         created_at: string
         updated_at: string
-    }
+    } | null
 }
 
 const login = async (page: Page): Promise<void> => {
@@ -369,6 +369,215 @@ test('manages order fulfilment and exposes receipt and download actions', async 
 
     await page.keyboard.press('Escape')
     await expect(receiptDialog).toBeHidden()
+
+    expect(runtimeErrors).toEqual([])
+})
+
+test('stages order edits until save and confirms canceling after removing the last item', async ({
+    page,
+}, testInfo) => {
+    test.setTimeout(60_000)
+    await page.setViewportSize({ width: 390, height: 844 })
+
+    const runtimeErrors = collectRuntimeErrors(page)
+    const updatePayloads: Array<{
+        delivery_mode: string
+        shipping_fee: number
+        note: string | null
+        cus_name: string | null
+        cus_phone: string
+        cus_address: string | null
+        items: Array<{
+            id: number
+            quantity: number
+            effective_price: number
+        }>
+        cancel_when_empty: boolean
+    }> = []
+    const order: AdminOrder = {
+        ...listingOrder(92001, 'ECOLLA-EDIT-TEST'),
+        note: 'Original note',
+        cus_name: 'Original Customer',
+        items: [
+            {
+                id: 101,
+                name: '第一件商品',
+                name_en: 'First item',
+                barcode: 'SKU-EDIT-001',
+                price: 10,
+                sale_price: 8,
+                quantity: 2,
+                created_at: '2026-07-26T04:00:00+00:00',
+                updated_at: '2026-07-26T04:00:00+00:00',
+            },
+            {
+                id: 102,
+                name: '第二件商品',
+                name_en: 'Second item',
+                barcode: 'SKU-EDIT-002',
+                price: 5,
+                sale_price: null,
+                quantity: 1,
+                created_at: '2026-07-26T04:00:00+00:00',
+                updated_at: '2026-07-26T04:00:00+00:00',
+            },
+        ],
+        subtotal: '21.00',
+    }
+
+    await login(page)
+
+    await page.route(/\/ajax\/admin\/order\/?(?:\?.*)?$/, async (route) => {
+        await route.fulfill({ json: paginatedOrders([order]) })
+    })
+    await page.route(`**/ajax/admin/order/${order.id}`, async (route) => {
+        expect(route.request().method()).toBe('PUT')
+
+        const payload = route
+            .request()
+            .postDataJSON() as (typeof updatePayloads)[number]
+
+        updatePayloads.push(payload)
+        order.delivery_mode = payload.delivery_mode
+        order.shipping_fee = payload.shipping_fee
+        order.note = payload.note
+        order.cus_name = payload.cus_name ?? ''
+        order.cus_phone = payload.cus_phone
+        order.cus_address = payload.cus_address
+        order.items = payload.items.map((item) => {
+            const currentItem = order.items.find(
+                (candidate) => candidate.id === item.id
+            )
+
+            if (!currentItem) {
+                throw new Error(`Missing order item ${item.id}`)
+            }
+
+            return {
+                ...currentItem,
+                price:
+                    item.effective_price >= currentItem.price
+                        ? item.effective_price
+                        : currentItem.price,
+                sale_price:
+                    item.effective_price < currentItem.price
+                        ? item.effective_price
+                        : null,
+                quantity: item.quantity,
+            }
+        })
+        order.subtotal = order.items
+            .reduce(
+                (subtotal, item) =>
+                    subtotal + (item.sale_price ?? item.price) * item.quantity,
+                0
+            )
+            .toFixed(2)
+
+        if (payload.items.length === 0 && payload.cancel_when_empty) {
+            order.status = '已取消'
+        }
+
+        await route.fulfill({ json: order })
+    })
+
+    await page.goto('/admin/order')
+    await page.waitForLoadState('networkidle')
+    await page.getByRole('button', { name: '详情', exact: true }).click()
+
+    const orderDialog = page.getByRole('dialog', {
+        name: order.reference_num,
+    })
+
+    await orderDialog
+        .getByRole('button', { name: '编辑订单', exact: true })
+        .click()
+    await page
+        .locator(`#order-${order.id}-customer-name`)
+        .fill('Updated Customer')
+    await page.locator(`#order-${order.id}-customer-phone`).fill('0198765432')
+    await page
+        .locator(`#order-${order.id}-customer-address`)
+        .fill('9 Updated Street')
+    await page.locator(`#order-${order.id}-note`).fill('Updated note')
+    await page.locator(`#order-${order.id}-shipping-fee`).fill('6.5')
+    await page.locator(`#order-${order.id}-item-101-quantity`).fill('4')
+    await page.locator(`#order-${order.id}-item-101-price`).fill('12')
+    await page.getByTestId('remove-order-item-102').click()
+
+    expect(updatePayloads).toHaveLength(0)
+    await expect(page.getByText('Original note')).toBeHidden()
+
+    await page.getByTestId(`save-order-${order.id}`).click()
+    await expect(page.getByText('订单修改已保存。')).toBeVisible()
+
+    expect(updatePayloads).toHaveLength(1)
+    expect(updatePayloads[0]).toMatchObject({
+        shipping_fee: 6.5,
+        note: 'Updated note',
+        cus_name: 'Updated Customer',
+        cus_phone: '0198765432',
+        cus_address: '9 Updated Street',
+        items: [
+            {
+                id: 101,
+                quantity: 4,
+                effective_price: 12,
+            },
+        ],
+        cancel_when_empty: false,
+    })
+    await expect(orderDialog.getByText('Updated note')).toBeVisible()
+    await expect(orderDialog.getByText('Updated Customer')).toBeVisible()
+
+    await orderDialog
+        .getByRole('button', { name: '编辑订单', exact: true })
+        .click()
+    await page.getByTestId('remove-order-item-101').click()
+
+    const cancelConfirmation = page.getByRole('dialog', {
+        name: '取消无商品的订单？',
+    })
+
+    await expect(cancelConfirmation).toBeVisible()
+    await cancelConfirmation
+        .getByRole('button', { name: '取消', exact: true })
+        .click()
+    await expect(page.getByTestId('remove-order-item-101')).toBeVisible()
+    expect(updatePayloads).toHaveLength(1)
+
+    await page.getByTestId('remove-order-item-101').click()
+    await cancelConfirmation
+        .getByRole('button', {
+            name: '移除商品并取消订单',
+            exact: true,
+        })
+        .click()
+
+    await expect(
+        page.getByTestId('empty-order-cancellation-notice')
+    ).toBeVisible()
+    expect(updatePayloads).toHaveLength(1)
+
+    await testInfo.attach('staged-order-edit', {
+        body: await orderDialog.screenshot(),
+        contentType: 'image/png',
+    })
+
+    await page.getByTestId(`save-order-${order.id}`).click()
+    await expect(orderDialog.getByText('已取消', { exact: true })).toBeVisible()
+
+    expect(updatePayloads).toHaveLength(2)
+    expect(updatePayloads[1]).toMatchObject({
+        items: [],
+        cancel_when_empty: true,
+    })
+
+    await orderDialog
+        .getByRole('button', { name: '编辑订单', exact: true })
+        .click()
+    await expect(page.getByTestId(`save-order-${order.id}`)).toBeEnabled()
+    await page.getByRole('button', { name: '取消', exact: true }).click()
 
     expect(runtimeErrors).toEqual([])
 })

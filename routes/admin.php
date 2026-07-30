@@ -76,6 +76,8 @@ Route::prefix('/ajax/admin')->name('admin.ajax.')->group(function () {
             Route::get('/', [OrderController::class, 'index'])
                 ->name('order.index')
                 ->can('viewAny', Order::class);
+            Route::put('/{order}', [OrderController::class, 'update'])
+                ->name('order.update');
             Route::patch('/{order}/status', [OrderController::class, 'updateStatus'])
                 ->name('order.status.update');
             Route::patch('/{order}/tracking-number', [OrderController::class, 'updateTrackingNumber'])

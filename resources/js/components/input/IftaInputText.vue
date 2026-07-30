@@ -20,6 +20,7 @@ const props = withDefaults(
         inputStyle?: StyleValue
         placeholder?: string
         required?: boolean
+        disabled?: boolean
         autofocus?: boolean
         autocomplete?: string
         error?: string
@@ -43,6 +44,7 @@ const props = withDefaults(
         inputStyle: undefined,
         placeholder: undefined,
         required: false,
+        disabled: false,
         autofocus: false,
         autocomplete: undefined,
         error: undefined,
@@ -78,6 +80,7 @@ const onUpdate = (value: string | undefined): void => {
                 :autocomplete="autocomplete"
                 :autofocus="autofocus"
                 :class="inputClass"
+                :disabled="disabled"
                 :fluid="fluid"
                 :id="inputId"
                 :invalid="Boolean(error)"

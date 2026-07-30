@@ -7,6 +7,7 @@ use App\Enums\Language;
 use App\Enums\Status;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Order\IndexAdminOrdersRequest;
+use App\Http\Requests\Order\UpdateOrderRequest;
 use App\Http\Requests\Order\UpdateOrderStatusRequest;
 use App\Http\Requests\Order\UpdateOrderTrackingNumberRequest;
 use App\Http\Resources\OrderResource;
@@ -84,6 +85,24 @@ class OrderController extends Controller
 
         return response()->json(
             $order->only(['id', 'status', 'tracking_no']),
+        );
+    }
+
+    public function update(
+        UpdateOrderRequest $request,
+        Order $order,
+    ): JsonResponse {
+        $order = $this->orderService->updateOrder(
+            $order,
+            $request->orderData(),
+        );
+        $order->setAttribute(
+            'subtotal',
+            $this->orderService->getOrderItemsSubtotal($order),
+        );
+
+        return response()->json(
+            OrderResource::make($order)->resolve($request),
         );
     }
 
