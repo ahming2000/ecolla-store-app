@@ -33,17 +33,26 @@ class ImageDisplayTest extends TestCase
     public function test_item_cover_image_uses_an_attached_images_source(): void
     {
         $dataUri = 'data:image/png;base64,example-image';
+        $thumbnailDataUri = 'data:image/webp;base64,example-thumbnail';
+        $thumbnail = new Image([
+            'name' => 'example-thumbnail.webp',
+            'mime_type' => 'image/webp',
+            'size' => 7,
+            'data_uri' => $thumbnailDataUri,
+        ]);
         $image = new Image([
             'name' => 'example.png',
             'mime_type' => 'image/png',
             'size' => 13,
             'data_uri' => $dataUri,
         ]);
+        $image->setRelation('thumbnail', $thumbnail);
         $item = new Item;
         $item->setRelation('images', new Collection([$image]));
         $item->setRelation('variations', new Collection);
 
         $this->assertSame($dataUri, $item->cover_image);
+        $this->assertSame($thumbnailDataUri, $item->cover_thumbnail);
     }
 
     public function test_item_cover_image_uses_a_variation_images_source(): void

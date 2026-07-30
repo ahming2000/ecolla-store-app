@@ -58,7 +58,12 @@ class ItemController extends Controller
         }
 
         $item->categories()->attach(Category::DEFAULT_CATEGORY_ID);
-        $item->load(['categories', 'origin', 'images', 'variations.image']);
+        $item->load([
+            'categories',
+            'origin',
+            'images.thumbnail',
+            'variations.image.thumbnail',
+        ]);
 
         return response()->json($item);
     }
@@ -73,7 +78,12 @@ class ItemController extends Controller
         });
 
         $item = $item->refresh()
-            ->load(['categories', 'origin', 'images', 'variations.image']);
+            ->load([
+                'categories',
+                'origin',
+                'images.thumbnail',
+                'variations.image.thumbnail',
+            ]);
 
         return response()->json($item);
     }

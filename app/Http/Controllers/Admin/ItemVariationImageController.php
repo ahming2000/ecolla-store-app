@@ -32,7 +32,9 @@ class ItemVariationImageController extends Controller
             $this->imageService->deleteIfUnreferenced($previousImage);
         }
 
-        return response()->json($variation->refresh()->load('image'));
+        return response()->json(
+            $variation->refresh()->load('image.thumbnail'),
+        );
     }
 
     public function destroy(
@@ -50,6 +52,8 @@ class ItemVariationImageController extends Controller
             $this->imageService->deleteIfUnreferenced($image);
         }
 
-        return response()->json($variation->refresh()->load('image'));
+        return response()->json(
+            $variation->refresh()->load('image.thumbnail'),
+        );
     }
 }

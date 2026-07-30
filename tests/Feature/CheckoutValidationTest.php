@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Enums\DeliveryMode;
+use App\Models\Image;
 use App\Models\Item;
 use App\Services\ItemVariationService;
 use Illuminate\Database\Eloquent\Collection;
@@ -145,5 +146,64 @@ class CheckoutValidationTest extends TestCase
             ->assertJsonPath('items.0.variation.name', 'Current variation name')
             ->assertJsonPath('items.0.variation.price', 10.5)
             ->assertJsonPath('items.0.quantity', 2);
+    }
+
+    public function test_cart_verification_refreshes_the_variation_image_and_item_cover_image(): void
+    {
+        $item = Item::query()->create([
+            'name' => 'Current product name',
+        ]);
+        $itemCoverImage = Image::query()->create([
+            'name' => 'item-cover.png',
+            'mime_type' => 'image/png',
+            'size' => 100,
+            'url' => '/images/item-cover.png',
+        ]);
+        $variationImage = Image::query()->create([
+            'name' => 'variation.png',
+            'mime_type' => 'image/png',
+            'size' => 100,
+            'url' => '/images/variation.png',
+        ]);
+        $item->images()->attach($itemCoverImage);
+        $variation = $item->variations()->create([
+            'barcode' => 'CURRENT-IMAGE-001',
+            'name' => 'Current variation name',
+            'price' => 10.50,
+            'stock' => 2,
+        ]);
+        $variation->image()->associate($variationImage)->save();
+
+        $this->postJson(route('shop.ajax.cart.verify'), [
+            'deliveryMode' => DeliveryMode::DELIVERY->value,
+            'items' => [
+                [
+                    'item' => [
+                        'id' => $item->getKey(),
+                        'name' => 'Stale product name',
+                        'cover_image' => '/images/stale-item-cover.png',
+                    ],
+                    'variation' => [
+                        'id' => $variation->getKey(),
+                        'barcode' => 'CURRENT-IMAGE-001',
+                        'name' => 'Stale variation name',
+                        'price' => 999,
+                        'image' => [
+                            'src' => '/images/stale-variation.png',
+                        ],
+                    ],
+                    'quantity' => 1,
+                ],
+            ],
+        ])
+            ->assertOk()
+            ->assertJsonPath(
+                'items.0.variation.image.src',
+                '/images/variation.png',
+            )
+            ->assertJsonPath(
+                'items.0.item.cover_image',
+                '/images/item-cover.png',
+            );
     }
 }

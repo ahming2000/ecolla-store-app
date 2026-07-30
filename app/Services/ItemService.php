@@ -102,9 +102,9 @@ class ItemService
     public function getItem(Item $item): Item
     {
         return $item->load([
-            'variations.image',
+            'variations.image.thumbnail',
             'origin',
-            'images',
+            'images.thumbnail',
             'categories',
         ]);
     }
@@ -176,9 +176,9 @@ class ItemService
     private function itemQuery(bool $withUnlisted): Builder
     {
         $query = Item::query()->with([
-            'variations.image',
+            'variations.image.thumbnail',
             'origin',
-            'images',
+            'images.thumbnail',
             'categories',
         ]);
 

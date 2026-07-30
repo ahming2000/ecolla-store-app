@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import fallbackImage from '@/assets/images/branding/ecolla.png'
+import SmartImage from '@/components/image/SmartImage.vue'
 import { useCartStore } from '@/stores/cart.store'
 import type { CartItemData } from '@/types'
 import Card from 'primevue/card'
@@ -34,13 +35,13 @@ const getVariationName = (cartItem: CartItemData): string => {
                         class="grid grid-cols-3 gap-2"
                     >
                         <div>
-                            <img
-                                class="rounded-lg"
-                                :src="
-                                    cartItem.variation.image?.src ??
-                                    cartItem.item.cover_image ??
-                                    fallbackImage
-                                "
+                            <SmartImage
+                                :fallback-src="fallbackImage"
+                                :image="cartItem.variation.image"
+                                image-class="rounded-lg"
+                                data-testid="checkout-cart-item-image"
+                                :src="cartItem.item.cover_image"
+                                :thumbnail-src="cartItem.item.cover_thumbnail"
                                 :alt="
                                     t('shop.cart.item.image-alt', {
                                         name: getVariationName(cartItem),

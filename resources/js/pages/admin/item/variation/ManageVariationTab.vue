@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import fallbackImage from '@/assets/images/branding/ecolla.png'
+import SmartImage from '@/components/image/SmartImage.vue'
 import {
     getAlternateLocalizedName,
     getLocalizedName,
@@ -33,13 +34,16 @@ const { locale: activeLanguage, t } = useI18n()
                         class="flex gap-3 border rounded-xl p-5 w-full"
                     >
                         <div class="md:w-[10rem]">
-                            <img
-                                class="rounded"
-                                :src="variation.image?.src ?? fallbackImage"
+                            <SmartImage
                                 :alt="
                                     variation.image?.name ??
                                     t('common.alt.no-image-thumbnail')
                                 "
+                                :fallback-src="fallbackImage"
+                                :image="variation.image"
+                                image-class="aspect-square h-full w-full rounded object-contain"
+                                preview
+                                wrapper-class="block aspect-square overflow-hidden rounded"
                             />
                         </div>
 

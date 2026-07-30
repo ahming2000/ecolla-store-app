@@ -16,7 +16,7 @@ class ItemVariationController extends Controller
     public function store(CreateVariationRequest $request, Item $item): JsonResponse
     {
         $variation = $item->variations()->create($request->validated());
-        $variation->load('image');
+        $variation->load('image.thumbnail');
 
         return response()->json($variation, Response::HTTP_CREATED);
     }
@@ -24,7 +24,7 @@ class ItemVariationController extends Controller
     public function update(UpdateVariationRequest $request, Item $item, ItemVariation $variation): JsonResponse
     {
         $variation->update($request->validated());
-        $variation->refresh()->load('image');
+        $variation->refresh()->load('image.thumbnail');
 
         return response()->json($variation);
     }

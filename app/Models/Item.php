@@ -31,6 +31,7 @@ class Item extends Model
 
     protected $appends = [
         'cover_image',
+        'cover_thumbnail',
         'total_stock',
         'total_image_count',
         'all_images',
@@ -56,30 +57,20 @@ class Item extends Model
 
     public function getCoverImageAttribute(): ?string
     {
-        $image = $this->relationLoaded('images')
-            ? $this->images->first()
-            : $this->images()->first();
+        return $this->resolveCoverImage()?->src;
+    }
 
-        if ($image
-            && ($image->url || $image->data_uri)
-        ) {
-            return $image->src;
+    public function getCoverThumbnailAttribute(): ?string
+    {
+        $image = $this->resolveCoverImage();
+
+        if (! $image instanceof Image) {
+            return null;
         }
 
-        $variation = $this->relationLoaded('variations')
-            ? $this->variations->first(
-                fn (ItemVariation $variation): bool => $variation->image_id !== null,
-            )
-            : $this->variations()
-                ->whereNotNull('image_id')
-                ->with('image')
-                ->first();
-
-        if ($variation && $variation->image) {
-            return $variation->image->src;
-        }
-
-        return null;
+        return $image->thumbnail instanceof Image
+            ? $image->thumbnail->src
+            : $image->src;
     }
 
     public function getTotalStockAttribute(): int
@@ -188,5 +179,27 @@ class Item extends Model
         }
 
         return $slug;
+    }
+
+    private function resolveCoverImage(): ?Image
+    {
+        $image = $this->relationLoaded('images')
+            ? $this->images->first()
+            : $this->images()->with('thumbnail')->first();
+
+        if ($image && ($image->url || $image->data_uri)) {
+            return $image;
+        }
+
+        $variation = $this->relationLoaded('variations')
+            ? $this->variations->first(
+                fn (ItemVariation $variation): bool => $variation->image_id !== null,
+            )
+            : $this->variations()
+                ->whereNotNull('image_id')
+                ->with('image.thumbnail')
+                ->first();
+
+        return $variation?->image;
     }
 }

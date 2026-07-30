@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import fallbackImage from '@/assets/images/branding/ecolla.png'
+import SmartImage from '@/components/image/SmartImage.vue'
 import { getLocalizedName } from '@/libraries/i18n/language'
 import DeleteItemButton from '@/pages/admin/item/detail/DeleteItemButton.vue'
 import EditItemButton from '@/pages/admin/item/detail/EditItemButton.vue'
 import ItemListingToggle from '@/pages/admin/item/detail/ItemListingToggle.vue'
 import type { Item } from '@/types'
 import Card from 'primevue/card'
-import Image from 'primevue/image'
 import { useI18n } from 'vue-i18n'
 
 defineProps<{
@@ -20,9 +20,12 @@ const { locale: activeLanguage, t } = useI18n()
     <Card :data-testid="`item-card-${item.id}`">
         <template #header>
             <div class="flex justify-center items-center">
-                <Image
-                    :src="item.cover_image ?? fallbackImage"
+                <SmartImage
                     :alt="getLocalizedName(item, activeLanguage)"
+                    :fallback-src="fallbackImage"
+                    image-class="aspect-square h-full w-full object-contain"
+                    :src="item.cover_image ?? fallbackImage"
+                    :thumbnail-src="item.cover_thumbnail"
                 />
             </div>
         </template>
@@ -43,34 +46,6 @@ const { locale: activeLanguage, t } = useI18n()
                 v-if="item.variations.length === 0"
             >
                 {{ t('admin.items.no-variations') }}
-            </div>
-
-            <div class="text-sm" v-else>
-                <div class="mb-1">{{ t('admin.items.variations') }}</div>
-
-                <div
-                    class="flex justify-between gap-3"
-                    v-for="variation in item.variations"
-                >
-                    <div class="font-bold truncate">
-                        {{ getLocalizedName(variation, activeLanguage) }}
-                    </div>
-
-                    <div>
-                        <div
-                            :class="{
-                                'line-through': variation.sale_price,
-                                'text-gray-200': variation.sale_price,
-                            }"
-                        >
-                            RM {{ variation.price }}
-                        </div>
-
-                        <div v-if="variation.sale_price">
-                            RM {{ variation.sale_price }}
-                        </div>
-                    </div>
-                </div>
             </div>
         </template>
 

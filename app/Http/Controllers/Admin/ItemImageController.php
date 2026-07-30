@@ -39,6 +39,11 @@ class ItemImageController extends Controller
     private function loadItemRelations(Item $item): Item
     {
         return $item->refresh()
-            ->load(['categories', 'origin', 'images', 'variations.image']);
+            ->load([
+                'categories',
+                'origin',
+                'images.thumbnail',
+                'variations.image.thumbnail',
+            ]);
     }
 }

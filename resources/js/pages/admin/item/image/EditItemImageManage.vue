@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import SmartImage from '@/components/image/SmartImage.vue'
 import { EDITOR } from '@/enums/AccessLevel'
 import Notification from '@/libraries/primevue/toast/Notification'
 import AddImageButton from '@/pages/admin/item/image/AddImageButton.vue'
@@ -7,7 +8,6 @@ import type { AppPageProps, Item, Image as ItemImage } from '@/types'
 import { usePage } from '@inertiajs/vue3'
 import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
-import Image from 'primevue/image'
 import { useToast } from 'primevue/usetoast'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -75,11 +75,12 @@ const onRemoveImage = async (): Promise<void> => {
                 :data-testid="`item-image-${image.id}`"
                 class="relative"
             >
-                <Image
+                <SmartImage
                     :alt="image.name"
-                    :src="image.src ?? undefined"
-                    class="rounded-lg shadow-lg"
+                    :image="image"
+                    image-class="aspect-square h-full w-full rounded-lg object-contain"
                     preview
+                    wrapper-class="block aspect-square overflow-hidden rounded-lg shadow-lg"
                 />
 
                 <div

@@ -14,7 +14,11 @@ class ItemVariationService
     public function getItemVariationsByBarcode(array $barcode): Collection
     {
         return ItemVariation::query()
-            ->with('item')
+            ->with([
+                'image.thumbnail',
+                'item.images.thumbnail',
+                'item.variations.image.thumbnail',
+            ])
             ->whereIn('barcode', $barcode)
             ->get();
     }

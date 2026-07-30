@@ -107,6 +107,7 @@ export interface Item extends Timestamps {
     images: Image[]
     all_images: Image[]
     cover_image: Nullable<string>
+    cover_thumbnail: Nullable<string>
     total_stock: number
     total_image_count: number
 }

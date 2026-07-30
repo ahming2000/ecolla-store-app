@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import fallbackImage from '@/assets/images/branding/ecolla.png'
+import SmartImage from '@/components/image/SmartImage.vue'
 import { show as showItem } from '@/routes/shop/item'
 import { useCartStore } from '@/stores/cart.store'
 import type { CartItemData } from '@/types'
@@ -34,7 +35,6 @@ const totalFinalPriceText = computed(
     () =>
         `RM ${(props.cartItem.variation.final_price * quantity.value).toFixed(2)}`
 )
-
 watch(
     () => [props.cartItem.quantity],
     () => {
@@ -55,10 +55,14 @@ const onQuantityChange = (): void => {
     <div class="flex" :key="cartItem.variation.id">
         <div class="grow grid grid-cols-3 lg:grid-cols-4 gap-3">
             <div class="cursor-pointer" @click="onImageClick">
-                <img
-                    :src="cartItem.variation.image?.src ?? fallbackImage"
+                <SmartImage
                     :alt="t('shop.cart.item.image-alt', { name: itemName })"
-                    class="rounded-3xl"
+                    :fallback-src="fallbackImage"
+                    :image="cartItem.variation.image"
+                    image-class="rounded-3xl"
+                    :src="cartItem.item.cover_image"
+                    :thumbnail-src="cartItem.item.cover_thumbnail"
+                    data-testid="cart-item-image"
                 />
             </div>
 

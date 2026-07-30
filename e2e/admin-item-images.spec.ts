@@ -17,6 +17,10 @@ interface AdminItem {
 interface UploadedImage {
     id: number
     name: string
+    thumbnail?: {
+        mime_type: string
+        src: string
+    } | null
 }
 
 interface AdminItemState extends AdminItem {
@@ -341,6 +345,7 @@ test('uploads and removes an item image in the edit dialog', async ({
 
         uploadedImage = uploadResponseBody as UploadedImage
 
+        expect(uploadedImage.thumbnail?.mime_type).toBe('image/webp')
         expect(attachResponse.ok()).toBeTruthy()
         const attachedItem = (await attachResponse.json()) as AdminItemState
 
@@ -352,6 +357,11 @@ test('uploads and removes an item image in the edit dialog', async ({
             .getByTestId(`item-image-${uploadedImage.id}`)
             .locator('img')
 
+        await expect(storedImage).toHaveAttribute(
+            'src',
+            uploadedImage.thumbnail?.src ?? ''
+        )
+        await expect(storedImage).toHaveAttribute('loading', 'lazy')
         await expect
             .poll(async () => {
                 return await storedImage.evaluate(

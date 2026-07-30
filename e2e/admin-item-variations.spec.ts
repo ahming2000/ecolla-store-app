@@ -8,6 +8,21 @@ interface TestImage {
     size: number
     url: string
     data_uri: null
+    thumbnail_id: number | null
+    thumbnail?: TestImageThumbnail | null
+    src: string
+    created_at: string
+    updated_at: string
+}
+
+interface TestImageThumbnail {
+    id: number
+    name: string
+    mime_type: 'image/webp'
+    size: number
+    url: string
+    data_uri: null
+    thumbnail_id: null
     src: string
     created_at: string
     updated_at: string
@@ -47,6 +62,19 @@ const uploadedImage: TestImage = {
     size: 1024,
     url: '/images/ecolla-shop.jpeg',
     data_uri: null,
+    thumbnail_id: uploadedImageId + 1000,
+    thumbnail: {
+        id: uploadedImageId + 1000,
+        name: 'variation-photo-thumbnail.webp',
+        mime_type: 'image/webp',
+        size: 512,
+        url: '/images/example-items/assorted-drinks.png',
+        data_uri: null,
+        thumbnail_id: null,
+        src: '/images/example-items/assorted-drinks.png',
+        created_at: timestamp,
+        updated_at: timestamp,
+    },
     src: '/images/ecolla-shop.jpeg',
     created_at: timestamp,
     updated_at: timestamp,
@@ -94,6 +122,77 @@ const login = async (page: Page): Promise<void> => {
     await page.getByRole('button', { name: '登录', exact: true }).click()
     await expect(page).toHaveURL(/\/admin$/)
 }
+
+test('does not display variation prices on an item card', async ({ page }) => {
+    const runtimeErrors = collectRuntimeErrors(page)
+    const expensiveVariation = variation(originalVariationId, {
+        price: 18.9,
+    })
+    const cheapestVariation = variation(createdVariationId, {
+        price: 12.5,
+        sale_price: 9.9,
+    })
+
+    await login(page)
+
+    await page.route(/\/ajax\/admin\/item(?:\?.*)?$/, async (route) => {
+        if (route.request().method() === 'GET') {
+            await route.fulfill({
+                json: {
+                    current_page: 1,
+                    data: [
+                        {
+                            id: itemId,
+                            name: '价格显示测试商品',
+                            name_en: 'Price display test item',
+                            desc: null,
+                            is_listed: false,
+                            view_count: 0,
+                            sold_count: 0,
+                            origin_id: null,
+                            origin: null,
+                            categories: [],
+                            variations: [expensiveVariation, cheapestVariation],
+                            images: [],
+                            all_images: [],
+                            cover_image: '/images/ecolla.png',
+                            total_stock: 16,
+                            total_image_count: 1,
+                            created_at: timestamp,
+                            updated_at: timestamp,
+                        },
+                    ],
+                    last_page: 1,
+                    per_page: 50,
+                    total: 1,
+                },
+                status: 200,
+            })
+
+            return
+        }
+
+        await route.continue()
+    })
+
+    await page.goto('/admin/item')
+
+    const itemCard = page.getByTestId(`item-card-${itemId}`)
+
+    await expect(
+        itemCard.getByText('价格显示测试商品', { exact: true })
+    ).toBeVisible()
+    await expect(
+        itemCard.getByText(cheapestVariation.final_price_text, { exact: true })
+    ).toHaveCount(0)
+    await expect(
+        itemCard.getByText(expensiveVariation.final_price_text, { exact: true })
+    ).toHaveCount(0)
+    await expect(itemCard.getByText(expensiveVariation.name)).toHaveCount(0)
+    await expect(itemCard.getByText(cheapestVariation.name)).toHaveCount(0)
+
+    expect(runtimeErrors).toEqual([])
+})
 
 test('isolates variation drafts and completes create, update, and delete', async ({
     page,
@@ -409,8 +508,14 @@ test('isolates variation drafts and completes create, update, and delete', async
     expect(photoAttachRequestCount).toBe(1)
     await expect(variationList.locator('img').first()).toHaveAttribute(
         'src',
+        uploadedImage.thumbnail?.src ?? ''
+    )
+    await variationList.locator('.p-image-preview-mask').first().click()
+    await expect(page.locator('.p-image-mask img')).toHaveAttribute(
+        'src',
         uploadedImage.src
     )
+    await page.keyboard.press('Escape')
 
     await page.getByTestId(`add-variation-${itemId}`).click()
 
