@@ -1,22 +1,17 @@
 <script setup lang="ts">
 import type { FreeShippingSettings } from '@/types'
 import Message from 'primevue/message'
-import { computed } from 'vue'
-import { useI18n } from 'vue-i18n'
 
-const props = defineProps<{
+defineProps<{
     freeShipping?: FreeShippingSettings
 }>()
-
-const { t } = useI18n()
-
-const threshold = computed(() => {
-    return `RM ${props.freeShipping?.threshold.toFixed(2)}`
-})
 </script>
 
 <template>
-    <div v-if="freeShipping?.isActivated" class="container mx-auto px-3 pt-3">
+    <div
+        v-if="freeShipping?.isActivated && freeShipping.description"
+        class="container mx-auto px-3 pt-3"
+    >
         <Message
             closable
             class="w-full"
@@ -25,11 +20,7 @@ const threshold = computed(() => {
             severity="warn"
         >
             <span class="block w-full text-center">
-                {{
-                    t('shop.free-shipping-notice', {
-                        amount: threshold,
-                    })
-                }}
+                {{ freeShipping.description }}
             </span>
         </Message>
     </div>

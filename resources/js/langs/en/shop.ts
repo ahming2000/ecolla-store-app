@@ -5,8 +5,6 @@ export default {
         line2: 'Taman Bandar Baru',
         line3: '31900 Kampar, Perak',
     },
-    'free-shipping-notice':
-        'Special event! Spend {amount} or more to get free shipping.',
     'item-list': {
         empty: 'No items',
         title: 'Items',

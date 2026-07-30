@@ -5,7 +5,6 @@ export default {
         line2: 'Taman Bandar Baru',
         line3: '31900 Kampar, Perak',
     },
-    'free-shipping-notice': '限时优惠！消费满 {amount} 即可免运！',
     'item-list': {
         empty: '无任何商品',
         title: '商品',
