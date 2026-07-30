@@ -133,7 +133,7 @@ test('adds an item, restores the cart, and completes checkout', async ({
     await uploadDialog.getByTestId('confirm-image-upload').click()
     expect((await receiptUpload).ok()).toBeTruthy()
     await expect(uploadDialog).toBeHidden()
-    await expect(page.getByText('assorted-drinks.webp')).toBeVisible()
+    await expect(page.getByText('assorted-drinks.png')).toBeVisible()
 
     const checkoutRequest = waitForPost(page, '/ajax/cart/checkout')
 

@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Shop;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cart\CheckoutRequest;
 use App\Http\Resources\OrderResource;
+use App\Models\Image;
 use App\Models\ItemVariation;
 use App\Models\Order;
 use App\Services\Common\Cart\Cart;
 use App\Services\Common\Cart\CartItem;
+use App\Services\ImageService;
 use App\Services\ItemVariationService;
 use App\Services\OrderService;
 use App\Services\SettingService;
@@ -25,6 +27,7 @@ class CartController extends Controller
         private readonly ItemVariationService $itemVariationService,
         private readonly OrderService $orderService,
         private readonly SettingService $settingService,
+        private readonly ImageService $imageService,
     ) {}
 
     public function cartPage(): Response
@@ -105,7 +108,23 @@ class CartController extends Controller
             cartItems: $data['cart']['items'],
         );
 
-        $order = DB::transaction(function () use ($data, $cart) {
+        $receiptThumbnail = null;
+        $order = DB::transaction(function () use (
+            $data,
+            $cart,
+            &$receiptThumbnail,
+        ) {
+            $receiptImage = Image::query()
+                ->with('thumbnail')
+                ->whereKey($data['checkoutForm']['receipt_image']['id'])
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if ($receiptImage->thumbnail) {
+                $receiptThumbnail = $receiptImage->thumbnail;
+                $receiptImage->update(['thumbnail_id' => null]);
+            }
+
             $variations = ItemVariation::query()
                 ->whereIn(
                     'barcode',
@@ -160,6 +179,10 @@ class CartController extends Controller
                 'cus_address' => $data['checkoutForm']['cus_address'],
             ], $orderedItems);
         });
+
+        if ($receiptThumbnail instanceof Image) {
+            $this->imageService->deleteIfUnreferenced($receiptThumbnail);
+        }
 
         $request->session()->push('checkout_order_ids', $order->getKey());
 

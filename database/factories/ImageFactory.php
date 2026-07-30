@@ -36,6 +36,7 @@ class ImageFactory extends Factory
             'size' => File::size($imagePath),
             'url' => $imageUrl,
             'data_uri' => null,
+            'thumbnail_id' => null,
         ];
     }
 }

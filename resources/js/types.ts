@@ -28,7 +28,7 @@ export interface User extends Timestamps {
     is_enabled: boolean
 }
 
-export interface Image extends Timestamps {
+export interface ImageFile extends Timestamps {
     id: Identifier
     name: string
     mime_type: string
@@ -37,6 +37,15 @@ export interface Image extends Timestamps {
     data_uri: Nullable<string>
     src: Nullable<string>
     variation_id?: Identifier
+}
+
+export interface ImageThumbnail extends ImageFile {
+    thumbnail_id: null
+}
+
+export interface Image extends ImageFile {
+    thumbnail_id: Nullable<Identifier>
+    thumbnail?: Nullable<ImageThumbnail>
 }
 
 export interface Origin extends Timestamps {

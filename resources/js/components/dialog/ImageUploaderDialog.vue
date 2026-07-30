@@ -24,6 +24,7 @@ const props = withDefaults(
         showImageOption?: boolean
         defaultImageOption?: ImageUploadOption
         confirmationFailedMessage?: string
+        withThumbnail?: boolean
     }>(),
     {
         visible: false,
@@ -31,6 +32,7 @@ const props = withDefaults(
         showImageOption: false,
         defaultImageOption: ImageOption.ORIGINAL,
         confirmationFailedMessage: '',
+        withThumbnail: true,
     }
 )
 
@@ -126,7 +128,8 @@ const onConfirmImage = async (): Promise<void> => {
         const selectedOption = squareImageOption.value
         const uploadedImage = await uploadImage(
             selectedImage.value,
-            selectedOption
+            selectedOption,
+            props.withThumbnail
         )
 
         await props.onConfirmed(uploadedImage)

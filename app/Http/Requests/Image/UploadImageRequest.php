@@ -36,6 +36,10 @@ class UploadImageRequest extends FormRequest
                 'required',
                 Rule::enum(ImageUploadOption::class),
             ],
+            'with_thumbnail' => [
+                'sometimes',
+                'boolean',
+            ],
         ];
     }
 }

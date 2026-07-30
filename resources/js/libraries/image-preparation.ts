@@ -26,7 +26,12 @@ const canvasToBlob = async (
 
 const preparedFileName = (fileName: string, mimeType: string): string => {
     const baseName = fileName.replace(/\.[^.]+$/, '')
-    const extension = mimeType === 'image/jpeg' ? 'jpg' : 'webp'
+    const extensionByMimeType: Record<string, string> = {
+        'image/jpeg': 'jpg',
+        'image/png': 'png',
+        'image/webp': 'webp',
+    }
+    const extension = extensionByMimeType[mimeType] ?? 'webp'
 
     return `${baseName}.${extension}`
 }
@@ -50,8 +55,11 @@ export const prepareImageForUpload = async (file: File): Promise<File> => {
         throw new Error('Unable to prepare the selected image.')
     }
 
-    const outputMimeType =
-        file.type === 'image/jpeg' ? 'image/jpeg' : 'image/webp'
+    const outputMimeType = ['image/jpeg', 'image/png', 'image/webp'].includes(
+        file.type
+    )
+        ? file.type
+        : 'image/webp'
     let scale = Math.min(
         1,
         MAX_IMAGE_EDGE_LENGTH / Math.max(image.width, image.height)

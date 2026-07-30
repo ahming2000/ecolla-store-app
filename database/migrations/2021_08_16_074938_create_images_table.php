@@ -20,6 +20,11 @@ return new class extends Migration
 
             $table->string('url', 1000)->nullable();
             $table->text('data_uri')->nullable();
+            $table->foreignId('thumbnail_id')
+                ->nullable()
+                ->unique()
+                ->constrained('images')
+                ->nullOnDelete();
 
             $table->timestamps();
         });

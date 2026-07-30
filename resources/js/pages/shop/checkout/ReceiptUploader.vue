@@ -53,5 +53,6 @@ const onAssignReceiptImage = (image: Image): void => {
         v-model:visible="visible"
         :on-confirmed="onAssignReceiptImage"
         :show-image-option="false"
+        :with-thumbnail="false"
     />
 </template>

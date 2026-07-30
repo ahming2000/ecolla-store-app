@@ -148,6 +148,27 @@ class CheckoutWorkflowTest extends TestCase
         $this->assertSame(5, $this->variation->refresh()->stock);
     }
 
+    public function test_checkout_removes_a_thumbnail_from_the_receipt_image(): void
+    {
+        $thumbnail = Image::query()->create([
+            'name' => 'receipt-thumbnail.webp',
+            'mime_type' => 'image/webp',
+            'size' => 1,
+            'data_uri' => 'data:image/webp;base64,AA==',
+        ]);
+        $this->receiptImage->update([
+            'thumbnail_id' => $thumbnail->getKey(),
+        ]);
+
+        $this->postJson(
+            route('shop.ajax.cart.checkout'),
+            $this->checkoutPayload(quantity: 1),
+        )->assertOk();
+
+        $this->assertNull($this->receiptImage->refresh()->thumbnail_id);
+        $this->assertModelMissing($thumbnail);
+    }
+
     public function test_order_confirmation_is_not_exposed_to_an_unrelated_session(): void
     {
         $order = Order::query()->create([

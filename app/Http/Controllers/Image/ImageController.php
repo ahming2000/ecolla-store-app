@@ -17,6 +17,7 @@ class ImageController extends Controller
         $image = $this->imageService->upload(
             $request->file('image'),
             ImageUploadOption::from($request->validated('option')),
+            $request->boolean('with_thumbnail', true),
         );
 
         return response()->json($image);

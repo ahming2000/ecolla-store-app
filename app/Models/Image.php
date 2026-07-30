@@ -5,6 +5,7 @@ namespace App\Models;
 use Database\Factories\ImageFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -19,6 +20,7 @@ class Image extends Model
         'size',
         'url',
         'data_uri',
+        'thumbnail_id',
     ];
 
     protected $appends = [
@@ -36,6 +38,22 @@ class Image extends Model
     public function items(): BelongsToMany
     {
         return $this->belongsToMany(Item::class, 'item_images');
+    }
+
+    /**
+     * @return BelongsTo<Image, $this>
+     */
+    public function thumbnail(): BelongsTo
+    {
+        return $this->belongsTo(self::class, 'thumbnail_id');
+    }
+
+    /**
+     * @return HasOne<Image, $this>
+     */
+    public function originalImage(): HasOne
+    {
+        return $this->hasOne(self::class, 'thumbnail_id');
     }
 
     /**
