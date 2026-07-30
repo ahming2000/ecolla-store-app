@@ -24,63 +24,67 @@ const { t } = useI18n()
 </script>
 
 <template>
-    <Toast />
+    <div class="flex min-h-screen flex-col">
+        <Toast />
 
-    <Menubar :model="menuItems">
-        <template #start>
-            <Link :href="brandHref" class="flex items-center">
-                <img
-                    :src="logoImage"
-                    style="width: 30px; height: 30px"
-                    :alt="t('common.alt.logo')"
-                    loading="lazy"
-                />
+        <Menubar :model="menuItems">
+            <template #start>
+                <Link :href="brandHref" class="flex items-center">
+                    <img
+                        :src="logoImage"
+                        style="width: 30px; height: 30px"
+                        :alt="t('common.alt.logo')"
+                        loading="lazy"
+                    />
 
-                <span class="ml-1">{{ brandName }}</span>
-            </Link>
-        </template>
+                    <span class="ml-1">{{ brandName }}</span>
+                </Link>
+            </template>
 
-        <template #item="{ item, props, hasSubmenu, root }">
-            <slot
-                v-if="item.slot === 'language-switcher'"
-                name="language-switcher"
-            ></slot>
+            <template #item="{ item, props, hasSubmenu, root }">
+                <slot
+                    v-if="item.slot === 'language-switcher'"
+                    name="language-switcher"
+                ></slot>
 
-            <a v-else class="flex items-center" v-bind="props.action">
-                <span :class="item.icon" />
+                <a v-else class="flex items-center" v-bind="props.action">
+                    <span :class="item.icon" />
 
-                <span class="ml-2">{{ item.label }}</span>
+                    <span class="ml-2">{{ item.label }}</span>
 
-                <Badge
-                    v-if="item.badge !== undefined"
-                    :class="{ 'ml-auto': !root, 'ml-2': root }"
-                    :value="item.badge"
-                />
+                    <Badge
+                        v-if="item.badge !== undefined"
+                        :class="{ 'ml-auto': !root, 'ml-2': root }"
+                        :value="item.badge"
+                    />
 
-                <span
-                    v-if="item.shortcut"
-                    class="ml-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1"
-                >
-                    {{ item.shortcut }}
-                </span>
+                    <span
+                        v-if="item.shortcut"
+                        class="ml-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1"
+                    >
+                        {{ item.shortcut }}
+                    </span>
 
-                <i
-                    v-if="hasSubmenu"
-                    :class="[
-                        'pi pi-angle-down',
-                        {
-                            'pi-angle-down ml-2': root,
-                            'pi-angle-right ml-auto': !root,
-                        },
-                    ]"
-                ></i>
-            </a>
-        </template>
-    </Menubar>
+                    <i
+                        v-if="hasSubmenu"
+                        :class="[
+                            'pi pi-angle-down',
+                            {
+                                'pi-angle-down ml-2': root,
+                                'pi-angle-right ml-auto': !root,
+                            },
+                        ]"
+                    ></i>
+                </a>
+            </template>
+        </Menubar>
 
-    <slot name="header"></slot>
+        <slot name="header"></slot>
 
-    <slot></slot>
+        <div class="grow">
+            <slot></slot>
+        </div>
 
-    <slot name="footer"></slot>
+        <slot name="footer"></slot>
+    </div>
 </template>
