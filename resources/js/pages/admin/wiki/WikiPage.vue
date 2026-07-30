@@ -3,6 +3,7 @@ import changeLogImage from '@/assets/images/admin-wiki/change-log.png'
 import dashboardImage from '@/assets/images/admin-wiki/dashboard.png'
 import itemEditorImage from '@/assets/images/admin-wiki/item-editor.png'
 import itemsImage from '@/assets/images/admin-wiki/items.png'
+import orderTrackingImage from '@/assets/images/admin-wiki/order-tracking.png'
 import ordersImage from '@/assets/images/admin-wiki/orders.png'
 import profileImage from '@/assets/images/admin-wiki/profile.png'
 import settingsImage from '@/assets/images/admin-wiki/settings.png'
@@ -15,6 +16,7 @@ import { page as orderPage } from '@/routes/admin/order'
 import { page as profilePage } from '@/routes/admin/profile'
 import { page as settingPage } from '@/routes/admin/setting'
 import { page as userPage } from '@/routes/admin/user'
+import { page as orderTrackingPage } from '@/routes/shop/order-tracking'
 import { Head, Link } from '@inertiajs/vue3'
 import Dialog from 'primevue/dialog'
 import { computed, ref } from 'vue'
@@ -50,6 +52,13 @@ const articleDefinitions = [
         category: 'operations',
         image: ordersImage,
         href: orderPage,
+    },
+    {
+        id: 'order-tracking',
+        icon: 'pi pi-map-marker',
+        category: 'operations',
+        image: orderTrackingImage,
+        href: orderTrackingPage,
     },
     {
         id: 'staff',

@@ -20,7 +20,10 @@ test('searches the admin wiki and previews a guide screenshot', async ({
     await expect(
         page.getByRole('heading', { name: '管理员使用手册', exact: true })
     ).toBeVisible()
-    await expect(page.getByTestId('wiki-article')).toHaveCount(8)
+    await expect(page.getByTestId('wiki-article')).toHaveCount(9)
+    await expect(
+        page.getByRole('heading', { name: '顾客订单查询', exact: true })
+    ).toBeVisible()
 
     await page
         .getByPlaceholder('搜索功能、操作或关键词', { exact: true })
@@ -36,7 +39,7 @@ test('searches the admin wiki and previews a guide screenshot', async ({
 
     await page.getByRole('button', { name: '清除搜索', exact: true }).click()
 
-    await expect(page.getByTestId('wiki-article')).toHaveCount(8)
+    await expect(page.getByTestId('wiki-article')).toHaveCount(9)
     await page.getByTestId('wiki-screenshot-dashboard').click()
 
     const screenshotDialog = page.getByRole('dialog', {

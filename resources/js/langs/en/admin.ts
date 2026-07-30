@@ -33,7 +33,7 @@ export default {
         'clear-search': 'Clear search',
         contents: 'On this page',
         description:
-            'A visual guide to every day-to-day admin area, from sales reporting and catalogue maintenance to orders, staff access, and site settings.',
+            'A visual guide to day-to-day operations, from sales reporting and catalogue maintenance to fulfilment, customer order tracking, staff access, and site settings.',
         eyebrow: 'Ecolla operations guide',
         'guide-number': 'Guide {number}',
         'no-results': {
@@ -44,7 +44,7 @@ export default {
         'open-module': 'Open this area',
         'open-screenshot': 'Open the {title} screenshot',
         'result-count': 'Showing {visible} of {total} guides',
-        'screenshot-alt': '{title} admin screen',
+        'screenshot-alt': '{title} screen',
         'screenshot-title': '{title} screenshot',
         'search-label': 'Find a guide',
         'search-placeholder': 'Search features, actions, or keywords',
@@ -62,14 +62,14 @@ export default {
             dashboard: {
                 access: 'Available to every signed-in staff member.',
                 caption:
-                    'The reporting period and four sales metrics appear together on the dashboard.',
+                    'Summary cards, the sales trend, and order composition update together for the selected period.',
                 points: {
                     1: 'Choose daily, weekly, monthly, or yearly reporting, then use the matching date control to move to the period you need.',
-                    2: 'Read completed orders, items sold, sales revenue, and canceled order value from the summary cards.',
-                    3: 'Changing a filter refreshes only the report, so the current dashboard stays in place while the figures update.',
+                    2: 'Read completed orders, items sold, sales revenue, and canceled or refunded order value from the summary cards, then compare revenue across the sales trend.',
+                    3: 'Use the status and delivery-mode charts to understand the order mix; changing a filter refreshes every report without leaving the dashboard.',
                 },
                 summary:
-                    'Use the dashboard for a quick, consistent view of completed sales and canceled merchandise value across the selected period.',
+                    'Use the dashboard to review sales totals, revenue trends, order statuses, and delivery modes across the selected period.',
                 title: 'Sales dashboard',
             },
             catalog: {
@@ -101,15 +101,28 @@ export default {
             orders: {
                 access: 'All staff can view orders; available updates follow the account access level.',
                 caption:
-                    'The order table brings references, fulfilment mode, payment, totals, and status together.',
+                    'Open an order to review fulfilment details, edit permitted fields, and manage its status and tracking number.',
                 points: {
                     1: 'Filter orders by date and delivery mode to focus on the fulfilment queue you are working on.',
-                    2: 'Open an order to review customer contact details, delivery information, purchased items, notes, and the uploaded receipt.',
-                    3: 'Use the permitted controls to move the order through its status and record a delivery tracking ID when required.',
+                    2: 'Open an order to review the customer, delivery information, purchased items, notes, and receipt; authorised staff can edit customer details, fulfilment, fees, quantities, and charged prices.',
+                    3: 'Update the status and delivery tracking ID as work progresses because those changes are shown in customer order tracking; removing the final item cancels the order when the edit is saved.',
                 },
                 summary:
-                    'Use Orders to review incoming purchases, verify payment information, and follow each delivery or self-pickup through fulfilment.',
+                    'Use Orders to review incoming purchases, correct order details, verify payment information, and follow delivery or self-pickup through fulfilment.',
                 title: 'Order fulfilment',
+            },
+            'order-tracking': {
+                access: 'Available from the storefront without an account; the exact order reference and customer phone number are required.',
+                caption:
+                    'The tracking form verifies the order reference and phone number before showing fulfilment details.',
+                points: {
+                    1: 'Open Track order from the storefront navigation or from the link shown after a successful checkout.',
+                    2: 'Enter the complete order reference and the same phone number used during checkout, then submit the lookup.',
+                    3: 'Review the latest status, delivery mode, item totals, and tracking number; staff updates made in Orders appear here for the customer.',
+                },
+                summary:
+                    'Customers can privately check an order’s current fulfilment details without signing in, while staff can use the same page to explain the lookup process.',
+                title: 'Customer order tracking',
             },
             staff: {
                 access: 'Only administrators can open staff account management.',
@@ -143,7 +156,7 @@ export default {
                     'The profile keeps the current account ID and password controls in one place.',
                 points: {
                     1: 'Confirm the account ID currently in use; contact an administrator if it needs to be changed.',
-                    2: 'Use the password section when password updates are enabled for your deployment.',
+                    2: 'To change the password, enter the current password, the new password, and its confirmation before saving.',
                     3: 'Switch between English and Chinese from the navigation language control; the choice follows the signed-in account.',
                 },
                 summary:
