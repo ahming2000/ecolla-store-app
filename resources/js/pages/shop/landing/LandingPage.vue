@@ -100,7 +100,7 @@ const responsiveOptions = ref([
             </div>
 
             <div class="animate-fadeindown animate-once animate-duration-1000">
-                <div class="text-3xl mb-3">
+                <div class="text-3xl font-bold mb-3">
                     {{ t('landing.carousels.most-viewed') }}
                 </div>
 
@@ -117,7 +117,7 @@ const responsiveOptions = ref([
             </div>
 
             <div class="animate-fadeindown animate-once animate-duration-1000">
-                <div class="text-3xl mb-3">
+                <div class="text-3xl font-bold mb-3">
                     {{ t('landing.carousels.best-selling') }}
                 </div>
 

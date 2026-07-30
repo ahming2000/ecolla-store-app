@@ -2,6 +2,7 @@
 import { useCartStore } from '@/stores/cart.store'
 import type { Variation } from '@/types'
 import Badge from 'primevue/badge'
+import Button from 'primevue/button'
 import Card from 'primevue/card'
 import InputNumber from 'primevue/inputnumber'
 import { computed } from 'vue'
@@ -18,6 +19,7 @@ const props = withDefaults(
 )
 
 const emit = defineEmits<{
+    'select-image': [variation: Variation]
     'update:quantity': [quantity: number]
 }>()
 
@@ -35,12 +37,12 @@ const variationName = computed(() => {
     <Card :key="variation.id" :data-testid="`variation-card-${variation.id}`">
         <template #content>
             <div
-                class="flex md:flex-col lg:flex-row justify-between items-center space-y-3"
+                class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
             >
                 <div class="self-start flex flex-col">
                     <div class="font-bold">{{ variationName }}</div>
 
-                    <div class="flex items-center space-x-2">
+                    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
                         <span
                             :class="{
                                 'line-through': variation.sale_price,
@@ -54,6 +56,17 @@ const variationName = computed(() => {
                             {{ variation.sale_price_text }}
                         </span>
 
+                        <span
+                            class="text-sm text-gray-500"
+                            :data-testid="`variation-stock-${variation.id}`"
+                        >
+                            {{
+                                t('shop-item.variation.stock', {
+                                    count: variation.stock,
+                                })
+                            }}
+                        </span>
+
                         <Badge
                             v-if="variation.stock <= 0"
                             :value="t('shop.item.sold-out')"
@@ -63,26 +76,57 @@ const variationName = computed(() => {
                     </div>
                 </div>
 
-                <InputNumber
-                    input-class="w-[60px]"
-                    :model-value="quantity"
-                    @update:model-value="
-                        (value) => emit('update:quantity', value)
-                    "
-                    :min="0"
-                    :max="cartStore.getMaxQuantity(variation)"
-                    show-buttons
-                    button-layout="horizontal"
-                    size="small"
+                <div
+                    class="flex shrink-0 items-center gap-2 self-end sm:self-auto"
                 >
-                    <template #incrementicon>
-                        <i class="pi pi-plus" />
-                    </template>
+                    <Button
+                        v-if="variation.image"
+                        type="button"
+                        icon="pi pi-image"
+                        outlined
+                        rounded
+                        severity="secondary"
+                        size="small"
+                        :aria-label="
+                            t('shop-item.variation.view-image', {
+                                name: variationName,
+                            })
+                        "
+                        :title="
+                            t('shop-item.variation.view-image', {
+                                name: variationName,
+                            })
+                        "
+                        :data-testid="`variation-image-button-${variation.id}`"
+                        @click="emit('select-image', variation)"
+                    />
 
-                    <template #decrementicon>
-                        <i class="pi pi-minus" />
-                    </template>
-                </InputNumber>
+                    <InputNumber
+                        :disabled="
+                            variation.stock <= 0 ||
+                            cartStore.getMaxQuantity(variation) <= 0
+                        "
+                        input-class="w-[60px]"
+                        :model-value="quantity"
+                        @update:model-value="
+                            (value) => emit('update:quantity', value)
+                        "
+                        :min="0"
+                        :max="cartStore.getMaxQuantity(variation)"
+                        show-buttons
+                        button-layout="horizontal"
+                        :data-testid="`variation-quantity-${variation.id}`"
+                        size="small"
+                    >
+                        <template #incrementicon>
+                            <i class="pi pi-plus" />
+                        </template>
+
+                        <template #decrementicon>
+                            <i class="pi pi-minus" />
+                        </template>
+                    </InputNumber>
+                </div>
             </div>
         </template>
     </Card>

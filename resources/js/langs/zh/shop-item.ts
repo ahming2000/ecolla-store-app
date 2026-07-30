@@ -5,6 +5,9 @@ export default {
         title: '购物车',
     },
     description: '商品描述',
+    images: {
+        preview: '全屏预览{name}',
+    },
     recommendations: {
         similar: '类似商品',
         'you-may-like': '你可能喜欢',
@@ -12,5 +15,9 @@ export default {
     stats: {
         sold: '已售出 {count} 个',
         views: '{count} 次浏览',
+    },
+    variation: {
+        stock: '库存：{count}',
+        'view-image': '显示{name}的图片',
     },
 } as const

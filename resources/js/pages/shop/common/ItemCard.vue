@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import fallbackImage from '@/assets/images/branding/ecolla.png'
+import SmartImage from '@/components/image/SmartImage.vue'
+import { getLocalizedName } from '@/libraries/i18n/language'
 import { show as showItem } from '@/routes/shop/item'
 import type { Item } from '@/types'
-import { router } from '@inertiajs/vue3'
+import { Link } from '@inertiajs/vue3'
 import Card from 'primevue/card'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -20,76 +22,97 @@ const props = withDefaults(
 const { locale: activeLanguage, t } = useI18n()
 
 const itemName = computed(() => {
-    return activeLanguage.value === 'en' && props.item.name_en
-        ? props.item.name_en
-        : props.item.name
+    return getLocalizedName(props.item, activeLanguage.value)
 })
 
-const itemVariationPriceRange = computed(() => {
-    const priceList = props.item.variations
-        .filter((variation) => variation.stock > 0)
-        .map((variation) => variation.final_price)
+const cheapestInStockVariation = computed(() => {
+    return props.item.variations.reduce<Item['variations'][number] | null>(
+        (cheapestVariation, variation) => {
+            if (variation.stock <= 0) {
+                return cheapestVariation
+            }
 
-    return `RM${priceList[0]} - RM${priceList[0]}`
+            if (
+                cheapestVariation === null ||
+                variation.final_price < cheapestVariation.final_price
+            ) {
+                return variation
+            }
+
+            return cheapestVariation
+        },
+        null
+    )
 })
-
-const onImageError = (event: Event): void => {
-    const image = event.currentTarget
-
-    if (!(image instanceof HTMLImageElement)) {
-        return
-    }
-
-    image.onerror = null
-    image.src = fallbackImage
-}
-
-const onClick = () => {
-    router.visit(showItem(props.item))
-}
 </script>
 
 <template>
-    <Card
-        :key="item.id"
-        class="cursor-pointer"
-        :class="props.class"
-        @click="onClick"
+    <Link
+        :href="showItem(item)"
+        class="block text-inherit no-underline"
+        :aria-label="itemName"
     >
-        <template #header>
-            <div
-                class="flex aspect-square items-center justify-center overflow-hidden"
-            >
-                <img
-                    :src="item.cover_image ?? fallbackImage"
-                    :alt="`${itemName} - ${t('common.alt.item-image')}`"
-                    class="h-full w-full object-cover"
-                    data-testid="shop-item-image"
-                    @error="onImageError"
-                />
-            </div>
-        </template>
-
-        <template #title>
-            {{ itemName }}
-        </template>
-
-        <template #content>
-            {{ itemVariationPriceRange }}
-        </template>
-
-        <template #footer>
-            <div class="flex justify-between items-center">
-                <div class="flex items-center">
-                    <i class="pi pi-box"></i>
-                    <span class="ml-1">{{ item.total_stock }}</span>
+        <Card
+            :key="item.id"
+            :data-testid="`shop-item-card-${item.id}`"
+            class="h-full cursor-pointer"
+            :class="props.class"
+            :pt="{
+                body: {
+                    class: '!gap-2 !p-3',
+                },
+                caption: {
+                    class: '!gap-1',
+                },
+            }"
+        >
+            <template #header>
+                <div
+                    class="flex aspect-square items-center justify-center overflow-hidden"
+                >
+                    <SmartImage
+                        :alt="`${itemName} - ${t('common.alt.item-image')}`"
+                        :fallback-src="fallbackImage"
+                        image-class="h-full w-full object-cover"
+                        :src="item.cover_image"
+                        :thumbnail-src="item.cover_thumbnail"
+                        data-testid="shop-item-image"
+                    />
                 </div>
+            </template>
 
-                <div class="flex items-center">
-                    <i class="pi pi-eye"></i>
-                    <span class="ml-1">{{ item.view_count }}</span>
+            <template #title>
+                <div class="line-clamp-2 text-sm font-semibold leading-snug">
+                    {{ itemName }}
                 </div>
-            </div>
-        </template>
-    </Card>
+            </template>
+
+            <template #content>
+                <div class="text-sm font-medium">
+                    {{
+                        cheapestInStockVariation?.final_price_text ??
+                        t('shop.item.sold-out')
+                    }}
+                </div>
+            </template>
+
+            <template #footer>
+                <div class="flex items-center gap-1">
+                    <div
+                        class="flex w-full items-center justify-between text-xs text-surface-600"
+                    >
+                        <div class="flex items-center gap-1">
+                            <i class="pi pi-box"></i>
+                            <span>{{ item.total_stock }}</span>
+                        </div>
+
+                        <div class="flex items-center gap-1">
+                            <i class="pi pi-eye"></i>
+                            <span>{{ item.view_count }}</span>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </Card>
+    </Link>
 </template>

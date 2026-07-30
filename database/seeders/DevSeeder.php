@@ -53,6 +53,14 @@ class DevSeeder extends BaseSeeder
                     ->update(['is_listed' => true]);
             }
         }
+
+        $soldOutItem = $items->reverse()->first(
+            fn (Item $item): bool => $item->variations->isNotEmpty(),
+        );
+
+        if ($soldOutItem instanceof Item) {
+            $soldOutItem->variations()->update(['stock' => 0]);
+        }
     }
 
     private function seedItemImage(): void
@@ -96,7 +104,14 @@ class DevSeeder extends BaseSeeder
         Item::factory(10)->create();
 
         $itemIds = Item::query()->pluck('id')->all();
+        $firstItem = Item::query()->oldest('id')->first();
         $categoryIds = Category::query()->pluck('id')->all();
+
+        if ($firstItem instanceof Item) {
+            $firstItem->update([
+                'name_en' => "{$firstItem->name} English",
+            ]);
+        }
 
         foreach ($itemIds as $itemId) {
             $count = rand(1, 3); // Random count for adding multiple categories to each item
