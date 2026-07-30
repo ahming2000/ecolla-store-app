@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import Shop from '@/layouts/Shop.vue'
+import { page as orderTrackingPage } from '@/routes/shop/order-tracking'
 import type { Order } from '@/types'
-import { Head } from '@inertiajs/vue3'
+import { Head, Link } from '@inertiajs/vue3'
+import Button from 'primevue/button'
 import { useI18n } from 'vue-i18n'
 
 defineOptions({ layout: Shop })
@@ -29,6 +31,20 @@ const { t } = useI18n()
                     })
                 }}
             </p>
+
+            <Link
+                class="mt-5 inline-block"
+                :href="
+                    orderTrackingPage({
+                        query: { reference: order.reference_num },
+                    })
+                "
+            >
+                <Button
+                    icon="pi pi-map-marker"
+                    :label="t('shop.checkout.success.track')"
+                />
+            </Link>
         </div>
     </div>
 </template>

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Shop\CartController;
 use App\Http\Controllers\Shop\CategoryController;
 use App\Http\Controllers\Shop\ItemController;
+use App\Http\Controllers\Shop\OrderTrackingController;
 use App\Http\Controllers\Shop\OriginController;
 use App\Http\Controllers\Shop\ShopController;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,10 @@ Route::prefix('/ajax')->name('shop.ajax.')->group(function () {
 
     Route::post('/cart/verify', [CartController::class, 'verifyCart'])->name('cart.verify');
     Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+
+    Route::post('/order/track', [OrderTrackingController::class, 'lookup'])
+        ->middleware('throttle:8,1')
+        ->name('order-tracking.lookup');
 });
 
 /*
@@ -44,6 +49,7 @@ Route::name('shop.')->group(function () {
     Route::get('/checkout-successful/{order}', [CartController::class, 'checkoutSuccessfulPage'])->name('cart.successful-page');
 
     Route::get('/payment-method', [ShopController::class, 'paymentMethodPage'])->name('payment-method.page');
+    Route::get('/track-order', [OrderTrackingController::class, 'page'])->name('order-tracking.page');
 
     Route::get('/{any}', function (): never {
         abort(404);

@@ -8,6 +8,7 @@ import { page as adminDashboardPage } from '@/routes/admin/dashboard'
 import { page as cartPage } from '@/routes/shop/cart'
 import { page as itemPage } from '@/routes/shop/item'
 import { page as landingPage } from '@/routes/shop/landing'
+import { page as orderTrackingPage } from '@/routes/shop/order-tracking'
 import { page as paymentMethodPage } from '@/routes/shop/payment-method'
 import { useCartStore } from '@/stores/cart.store'
 import { useItemStore } from '@/stores/item.store'
@@ -44,6 +45,13 @@ const buildMenuItems = (): MenuItem[] => {
             icon: 'pi pi-wallet',
             command: () => {
                 router.visit(paymentMethodPage())
+            },
+        },
+        {
+            label: t('shop.tracking.navigation'),
+            icon: 'pi pi-map-marker',
+            command: () => {
+                router.visit(orderTrackingPage())
             },
         },
         {

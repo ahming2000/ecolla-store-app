@@ -88,6 +88,42 @@ export default {
             title: 'Order placed',
             heading: 'Thank you for your order!',
             reference: 'Your order reference is {reference}.',
+            track: 'Track this order',
+        },
+    },
+    tracking: {
+        navigation: 'Track order',
+        title: 'Track your order',
+        heading: 'Track your order',
+        description:
+            'Enter the order reference and phone number used at checkout.',
+        form: {
+            reference: 'Order reference',
+            'reference-placeholder': 'ECOLLA20260730123456',
+            phone: 'Phone number',
+            'phone-placeholder': '0121234567',
+            submit: 'Track order',
+        },
+        errors: {
+            required: 'Enter both your order reference and phone number.',
+            'not-found':
+                'We could not match those details. Check them and try again.',
+            'rate-limit':
+                'Too many tracking attempts. Please wait a minute and try again.',
+        },
+        result: {
+            reference: 'Order {reference}',
+            'placed-at': 'Placed at',
+            'delivery-mode': 'Order mode',
+            'tracking-number': 'Tracking number',
+            'tracking-unavailable': 'Not available yet',
+            'last-updated': 'Last updated',
+            items: 'Items',
+            'item-line': '{quantity} × {price}',
+            subtotal: 'Subtotal',
+            shipping: 'Shipping fee',
+            total: 'Total',
+            note: 'Order note',
         },
     },
     'payment-methods': {
