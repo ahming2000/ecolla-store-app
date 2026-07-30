@@ -35,7 +35,7 @@ class OrderFactory extends Factory
 
             'payment_method_id' => fake()->randomElement($paymentMethodIds),
 
-            'tracking_no' => Str::random(),
+            'tracking_no' => null,
             'shipping_fee' => 3.0,
 
             'receipt_image_id' => fake()->randomElement($imageIds),
