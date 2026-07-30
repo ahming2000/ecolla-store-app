@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import UserDateTime from '@/components/UserDateTime.vue'
 import { getDeliveryModeLabel } from '@/enums/DeliveryMode'
 import OrderStatusSelect from '@/pages/admin/order/detail/OrderStatusSelect.vue'
 import type { Order } from '@/types'
@@ -33,7 +34,7 @@ const { t } = useI18n()
                     {{ t('admin.orders.columns.date') }}
                 </td>
                 <td class="border border-slate-200 p-3">
-                    {{ order.created_at_display }}
+                    <UserDateTime :value="order.created_at" />
                 </td>
             </tr>
 

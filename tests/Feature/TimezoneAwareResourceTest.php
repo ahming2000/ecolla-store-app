@@ -24,7 +24,6 @@ class TimezoneAwareResourceTest extends TestCase
         )->resolve($request);
 
         $this->assertSame('2026-01-15T08:00:00+08:00', $data['created_at']);
-        $this->assertSame('2026/01/15 08:00', $data['created_at_display']);
     }
 
     public function test_resource_uses_kuala_lumpur_timezone_for_guests(): void
@@ -34,7 +33,6 @@ class TimezoneAwareResourceTest extends TestCase
         )->resolve(Request::create('/'));
 
         $this->assertSame('2026-07-15T20:00:00+08:00', $data['created_at']);
-        $this->assertSame('2026/07/15 20:00', $data['created_at_display']);
     }
 
     public function test_resource_uses_kuala_lumpur_timezone_when_the_users_timezone_is_invalid(): void
@@ -52,11 +50,11 @@ class TimezoneAwareResourceTest extends TestCase
         $this->assertSame('2026-01-15T08:00:00+08:00', $data['created_at']);
     }
 
-    public function test_resource_handles_a_missing_date(): void
+    public function test_resource_omits_a_missing_date(): void
     {
         $data = OrderResource::make(new Order)->resolve(Request::create('/'));
 
-        $this->assertNull($data['created_at_display']);
+        $this->assertArrayNotHasKey('created_at', $data);
     }
 
     private function orderAt(CarbonImmutable $dateTime): Order

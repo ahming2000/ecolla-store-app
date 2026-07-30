@@ -16,7 +16,6 @@ interface AdminOrder {
     cus_address: string | null
     created_at: string
     updated_at: string
-    created_at_display: string
     subtotal: string
     items: Array<{
         id: number
@@ -83,7 +82,6 @@ const listingOrder = (id: number, referenceNumber: string) => ({
     cus_address: '1 Listing Street',
     created_at: '2026-07-26T04:00:00+00:00',
     updated_at: '2026-07-26T04:00:00+00:00',
-    created_at_display: '2026/07/26 12:00',
     subtotal: '24.00',
     items: [],
     payment_method: {
@@ -91,6 +89,94 @@ const listingOrder = (id: number, referenceNumber: string) => ({
         name: 'Online Banking',
     },
     receipt_image: null,
+})
+
+const visitOrderPageInTimeZone = async (
+    page: Page,
+    timeZone: string
+): Promise<void> => {
+    await page.addInitScript((requestedTimeZone) => {
+        const updatePageTimeZone = (): boolean => {
+            const pageDataElement = document.querySelector<HTMLScriptElement>(
+                'script[data-page="app"]'
+            )
+
+            if (!pageDataElement?.textContent) {
+                return false
+            }
+
+            const pageData = JSON.parse(pageDataElement.textContent) as {
+                props?: {
+                    auth?: {
+                        user?: {
+                            timezone?: string
+                        }
+                    }
+                }
+            }
+
+            if (!pageData.props?.auth?.user) {
+                return false
+            }
+
+            pageData.props.auth.user.timezone = requestedTimeZone
+            pageDataElement.textContent = JSON.stringify(pageData)
+
+            return true
+        }
+        const observer = new MutationObserver(() => {
+            if (updatePageTimeZone()) {
+                observer.disconnect()
+            }
+        })
+
+        observer.observe(document, {
+            childList: true,
+            subtree: true,
+        })
+    }, timeZone)
+
+    await page.goto('/admin/order')
+    await page.waitForLoadState('networkidle')
+}
+
+test('displays order timestamps in the signed-in user timezone', async ({
+    page,
+}, testInfo) => {
+    test.setTimeout(60_000)
+    await page.setViewportSize({ width: 390, height: 844 })
+
+    const runtimeErrors = collectRuntimeErrors(page)
+    const order = listingOrder(90001, 'TIMEZONE-ORDER')
+
+    await login(page)
+
+    await page.route(/\/ajax\/admin\/order\/?(?:\?.*)?$/, async (route) => {
+        await route.fulfill({ json: paginatedOrders([order]) })
+    })
+
+    await visitOrderPageInTimeZone(page, 'America/New_York')
+
+    const listingDateTime = page.locator(`time[datetime="${order.created_at}"]`)
+
+    await expect(listingDateTime).toHaveText('2026/07/26 00:00')
+
+    await page.getByRole('button', { name: '详情', exact: true }).click()
+
+    const dialog = page.getByRole('dialog', {
+        name: order.reference_num,
+    })
+
+    await expect(
+        dialog.locator(`time[datetime="${order.created_at}"]`)
+    ).toHaveText('2026/07/26 00:00')
+
+    await testInfo.attach('admin-order-timezone-mobile', {
+        body: await page.screenshot({ fullPage: true }),
+        contentType: 'image/png',
+    })
+
+    expect(runtimeErrors).toEqual([])
 })
 
 test('manages order fulfilment and exposes receipt and download actions', async ({
@@ -115,7 +201,6 @@ test('manages order fulfilment and exposes receipt and download actions', async 
         cus_address: '1 Browser Street',
         created_at: '2026-07-26T04:00:00+00:00',
         updated_at: '2026-07-26T04:00:00+00:00',
-        created_at_display: '2026/07/26 12:00',
         subtotal: '24.00',
         items: [
             {

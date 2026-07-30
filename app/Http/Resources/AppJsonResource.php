@@ -52,14 +52,6 @@ abstract class AppJsonResource extends JsonResource
         return $data;
     }
 
-    protected function formatDateTimeForUser(
-        Request $request,
-        ?DateTimeInterface $dateTime,
-        string $format,
-    ): ?string {
-        return $this->dateTimeForUser($request, $dateTime)?->format($format);
-    }
-
     private function dateTimeForUser(
         Request $request,
         ?DateTimeInterface $dateTime,

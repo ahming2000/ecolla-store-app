@@ -143,7 +143,6 @@ export interface Order extends Timestamps {
     cus_name: string
     cus_phone: string
     cus_address: Nullable<string>
-    created_at_display: string
     subtotal: string
     items: OrderedItem[]
     payment_method: PaymentMethod

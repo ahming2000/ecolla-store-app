@@ -3,6 +3,7 @@ import DeliveryModeSelect from '@/components/filterer/order/DeliveryModeSelect.v
 import OrderDatePicker from '@/components/filterer/order/OrderDatePicker.vue'
 import EmptyDataPlaceholder from '@/components/placeholder/EmptyDataPlaceholder.vue'
 import LoadingPlaceholder from '@/components/placeholder/LoadingPlaceholder.vue'
+import UserDateTime from '@/components/UserDateTime.vue'
 import type { DeliveryMode } from '@/enums/DeliveryMode'
 import { getAllDeliveryModes, getDeliveryModeLabel } from '@/enums/DeliveryMode'
 import { getOrderStatusLabel } from '@/enums/OrderStatus'
@@ -238,10 +239,11 @@ onMounted(async () => {
                 />
             </template>
 
-            <Column
-                :header="t('admin.orders.columns.date')"
-                field="created_at_display"
-            />
+            <Column :header="t('admin.orders.columns.date')">
+                <template #body="{ data }">
+                    <UserDateTime :value="data.created_at" />
+                </template>
+            </Column>
             <Column
                 :header="t('admin.orders.columns.reference')"
                 field="reference_num"

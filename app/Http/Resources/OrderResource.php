@@ -19,16 +19,9 @@ class OrderResource extends AppJsonResource
             throw new UnexpectedValueException('OrderResource requires an Order model.');
         }
 
-        return [
-            ...$this->serializeDatesForUser(
-                $request,
-                parent::toArray($request),
-            ),
-            'created_at_display' => $this->formatDateTimeForUser(
-                $request,
-                $this->resource->created_at,
-                'Y/m/d H:i',
-            ),
-        ];
+        return $this->serializeDatesForUser(
+            $request,
+            parent::toArray($request),
+        );
     }
 }
