@@ -9,6 +9,7 @@ use App\Models\Item;
 use App\Models\ItemVariation;
 use App\Models\Order;
 use App\Models\PaymentMethod;
+use App\Services\OrderService;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
@@ -92,6 +93,21 @@ class CheckoutWorkflowTest extends TestCase
                 ->component('shop/checkout/Successful')
                 ->where('order.id', $order->getKey())
                 ->where('order.reference_num', $order->reference_num));
+    }
+
+    public function test_generated_order_references_remain_distinct_within_the_same_second(): void
+    {
+        $this->freezeTime();
+
+        $orderService = app(OrderService::class);
+        $firstReference = $orderService->generateReferenceNum();
+        $secondReference = $orderService->generateReferenceNum();
+
+        $this->assertMatchesRegularExpression(
+            '/^ECOLLA\d{14}[A-Z0-9]{6}$/',
+            $firstReference,
+        );
+        $this->assertNotSame($firstReference, $secondReference);
     }
 
     public function test_checkout_rejects_invalid_quantities_and_references_without_writes(): void

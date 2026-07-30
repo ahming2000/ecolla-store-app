@@ -167,7 +167,9 @@ test('adds an item, restores the cart, and completes checkout', async ({
             exact: true,
         })
     ).toBeVisible()
-    await expect(page.getByText(/^您的订单编号是 ECOLLA\d+\。$/)).toBeVisible()
+    await expect(
+        page.getByText(/^您的订单编号是 ECOLLA\d{14}[A-Z0-9]{6}\。$/)
+    ).toBeVisible()
 
     await page.goto('/cart')
     await expect(page.getByText('购物车（0 件）')).toBeVisible()

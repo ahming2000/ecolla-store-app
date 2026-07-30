@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\OrderedItem;
 use Carbon\CarbonImmutable;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Str;
 
 class OrderService
 {
@@ -61,7 +62,7 @@ class OrderService
 
     public function generateReferenceNum(): string
     {
-        return 'ECOLLA'.now()->format('YmdHis');
+        return 'ECOLLA'.now()->format('YmdHis').Str::upper(Str::random(6));
     }
 
     /**
