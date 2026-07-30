@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
 
-            $table->string('reference_num');
+            $table->string('reference_num')
+                ->index('orders_reference_num_index');
             $table->enum('delivery_mode', ['外送', '预购取货'])
                 ->default('外送');
             $table->enum('status', [
@@ -47,6 +48,27 @@ return new class extends Migration
 
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index(
+                ['status', 'created_at'],
+                'orders_status_created_at_index',
+            );
+            $table->index(
+                ['created_at', 'id'],
+                'orders_created_at_id_index',
+            );
+            $table->index(
+                ['delivery_mode', 'created_at', 'id'],
+                'orders_delivery_mode_created_at_id_index',
+            );
+            $table->index(
+                'payment_method_id',
+                'orders_payment_method_id_index',
+            );
+            $table->index(
+                'receipt_image_id',
+                'orders_receipt_image_id_index',
+            );
         });
     }
 

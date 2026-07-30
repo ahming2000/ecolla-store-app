@@ -22,6 +22,10 @@ return new class extends Migration
                 ->restrictOnDelete();
 
             $table->primary(['item_id', 'category_id']);
+            $table->index(
+                ['category_id', 'item_id'],
+                'item_categories_category_id_item_id_index',
+            );
         });
     }
 

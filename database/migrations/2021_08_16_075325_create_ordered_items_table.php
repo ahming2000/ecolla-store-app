@@ -28,6 +28,8 @@ return new class extends Migration
 
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index('order_id', 'ordered_items_order_id_index');
         });
     }
 

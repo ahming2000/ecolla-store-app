@@ -22,6 +22,10 @@ return new class extends Migration
                 ->cascadeOnDelete();
 
             $table->primary(['item_id', 'image_id']);
+            $table->index(
+                ['image_id', 'item_id'],
+                'item_images_image_id_item_id_index',
+            );
         });
     }
 

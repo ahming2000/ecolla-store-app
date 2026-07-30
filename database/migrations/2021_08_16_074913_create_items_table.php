@@ -31,6 +31,27 @@ return new class extends Migration
 
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index(
+                ['origin_id', 'is_listed'],
+                'items_origin_id_is_listed_index',
+            );
+            $table->index(
+                ['is_listed', 'view_count', 'id'],
+                'items_is_listed_view_count_id_index',
+            );
+            $table->index(
+                ['is_listed', 'sold_count', 'id'],
+                'items_is_listed_sold_count_id_index',
+            );
+            $table->index(
+                ['created_at', 'id'],
+                'items_created_at_id_index',
+            );
+            $table->index(
+                ['name', 'id'],
+                'items_name_id_index',
+            );
         });
     }
 
