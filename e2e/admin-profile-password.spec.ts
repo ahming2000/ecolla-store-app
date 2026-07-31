@@ -21,6 +21,34 @@ const selectEnglish = async (page: Page): Promise<void> => {
     await expect(page.locator('html')).toHaveAttribute('lang', 'en')
 }
 
+const restoreChinese = async (page: Page): Promise<void> => {
+    if (page.isClosed()) {
+        return
+    }
+
+    await page.goto('/admin')
+
+    if (new URL(page.url()).pathname === '/admin/login') {
+        return
+    }
+
+    if ((await page.locator('html').getAttribute('lang')) === 'zh') {
+        return
+    }
+
+    const languageSwitcher = page.getByRole('combobox', {
+        name: 'Language',
+    })
+
+    await languageSwitcher.press('ArrowDown')
+    await page.getByRole('option', { name: '中文', exact: true }).click()
+    await expect(page.locator('html')).toHaveAttribute('lang', 'zh')
+}
+
+test.afterEach(async ({ page }) => {
+    await restoreChinese(page)
+})
+
 test('submits the profile password form and clears it after success', async ({
     page,
 }) => {

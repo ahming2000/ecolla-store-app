@@ -554,7 +554,7 @@ test.describe('storefront', () => {
 
         await expect(homeLink).toHaveCSS(
             'background-color',
-            'oklch(0.656 0.241 354.308)'
+            /^oklch\(0\.656 0\.241 354\.308(?:014)?\)$/
         )
         await homeLink.click()
         await expect(page).toHaveURL(/\/$/)

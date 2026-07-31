@@ -3,10 +3,20 @@ import { collectRuntimeErrors } from './support/runtime-errors'
 
 const login = async (page: Page): Promise<void> => {
     await page.goto('/admin/login')
-    await page.getByLabel('账户 ID', { exact: true }).fill('admin')
-    await page.getByLabel('密码', { exact: true }).fill('password')
-    await page.getByRole('button', { name: '登录', exact: true }).click()
+    await page.getByLabel(/^(Account ID|账户 ID)$/).fill('admin')
+    await page.getByLabel(/^(Password|密码)$/).fill('password')
+    await page.getByRole('button', { name: /^(Login|登录)$/ }).click()
     await expect(page).toHaveURL(/\/admin$/)
+
+    if ((await page.locator('html').getAttribute('lang')) === 'en') {
+        const languageSwitcher = page.getByRole('combobox', {
+            name: 'Language',
+        })
+
+        await languageSwitcher.press('ArrowDown')
+        await page.getByRole('option', { name: '中文', exact: true }).click()
+        await expect(page.locator('html')).toHaveAttribute('lang', 'zh')
+    }
 }
 
 test('searches the admin wiki and previews a guide screenshot', async ({
