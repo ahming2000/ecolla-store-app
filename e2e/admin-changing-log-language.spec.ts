@@ -27,6 +27,11 @@ test('displays changelog content in the selected language', async ({
         )
     ).toBeVisible()
     await expect(
+        page.getByText('使用 Escape 键关闭图片预览时，商品编辑窗口会保持开启', {
+            exact: true,
+        })
+    ).toBeVisible()
+    await expect(
         page.getByRole('button', { name: 'v4.1 正式版', exact: true })
     ).toBeVisible()
     await expect(
@@ -48,6 +53,14 @@ test('displays changelog content in the selected language', async ({
     await expect(
         page.getByText(
             'Enhanced product pages with full-screen image previews, variation-image shortcuts, category filter links, stock details, and sold-out purchase controls.',
+            {
+                exact: true,
+            }
+        )
+    ).toBeVisible()
+    await expect(
+        page.getByText(
+            'Kept the item editor open when closing an image preview with the Escape key.',
             {
                 exact: true,
             }

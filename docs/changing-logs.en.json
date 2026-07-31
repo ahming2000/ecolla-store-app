@@ -31,7 +31,8 @@
                                 "Administrator order dates and times now follow the signed-in user's timezone.",
                                 "Improved checkout reliability by keeping order references unique when several orders are placed at the same time.",
                                 "Kept page footers at the bottom of the viewport on short pages.",
-                                "Updated the administrator handbook and screenshots for dashboard charts, order editing, and customer order tracking."
+                                "Updated the administrator handbook and screenshots for dashboard charts, order editing, and customer order tracking.",
+                                "Kept the item editor open when closing an image preview with the Escape key."
                             ]
                         }
                     ]

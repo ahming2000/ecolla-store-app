@@ -83,6 +83,10 @@ class LanguagePreferenceTest extends TestCase
                     'notes.en.logs.0.subGroups.0.details.1.desc.0',
                     'Improved image loading with lazy-loaded WebP thumbnails and full-quality previews, plus reliable cart and checkout fallbacks from variation images to product images.',
                 )
+                ->where(
+                    'notes.en.logs.0.subGroups.0.details.1.desc.8',
+                    'Kept the item editor open when closing an image preview with the Escape key.',
+                )
                 ->where('notes.en.logs.1.groupName', 'v4.1 Public Release')
                 ->where(
                     'notes.en.logs.1.subGroups.0.details.0.desc.0',
@@ -127,6 +131,10 @@ class LanguagePreferenceTest extends TestCase
                 ->where(
                     'notes.zh.logs.0.subGroups.0.details.1.desc.0',
                     '通过延迟加载 WebP 缩略图及保留原图预览来提升图片加载速度，并修正购物车与结账页面的规格和商品图片回退显示',
+                )
+                ->where(
+                    'notes.zh.logs.0.subGroups.0.details.1.desc.8',
+                    '使用 Escape 键关闭图片预览时，商品编辑窗口会保持开启',
                 )
                 ->where('notes.zh.logs.1.groupName', 'v4.1 正式版')
                 ->where(
