@@ -47,6 +47,7 @@ const editDialogTitle = computed(() => {
 
     <Dialog
         v-model:visible="visible"
+        :close-on-escape="false"
         :draggable="false"
         :pt="{
             content: {
