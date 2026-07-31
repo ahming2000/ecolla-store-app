@@ -219,13 +219,8 @@ export const useCartStore = defineStore('cart', () => {
      * Cart initiation.
      */
     const init = async (): Promise<void> => {
-        try {
-            await retrieveSession()
-            await storeSession()
-        } catch (e) {
-            console.error(e)
-            throw e
-        }
+        await retrieveSession()
+        await storeSession()
     }
 
     return {

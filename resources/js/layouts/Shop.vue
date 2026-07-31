@@ -14,6 +14,7 @@ import { useCartStore } from '@/stores/cart.store'
 import { useItemStore } from '@/stores/item.store'
 import type { AppPageProps, MenuItem } from '@/types'
 import { router, usePage } from '@inertiajs/vue3'
+import axios from 'axios'
 import { onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -23,6 +24,14 @@ const page = usePage<AppPageProps>()
 const { locale: activeLanguage, t } = useI18n()
 
 const menuItems = ref<MenuItem[]>([])
+
+const handleInitializationError = (error: unknown): void => {
+    if (axios.isCancel(error)) {
+        return
+    }
+
+    console.error(error)
+}
 
 const buildMenuItems = (): MenuItem[] => {
     return [
@@ -78,8 +87,8 @@ watch(
 )
 
 onMounted(() => {
-    cartStore.init()
-    itemStore.initShopPage()
+    void cartStore.init().catch(handleInitializationError)
+    void itemStore.initShopPage().catch(handleInitializationError)
 })
 </script>
 
