@@ -334,7 +334,12 @@ test.describe('storefront', () => {
         await page.goto(`/item/${detailItem.slug}`)
 
         const variationWithImage = detailItem.variations.find((variation) => {
-            return variation.image?.src
+            return detailItem.all_images.some((image) => {
+                return (
+                    image.variation_id === variation.id &&
+                    image.src === variation.image?.src
+                )
+            })
         })
 
         expect(variationWithImage).toBeDefined()
@@ -344,7 +349,10 @@ test.describe('storefront', () => {
         }
 
         const expectedVariationImage = detailItem.all_images.find((image) => {
-            return image.variation_id === variationWithImage.id
+            return (
+                image.variation_id === variationWithImage.id &&
+                image.src === variationWithImage.image?.src
+            )
         })
 
         expect(expectedVariationImage?.src).toBeTruthy()

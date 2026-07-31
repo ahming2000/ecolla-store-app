@@ -50,7 +50,9 @@ const login = async (page: Page): Promise<void> => {
     await page.getByLabel('账户 ID', { exact: true }).fill('admin')
     await page.getByLabel('密码', { exact: true }).fill('password')
     await page.getByRole('button', { name: '登录', exact: true }).click()
-    await page.waitForLoadState('networkidle')
+    await expect(page).not.toHaveURL(/\/admin\/login$/, {
+        timeout: 15_000,
+    })
     await page.goto('/admin')
     await expect(page).toHaveURL(/\/admin$/)
 }
@@ -508,7 +510,7 @@ test('stages order edits until save and confirms canceling after removing the la
     expect(updatePayloads).toHaveLength(0)
     await expect(page.getByText('Original note')).toBeHidden()
 
-    await page.getByTestId(`save-order-${order.id}`).click()
+    await page.getByTestId(`save-order-${order.id}`).press('Enter')
     await expect(page.getByText('订单修改已保存。')).toBeVisible()
 
     expect(updatePayloads).toHaveLength(1)
@@ -564,7 +566,7 @@ test('stages order edits until save and confirms canceling after removing the la
         contentType: 'image/png',
     })
 
-    await page.getByTestId(`save-order-${order.id}`).click()
+    await page.getByTestId(`save-order-${order.id}`).press('Enter')
     await expect(orderDialog.getByText('已取消', { exact: true })).toBeVisible()
 
     expect(updatePayloads).toHaveLength(2)
