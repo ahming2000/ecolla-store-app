@@ -1,8 +1,43 @@
 {
-    "versionName": "v4.1.1",
-    "versionLabel": "v4.1.1 Public Release",
-    "updateDate": "2026/07/28",
+    "versionName": "v4.2.0",
+    "versionLabel": "v4.2.0 Public Release",
+    "updateDate": "2026/07/31",
     "logs": [
+        {
+            "groupName": "v4.2 Public Release",
+            "subGroups": [
+                {
+                    "name": "v4.2.0 Public Release",
+                    "date": "2026/07/31",
+                    "details": [
+                        {
+                            "type": "Features",
+                            "desc": [
+                                "Enhanced product pages with full-screen image previews, variation-image shortcuts, category filter links, stock details, and sold-out purchase controls.",
+                                "Added full-image previews for item and variation images in item management.",
+                                "Added administrator dashboard charts for sales trends, order statuses, and delivery modes.",
+                                "Added staged order editing for customer details, delivery mode, shipping fees, notes, item quantities, prices, and item removal.",
+                                "Added storefront order tracking using the order reference and checkout phone number.",
+                                "Added a dismissible storefront shipping notice using the message configured in website settings."
+                            ]
+                        },
+                        {
+                            "type": "Improvements",
+                            "desc": [
+                                "Improved image loading with lazy-loaded WebP thumbnails and full-quality previews, plus reliable cart and checkout fallbacks from variation images to product images.",
+                                "Improved item cards and recommendations with the cheapest available price or a clear sold-out state, tighter typography, responsive sizing, and carousel navigation that advances by a full visible page.",
+                                "Simplified administrator item listings by removing variation prices.",
+                                "Improved product-page responsiveness with horizontally scrollable mobile breadcrumbs, balanced side-by-side image and variation panels, and vertically scrollable variation lists.",
+                                "Administrator order dates and times now follow the signed-in user's timezone.",
+                                "Improved checkout reliability by keeping order references unique when several orders are placed at the same time.",
+                                "Kept page footers at the bottom of the viewport on short pages.",
+                                "Updated the administrator handbook and screenshots for dashboard charts, order editing, and customer order tracking."
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
         {
             "groupName": "v4.1 Public Release",
             "subGroups": [
